@@ -4,7 +4,7 @@ import Countdown from '../Countdown/Countdown'
 
 type Need = {
   upvotes: number
-  content: string
+  text: string
 }
 
 type Topic = {
@@ -29,7 +29,7 @@ function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
-          <li>{`${need.upvotes} ${need.content}`}</li>
+          <li>{`${need.upvotes} ${need.text}`}</li>
         ))}
       </NeedsList>
     </TopicContainer>
