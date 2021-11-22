@@ -26,6 +26,8 @@ const NeedContainer = styled.li`
   grid-template-columns: 3rem 1fr;
   align-items: start;
   gap: 10px;
+  padding: 7px 10px;
+  background-color: var(--c-primary);
 `
 
 const Upvotes = styled.button`

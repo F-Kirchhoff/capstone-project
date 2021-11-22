@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Countdown from '../Countdown/Countdown'
+import Need from '../Need/Need'
 
 type Need = {
   upvotes: number
@@ -29,7 +30,7 @@ function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
-          <li>{`${need.upvotes} ${need.text}`}</li>
+          <Need content={need} isUpvoted={false} />
         ))}
       </NeedsList>
     </TopicContainer>
@@ -42,7 +43,6 @@ const TopicContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
 `
 
 const TitleContainer = styled.div`
@@ -59,9 +59,12 @@ const Title = styled.h1`
 
 const Description = styled.p`
   color: var(--c-light);
+  padding: 0 10px;
 `
 
 const NeedsList = styled.ul`
   display: flex;
   flex-direction: column;
+  background-color: var(--c-primary-70);
+  gap: 1px;
 `
