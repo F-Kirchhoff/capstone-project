@@ -43,6 +43,7 @@ const TopicContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow: hidden;
 `
 
 const TitleContainer = styled.div`
@@ -59,7 +60,9 @@ const Title = styled.h1`
 
 const Description = styled.p`
   color: var(--c-light);
-  padding: 0 10px;
+  padding: 0 10px 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `
 
 const NeedsList = styled.ul`
