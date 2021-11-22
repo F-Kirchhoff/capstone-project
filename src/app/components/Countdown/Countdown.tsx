@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 type CountdownProps = {
   deadline: number
@@ -16,12 +17,23 @@ export default function Countdown({ deadline }: CountdownProps): JSX.Element {
   const countdownString = isDue
     ? '!'
     : yearDiff
-    ? `${yearDiff} y`
+    ? `${yearDiff}Y`
     : monthDiff
-    ? `${monthDiff} m`
+    ? `${monthDiff}M`
     : dayDiff
-    ? `${dayDiff} d`
-    : `${hourDiff} h`
+    ? `${dayDiff}D`
+    : `${hourDiff}H`
 
-  return <div>{countdownString}</div>
+  return <CountdownContainer>{countdownString}</CountdownContainer>
 }
+
+const CountdownContainer = styled.div`
+  font-size: 2rem;
+  display: inline-block;
+  font-weight: bold;
+  padding: 20px;
+  background-color: var(--c-secondary);
+  color: var(--c-primary);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+`
