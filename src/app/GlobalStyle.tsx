@@ -19,8 +19,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    padding: 0;
     background-color: var(--c-primary);
-    color: var(--c-secondary)
+    color: var(--c-secondary);
+    font-family: 'Poppins',Arial;
   }
 `
 export default GlobalStyle

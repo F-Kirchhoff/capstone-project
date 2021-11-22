@@ -42,6 +42,7 @@ const TopicContainer = styled.article`
 `
 
 const Title = styled.h1`
+  font-family: 'Playfair';
   font-size: 1.5rem;
   font-weight: bold;
 `
