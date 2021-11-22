@@ -27,6 +27,7 @@ const EXAMPLE = {
       upvotes: 3,
     },
   ],
+  deadline: '1/1/2020',
 }
 
 export const Topic_Regular = (): JSX.Element => (

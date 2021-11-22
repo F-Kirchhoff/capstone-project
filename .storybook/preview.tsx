@@ -1,8 +1,14 @@
 import React from 'react'
 import { addDecorator } from '@storybook/react'
 import { MemoryRouter } from 'react-router'
+import GlobalStyle from '../src/app/GlobalStyle'
 
-import '../src/app/globals.css'
+addDecorator((s) => (
+  <>
+    <GlobalStyle />
+    {s()}
+  </>
+))
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
