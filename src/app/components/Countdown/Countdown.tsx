@@ -30,6 +30,7 @@ export default function Countdown({ deadline }: CountdownProps): JSX.Element {
 const CountdownContainer = styled.div`
   font-size: 2rem;
   display: inline-block;
+  position: relative;
   font-weight: bold;
   padding: 20px;
   background-color: var(--c-secondary);

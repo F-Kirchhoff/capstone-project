@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Countdown from '../Countdown/Countdown'
 
 type Need = {
   upvotes: number
@@ -10,7 +11,7 @@ type Topic = {
   title: string
   description: string
   needs: Need[]
-  deadline: string
+  deadline: number
 }
 
 type TopicDetailViewProps = {
@@ -18,10 +19,13 @@ type TopicDetailViewProps = {
 }
 
 function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
-  const { title, description, needs } = content
+  const { title, description, needs, deadline } = content
   return (
     <TopicContainer>
-      <Title>{title}</Title>
+      <TitleContainer>
+        <Countdown deadline={deadline} />
+        <Title>{title}</Title>
+      </TitleContainer>
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
@@ -41,13 +45,21 @@ const TopicContainer = styled.article`
   padding: 10px;
 `
 
+const TitleContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`
+
 const Title = styled.h1`
   font-family: 'Playfair';
   font-size: 1.5rem;
   font-weight: bold;
 `
 
-const Description = styled.p``
+const Description = styled.p`
+  color: var(--c-light);
+`
 
 const NeedsList = styled.ul`
   display: flex;

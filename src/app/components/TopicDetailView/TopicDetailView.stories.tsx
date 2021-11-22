@@ -27,7 +27,7 @@ const EXAMPLE = {
       upvotes: 3,
     },
   ],
-  deadline: '1/1/2020',
+  deadline: new Date().getTime() + 1000 * 60 * 60 * 8,
 }
 
 export const Topic_Regular = (): JSX.Element => (
