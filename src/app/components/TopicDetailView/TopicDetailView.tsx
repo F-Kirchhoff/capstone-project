@@ -28,7 +28,11 @@ const TopicContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow: hidden;
+  background-color: var(--c-primary);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
 
 const Title = styled.h1`
@@ -40,8 +44,6 @@ const Title = styled.h1`
 const Description = styled.p`
   color: var(--c-light);
   padding: 0 10px 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `
 
 const NeedsList = styled.ul`

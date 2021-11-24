@@ -32,15 +32,14 @@ const DashboardContainer = styled.div`
   grid-template-rows: auto 1fr;
 `
 
-const TopicList = styled.ul`
+const TopicContainer = styled.div`
+  background-color: var(--c-primary-70);
   overflow-y: auto;
-  padding: 10px;
-  display: grid;
-  align-content: start;
-  gap: 15px;
 `
 
-const TopicContainer = styled.div`
+const TopicList = styled.ul`
+  display: grid;
+  gap: 15px;
   padding: 15px;
 `
 
@@ -49,4 +48,7 @@ const Navbar = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
+  z-index: 10;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
