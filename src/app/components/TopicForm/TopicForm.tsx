@@ -8,6 +8,9 @@ type TopicFormProps = {
   onCancel: () => void
 }
 
+const MAX_TITLE_LENGTH = 40
+const MAX_DESCRIPTION_LENGTH = 144
+
 export default function TopicForm({
   onSubmit,
   onCancel,
@@ -32,23 +35,42 @@ export default function TopicForm({
     onCancel()
   }
 
+  const titleDiff = MAX_TITLE_LENGTH - title.length
+  const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
+
   return (
     <TopicFormContainer onSubmit={handleSubmit}>
       <FormTitle>Add Topic</FormTitle>
-      <FormLabel htmlFor="title">Title</FormLabel>
-      <FormInput
-        type="text"
-        name="title"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-      />
-      <FormLabel htmlFor="description">Description</FormLabel>
-      <FormTextArea
-        name="description"
-        rows={10}
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
-      />
+      <InputWrapper>
+        <FormLabel htmlFor="title">Title*</FormLabel>
+        <FormInput
+          type="text"
+          name="title"
+          required
+          value={title}
+          onChange={(event) =>
+            event.target.value.length <= MAX_TITLE_LENGTH &&
+            setTitle(event.target.value)
+          }
+        />
+        <TextLimitDisplay diff={titleDiff}>{`${titleDiff}`}</TextLimitDisplay>
+      </InputWrapper>
+      <InputWrapper>
+        <FormLabel htmlFor="description">Description</FormLabel>
+        <FormTextArea
+          name="description"
+          rows={10}
+          value={description}
+          onChange={(event) =>
+            event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
+            setDescription(event.target.value)
+          }
+        />
+        <TextLimitDisplay diff={descriptionDiff}>
+          {`${descriptionDiff}`}
+        </TextLimitDisplay>
+      </InputWrapper>
+
       <ButtonContainer>
         <Button type="button" onClick={handleCancel}>
           Cancel
@@ -90,10 +112,12 @@ const ButtonContainer = styled.div`
   gap: 20px;
 `
 const FormLabel = styled.label`
+  display: block;
   font-weight: bold;
   text-transform: capitalize;
 `
 const FormInput = styled.input`
+  width: 100%;
   background-color: transparent;
   border: 1px solid var(--c-gray-600);
   padding: 8px 12px;
@@ -111,6 +135,7 @@ const FormInput = styled.input`
   }
 `
 const FormTextArea = styled.textarea`
+  width: 100%;
   background-color: transparent;
   border: 1px solid var(--c-gray-600);
   border-radius: 12px;
@@ -126,4 +151,16 @@ const FormTextArea = styled.textarea`
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   }
+`
+const InputWrapper = styled.div`
+  position: relative;
+`
+
+const TextLimitDisplay = styled.span<{ diff: number }>`
+  position: absolute;
+  bottom: 1.3rem;
+  right: 10px;
+  font-size: 0.8rem;
+  z-index: 10;
+  color: ${({ diff }) => (diff <= 0 ? 'var(--c-alert)' : 'var(--c-gray-500)')};
 `
