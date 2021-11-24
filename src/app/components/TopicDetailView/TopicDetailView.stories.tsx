@@ -28,5 +28,8 @@ const EXAMPLE = {
 }
 
 export const Topic_Regular = (): JSX.Element => (
-  <TopicDetailView content={EXAMPLE} />
+  <TopicDetailView
+    content={EXAMPLE}
+    onCollapse={() => console.log('Collapse')}
+  />
 )
