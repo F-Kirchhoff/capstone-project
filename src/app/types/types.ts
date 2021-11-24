@@ -1,9 +1,9 @@
 export type Need = {
-  upvotes: number
   text: string
 }
 
 export type Topic = {
+  id: number
   title: string
   description: string
   needs: Need[]

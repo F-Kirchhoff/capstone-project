@@ -7,6 +7,7 @@ export default {
 }
 
 const EXAMPLE = {
+  id: new Date().getTime(),
   title: 'Annual income for employees',
   description:
     'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
@@ -24,7 +25,6 @@ const EXAMPLE = {
       upvotes: 3,
     },
   ],
-  deadline: new Date().getTime() + 1000 * 60 * 60 * 8,
 }
 
 export const Topic_Regular = (): JSX.Element => (
