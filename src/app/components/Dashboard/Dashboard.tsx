@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import type { Topic } from '../../types/types'
+import Button from '../Button/Button'
 import Logo from '../Logo/Logo'
 import TopicCompactView from '../TopicCompactView/TopicCompactView'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
+import TopicForm from '../TopicForm/TopicForm'
+
+import type { Topic } from '../../types/types'
 
 type DashboardProps = {
   content: {
@@ -12,30 +15,42 @@ type DashboardProps = {
     content: Topic
   }[]
   onDisplayToggle: (id: number) => void
+  onTopicSubmit: (topic: Topic) => void
 }
+
+type DisplayMsgType = '' | 'SHOW_TOPIC_FORM'
 
 export default function Dashboard({
   content,
   onDisplayToggle,
+  onTopicSubmit,
 }: DashboardProps): JSX.Element {
+  const [displayState, setDisplayState] = useState<DisplayMsgType>('')
+
+  function handleSubmit(topic: Topic) {
+    setDisplayState('')
+    onTopicSubmit(topic)
+  }
+
   return (
     <DashboardContainer>
       <Navbar>
         <Logo />
+        <Button highlight onClick={() => setDisplayState('SHOW_TOPIC_FORM')}>
+          + Topic
+        </Button>
       </Navbar>
       <TopicContainer>
         <TopicList>
           {content.map((topic) => (
-            <Card>
+            <Card key={topic.content.id}>
               {topic.showDetails ? (
                 <TopicDetailView
-                  key={topic.content.id}
                   content={topic.content}
                   onCollapse={() => onDisplayToggle(topic.content.id)}
                 />
               ) : (
                 <TopicCompactView
-                  key={topic.content.id}
                   content={topic.content}
                   onExpand={() => onDisplayToggle(topic.content.id)}
                 />
@@ -44,6 +59,12 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
+      {displayState === 'SHOW_TOPIC_FORM' && (
+        <TopicForm
+          onSubmit={handleSubmit}
+          onCancel={() => setDisplayState('')}
+        />
+      )}
     </DashboardContainer>
   )
 }

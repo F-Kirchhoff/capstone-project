@@ -45,7 +45,7 @@ export default function TopicForm({
       <FormLabel htmlFor="description">Description</FormLabel>
       <FormTextArea
         name="description"
-        rows={8}
+        rows={10}
         value={description}
         onChange={(event) => setDescription(event.target.value)}
       />
@@ -67,6 +67,10 @@ const FormTitle = styled.h2`
 `
 
 const TopicFormContainer = styled.form`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -91,30 +95,35 @@ const FormLabel = styled.label`
 `
 const FormInput = styled.input`
   background-color: transparent;
-  border: 2px solid var(--c-gray-600);
+  border: 1px solid var(--c-gray-600);
   padding: 8px 12px;
   margin-bottom: 20px;
   border-radius: 12px;
   font-weight: bold;
   font-size: 1.125rem;
   color: var(--c-primary);
+  transition: ease 0.3s;
 
   &:focus {
     outline: none;
-    background-color: var(--c-gray-200);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   }
 `
 const FormTextArea = styled.textarea`
   background-color: transparent;
-  border: 2px solid var(--c-gray-600);
+  border: 1px solid var(--c-gray-600);
   border-radius: 12px;
   resize: none;
+  font-size: 1rem;
   padding: 8px 12px;
   margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 1.125rem;
+  color: var(--c-primary);
+  transition: ease 0.3s;
+
   &:focus {
     outline: none;
-    background-color: var(--c-gray-200);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   }
 `

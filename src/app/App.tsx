@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard/Dashboard'
 
+import type { Topic } from './types/types'
+
 const TOPICS = [
   {
     showDetails: true,
@@ -75,10 +77,10 @@ const TOPICS = [
 ]
 
 function App(): JSX.Element {
-  const [topic, setTopic] = useState(TOPICS)
+  const [topics, setTopics] = useState(TOPICS)
 
-  function handleDisplayToggle(id: number) {
-    setTopic((prev) =>
+  function handleTopicDisplayToggle(id: number) {
+    setTopics((prev) =>
       prev.map((topic) =>
         topic.content.id === id
           ? {
@@ -90,13 +92,27 @@ function App(): JSX.Element {
     )
   }
 
+  function handleTopicSubmit(topic: Topic) {
+    setTopics((prev) => [
+      {
+        showDetails: false,
+        content: topic,
+      },
+      ...prev,
+    ])
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <Dashboard content={topic} onDisplayToggle={handleDisplayToggle} />
+            <Dashboard
+              content={topics}
+              onDisplayToggle={handleTopicDisplayToggle}
+              onTopicSubmit={handleTopicSubmit}
+            />
           }
         ></Route>
       </Routes>
