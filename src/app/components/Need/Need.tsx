@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import type { Need } from '../../types/types'
+import type { Need as NeedType } from '../../types/types'
 
 type NeedProps = {
-  content: Need
+  content: NeedType
 }
 
 export default function Need({ content }: NeedProps): JSX.Element {
