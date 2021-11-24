@@ -1,32 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import Countdown from '../Countdown/Countdown'
 import Need from '../Need/Need'
-
-type Need = {
-  upvotes: number
-  text: string
-}
-
-type Topic = {
-  title: string
-  description: string
-  needs: Need[]
-  deadline: number
-}
+import type { Topic } from '../../types/types'
 
 type TopicDetailViewProps = {
   content: Topic
 }
 
 function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
-  const { title, description, needs, deadline } = content
+  const { title, description, needs } = content
   return (
     <TopicContainer>
-      <TitleContainer>
-        <Countdown deadline={deadline} />
-        <Title>{title}</Title>
-      </TitleContainer>
+      <Title>{title}</Title>
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
@@ -44,12 +29,6 @@ const TopicContainer = styled.article`
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
-`
-
-const TitleContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
 `
 
 const Title = styled.h1`
