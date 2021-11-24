@@ -6,6 +6,7 @@ export default function Logo(): JSX.Element {
 }
 
 const LogoText = styled.h1`
+  color: var(--c-primary);
   font-size: 2rem;
   font-weight: bold;
   font-family: 'Playfair';

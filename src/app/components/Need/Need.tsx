@@ -20,6 +20,6 @@ const NeedContainer = styled.li`
   grid-template-columns: 1fr;
   align-items: start;
   gap: 10px;
-  padding: 7px 10px;
-  background-color: var(--c-primary);
+  padding: 10px 20px;
+  background-color: var(--c-gray-50);
 `
