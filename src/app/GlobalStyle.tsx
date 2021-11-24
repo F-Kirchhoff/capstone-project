@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     padding: 0;
-    color: var(--c-dark)
+    color: var(--c-dark);
     font-family: 'Poppins',Arial;
   }
 `
