@@ -2,16 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 import Need from '../Need/Need'
 import type { Topic } from '../../types/types'
+import ChevronUp from '../../Icons/ChevronUp'
 
 type TopicDetailViewProps = {
   content: Topic
+  onCollapse: () => void
 }
 
-function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
+function TopicDetailView({
+  content,
+  onCollapse,
+}: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
   return (
     <TopicContainer>
-      <Title>{title}</Title>
+      <TitleContainer onClick={onCollapse}>
+        {' '}
+        <h2> {title}</h2> <ChevronUp />
+      </TitleContainer>
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
@@ -28,25 +36,18 @@ const TopicContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: var(--c-gray-50);
-  padding-top: 20px;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
-
-const Title = styled.h1`
-  font-family: 'Playfair';
+const TitleContainer = styled.div`
   color: var(--c-primary);
-  font-size: 1.5rem;
+  font-family: 'Plairfair';
   font-weight: bold;
-  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  cursor: pointer;
 `
 
 const Description = styled.p`
   color: var(--c-gray-600);
-  padding: 0 20px;
 `
 
 const NeedsList = styled.ul`
@@ -54,5 +55,5 @@ const NeedsList = styled.ul`
   flex-direction: column;
   background-color: var(--c-gray-200);
   gap: 1px;
-  padding-top: 1px;
+  padding: 1px 0;
 `
