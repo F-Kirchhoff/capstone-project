@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import type { Topic } from '../../types/types'
-import ChevronDown from '../Icons/ChevronDown'
+import ChevronDown from '../../Icons/ChevronDown'
 
 type TopicCompactViewProps = {
   content: Topic
@@ -22,4 +22,6 @@ const TopicCompact = styled.div`
   color: var(--c-primary);
   font-family: 'Plairfair';
   font-weight: bold;
+  display: grid;
+  grid-template-columns: 1fr auto;
 `

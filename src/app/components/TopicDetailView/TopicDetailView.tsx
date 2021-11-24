@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Need from '../Need/Need'
 import type { Topic } from '../../types/types'
+import ChevronUp from '../../Icons/ChevronUp'
 
 type TopicDetailViewProps = {
   content: Topic
@@ -11,7 +12,10 @@ function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
   return (
     <TopicContainer>
-      <Title>{title}</Title>
+      <TitleContainer>
+        {' '}
+        <h2> {title}</h2> <ChevronUp />
+      </TitleContainer>
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
@@ -29,12 +33,12 @@ const TopicContainer = styled.article`
   flex-direction: column;
   gap: 10px;
 `
-
-const Title = styled.h1`
-  font-family: 'Playfair';
+const TitleContainer = styled.div`
   color: var(--c-primary);
-  font-size: 1.5rem;
+  font-family: 'Plairfair';
   font-weight: bold;
+  display: grid;
+  grid-template-columns: 1fr auto;
 `
 
 const Description = styled.p`
