@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
-type Need = {
-  text: string
-}
+import type { Need } from '../../types/types'
 
 type NeedProps = {
   content: Need

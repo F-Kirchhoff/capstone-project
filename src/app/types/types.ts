@@ -1,4 +1,5 @@
 export type Need = {
+  id: number
   text: string
 }
 
