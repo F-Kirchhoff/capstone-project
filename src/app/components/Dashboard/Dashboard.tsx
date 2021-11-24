@@ -7,12 +7,10 @@ import TopicCompactView from '../TopicCompactView/TopicCompactView'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
 
 type DashboardProps = {
-  content: [
-    {
-      showDetails: boolean
-      content: Topic
-    }
-  ]
+  content: {
+    showDetails: boolean
+    content: Topic
+  }[]
 }
 
 export default function Dashboard({ content }: DashboardProps): JSX.Element {
