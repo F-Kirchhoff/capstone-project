@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import type { Topic } from '../../types/types'
+import Logo from '../Logo/Logo'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
 
 type DashboardProps = {
@@ -11,7 +12,9 @@ type DashboardProps = {
 export default function Dashboard({ content }: DashboardProps): JSX.Element {
   return (
     <DashboardContainer>
-      <div>D'Artagnan</div>
+      <Navbar>
+        <Logo />
+      </Navbar>
       <TopicContainer>
         <TopicList>
           {content.map((topic) => (
@@ -38,5 +41,12 @@ const TopicList = styled.ul`
 `
 
 const TopicContainer = styled.div`
+  padding: 15px;
+`
+
+const Navbar = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 15px;
 `
