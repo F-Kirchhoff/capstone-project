@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 const TOPICS = [
   {
     id: 0,
-    showDetail: false,
+    showDetails: true,
     content: {
       title: 'Annual income for employees',
       description:
@@ -28,7 +28,7 @@ const TOPICS = [
   },
   {
     id: 0,
-    showDetail: false,
+    showDetails: false,
     content: {
       title: 'Annual income for employees',
       description:
@@ -51,7 +51,7 @@ const TOPICS = [
   },
   {
     id: 0,
-    showDetail: false,
+    showDetails: false,
     content: {
       title: 'Annual income for employees',
       description:

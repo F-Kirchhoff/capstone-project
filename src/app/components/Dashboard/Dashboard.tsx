@@ -23,16 +23,21 @@ export default function Dashboard({ content }: DashboardProps): JSX.Element {
       </Navbar>
       <TopicContainer>
         <TopicList>
-          {content.map((topic) =>
-            topic.showDetails ? (
-              <TopicDetailView key={topic.content.id} content={topic.content} />
-            ) : (
-              <TopicCompactView
-                key={topic.content.id}
-                content={topic.content}
-              />
-            )
-          )}
+          {content.map((topic) => (
+            <Card>
+              {topic.showDetails ? (
+                <TopicDetailView
+                  key={topic.content.id}
+                  content={topic.content}
+                />
+              ) : (
+                <TopicCompactView
+                  key={topic.content.id}
+                  content={topic.content}
+                />
+              )}
+            </Card>
+          ))}
         </TopicList>
       </TopicContainer>
     </DashboardContainer>
@@ -63,6 +68,13 @@ const Navbar = styled.nav`
   padding: 15px;
   background-color: var(--c-gray-50);
   z-index: 10;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`
+const Card = styled.li`
+  padding: 20px;
+  background-color: var(--c-gray-50);
+  border-radius: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
