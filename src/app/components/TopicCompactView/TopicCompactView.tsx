@@ -21,4 +21,6 @@ const TopicCompact = styled.li`
   background-color: var(--c-gray-50);
   color: var(--c-primary);
   border-radius: 15px;
+  font-family: 'Plairfair';
+  font-weight: bold;
 `

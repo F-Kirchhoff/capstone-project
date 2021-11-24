@@ -3,10 +3,16 @@ import styled from 'styled-components'
 
 import type { Topic } from '../../types/types'
 import Logo from '../Logo/Logo'
+import TopicCompactView from '../TopicCompactView/TopicCompactView'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
 
 type DashboardProps = {
-  content: Topic[]
+  content: [
+    {
+      showDetails: boolean
+      content: Topic
+    }
+  ]
 }
 
 export default function Dashboard({ content }: DashboardProps): JSX.Element {
@@ -17,9 +23,16 @@ export default function Dashboard({ content }: DashboardProps): JSX.Element {
       </Navbar>
       <TopicContainer>
         <TopicList>
-          {content.map((topic) => (
-            <TopicDetailView key={topic.id} content={topic} />
-          ))}
+          {content.map((topic) =>
+            topic.showDetails ? (
+              <TopicDetailView key={topic.content.id} content={topic.content} />
+            ) : (
+              <TopicCompactView
+                key={topic.content.id}
+                content={topic.content}
+              />
+            )
+          )}
         </TopicList>
       </TopicContainer>
     </DashboardContainer>
