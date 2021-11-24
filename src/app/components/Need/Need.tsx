@@ -20,7 +20,7 @@ export default function Need({ content }: NeedProps): JSX.Element {
 
 const NeedContainer = styled.li`
   display: grid;
-  grid-template-columns: 3rem 1fr;
+  grid-template-columns: 1fr;
   align-items: start;
   gap: 10px;
   padding: 7px 10px;

@@ -31,5 +31,6 @@ const TopicList = styled.ul`
   overflow-y: auto;
   padding: 10px;
   display: flex;
+  flex-direction: column;
   gap: 10px;
 `
