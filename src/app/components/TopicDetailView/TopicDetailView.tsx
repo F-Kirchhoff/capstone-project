@@ -15,7 +15,7 @@ function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
       <Description>{description}</Description>
       <NeedsList>
         {needs.map((need) => (
-          <Need content={need} isUpvoted={false} />
+          <Need content={need} />
         ))}
       </NeedsList>
     </TopicContainer>
