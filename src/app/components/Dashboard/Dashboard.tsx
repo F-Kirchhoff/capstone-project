@@ -11,9 +11,13 @@ type DashboardProps = {
     showDetails: boolean
     content: Topic
   }[]
+  onDisplayToggle: (id: number) => void
 }
 
-export default function Dashboard({ content }: DashboardProps): JSX.Element {
+export default function Dashboard({
+  content,
+  onDisplayToggle,
+}: DashboardProps): JSX.Element {
   return (
     <DashboardContainer>
       <Navbar>
@@ -27,11 +31,13 @@ export default function Dashboard({ content }: DashboardProps): JSX.Element {
                 <TopicDetailView
                   key={topic.content.id}
                   content={topic.content}
+                  onCollapse={() => onDisplayToggle(topic.content.id)}
                 />
               ) : (
                 <TopicCompactView
                   key={topic.content.id}
                   content={topic.content}
+                  onExpand={() => onDisplayToggle(topic.content.id)}
                 />
               )}
             </Card>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard/Dashboard'
 
@@ -75,10 +75,30 @@ const TOPICS = [
 ]
 
 function App(): JSX.Element {
+  const [topic, setTopic] = useState(TOPICS)
+
+  function handleDisplayToggle(id: number) {
+    setTopic((prev) =>
+      prev.map((topic) =>
+        topic.content.id === id
+          ? {
+              ...topic,
+              showDetails: !topic.showDetails,
+            }
+          : topic
+      )
+    )
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard content={TOPICS} />}></Route>
+        <Route
+          path="/"
+          element={
+            <Dashboard content={topic} onDisplayToggle={handleDisplayToggle} />
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   )

@@ -5,13 +5,15 @@ import ChevronDown from '../../Icons/ChevronDown'
 
 type TopicCompactViewProps = {
   content: Topic
+  onExpand: () => void
 }
 
 export default function TopicCompactView({
   content,
+  onExpand,
 }: TopicCompactViewProps): JSX.Element {
   return (
-    <TopicCompact>
+    <TopicCompact onClick={onExpand}>
       <h2>{content.title}</h2>
       <ChevronDown />
     </TopicCompact>
@@ -24,4 +26,5 @@ const TopicCompact = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 1fr auto;
+  cursor: pointer;
 `

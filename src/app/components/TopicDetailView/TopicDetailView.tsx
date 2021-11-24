@@ -6,13 +6,17 @@ import ChevronUp from '../../Icons/ChevronUp'
 
 type TopicDetailViewProps = {
   content: Topic
+  onCollapse: () => void
 }
 
-function TopicDetailView({ content }: TopicDetailViewProps): JSX.Element {
+function TopicDetailView({
+  content,
+  onCollapse,
+}: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
   return (
     <TopicContainer>
-      <TitleContainer>
+      <TitleContainer onClick={onCollapse}>
         {' '}
         <h2> {title}</h2> <ChevronUp />
       </TitleContainer>
@@ -39,6 +43,7 @@ const TitleContainer = styled.div`
   font-weight: bold;
   display: grid;
   grid-template-columns: 1fr auto;
+  cursor: pointer;
 `
 
 const Description = styled.p`
