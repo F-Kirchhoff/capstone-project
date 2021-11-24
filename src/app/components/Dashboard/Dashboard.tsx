@@ -12,11 +12,13 @@ export default function Dashboard({ content }: DashboardProps): JSX.Element {
   return (
     <DashboardContainer>
       <div>D'Artagnan</div>
-      <TopicList>
-        {content.map((topic) => (
-          <TopicDetailView key={topic.id} content={topic} />
-        ))}
-      </TopicList>
+      <TopicContainer>
+        <TopicList>
+          {content.map((topic) => (
+            <TopicDetailView key={topic.id} content={topic} />
+          ))}
+        </TopicList>
+      </TopicContainer>
     </DashboardContainer>
   )
 }
@@ -30,7 +32,11 @@ const DashboardContainer = styled.div`
 const TopicList = styled.ul`
   overflow-y: auto;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  align-content: start;
+  gap: 15px;
+`
+
+const TopicContainer = styled.div`
+  padding: 15px;
 `
