@@ -80,8 +80,8 @@ function App(): JSX.Element {
   const [topics, setTopics] = useState(TOPICS)
 
   function handleTopicDisplayToggle(id: number) {
-    setTopics((prev) =>
-      prev.map((topic) =>
+    setTopics(prev =>
+      prev.map(topic =>
         topic.content.id === id
           ? {
               ...topic,
@@ -93,7 +93,7 @@ function App(): JSX.Element {
   }
 
   function handleTopicSubmit(topic: Topic) {
-    setTopics((prev) => [
+    setTopics(prev => [
       {
         showDetails: false,
         content: topic,

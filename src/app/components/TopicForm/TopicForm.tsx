@@ -48,7 +48,7 @@ export default function TopicForm({
           name="title"
           required
           value={title}
-          onChange={(event) =>
+          onChange={event =>
             event.target.value.length <= MAX_TITLE_LENGTH &&
             setTitle(event.target.value)
           }
@@ -61,7 +61,7 @@ export default function TopicForm({
           name="description"
           rows={10}
           value={description}
-          onChange={(event) =>
+          onChange={event =>
             event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
             setDescription(event.target.value)
           }
