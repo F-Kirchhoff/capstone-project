@@ -17,7 +17,7 @@ type DashboardProps = {
   }[]
   onDisplayToggle: (id: string) => void
   onTopicSubmit: (topic: Topic) => void
-  onNeedSubmit: (id: number, need: Need) => void
+  onNeedSubmit: (id: string, need: Need) => void
 }
 
 type DisplayMsgType = '' | 'SHOW_TOPIC_FORM' | 'SHOW_NEED_FORM'
@@ -29,7 +29,7 @@ export default function Dashboard({
   onNeedSubmit,
 }: DashboardProps): JSX.Element {
   const [displayState, setDisplayState] = useState<DisplayMsgType>('')
-  const [topicFocusId, setTopicFocusId] = useState<number | null>(null)
+  const [topicFocusId, setTopicFocusId] = useState<string | null>(null)
   function handleTopicSubmit(topic: Topic) {
     setDisplayState('')
     onTopicSubmit(topic)
@@ -37,7 +37,7 @@ export default function Dashboard({
   function handleNeedSubmit(need: Need) {
     // resets the Display state and if topicFocus is set, a new need is added in app.tsx
     setDisplayState('')
-    topicFocusId !== null && onNeedSubmit(topicFocusId, need)
+    topicFocusId && onNeedSubmit(topicFocusId, need)
   }
 
   return (

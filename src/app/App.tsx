@@ -102,7 +102,7 @@ function App(): JSX.Element {
     ])
   }
 
-  function handleNeedSubmit(topicId: number, newNeed: Need) {
+  function handleNeedSubmit(topicId: string, newNeed: Need) {
     // finds the correct topic and adds a need on top of its needList
     setTopics(prev =>
       prev.map(topic =>
