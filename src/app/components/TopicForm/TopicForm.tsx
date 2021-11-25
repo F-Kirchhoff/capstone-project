@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import type { Topic } from '../../types/types'
 import Button from '../Button/Button'
+import { nanoid } from 'nanoid'
 
 type TopicFormProps = {
   onSubmit: (newTopic: Topic) => void
@@ -21,7 +22,7 @@ export default function TopicForm({
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const newTopic = {
-      id: Math.floor(Math.random() * 10000),
+      id: nanoid(),
       title,
       description,
       needs: [],

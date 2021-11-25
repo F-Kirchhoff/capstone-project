@@ -14,7 +14,7 @@ type DashboardProps = {
     showDetails: boolean
     content: Topic
   }[]
-  onDisplayToggle: (id: number) => void
+  onDisplayToggle: (id: string) => void
   onTopicSubmit: (topic: Topic) => void
 }
 
