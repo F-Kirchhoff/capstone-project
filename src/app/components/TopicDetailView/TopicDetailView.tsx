@@ -33,6 +33,7 @@ function TopicDetailView({
 export default TopicDetailView
 
 const TopicContainer = styled.article`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;

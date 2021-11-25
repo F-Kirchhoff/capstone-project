@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import type { Topic } from '../../types/types'
+import Button from '../Button/Button'
 import Logo from '../Logo/Logo'
 import TopicCompactView from '../TopicCompactView/TopicCompactView'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
+import TopicForm from '../TopicForm/TopicForm'
+
+import type { Topic } from '../../types/types'
 
 type DashboardProps = {
   content: {
@@ -12,30 +15,42 @@ type DashboardProps = {
     content: Topic
   }[]
   onDisplayToggle: (id: number) => void
+  onTopicSubmit: (topic: Topic) => void
 }
+
+type DisplayMsgType = '' | 'SHOW_TOPIC_FORM'
 
 export default function Dashboard({
   content,
   onDisplayToggle,
+  onTopicSubmit,
 }: DashboardProps): JSX.Element {
+  const [displayState, setDisplayState] = useState<DisplayMsgType>('')
+
+  function handleSubmit(topic: Topic) {
+    setDisplayState('')
+    onTopicSubmit(topic)
+  }
+
   return (
     <DashboardContainer>
       <Navbar>
         <Logo />
+        <Button highlight onClick={() => setDisplayState('SHOW_TOPIC_FORM')}>
+          + Topic
+        </Button>
       </Navbar>
       <TopicContainer>
         <TopicList>
           {content.map((topic) => (
-            <Card>
+            <Card key={topic.content.id}>
               {topic.showDetails ? (
                 <TopicDetailView
-                  key={topic.content.id}
                   content={topic.content}
                   onCollapse={() => onDisplayToggle(topic.content.id)}
                 />
               ) : (
                 <TopicCompactView
-                  key={topic.content.id}
                   content={topic.content}
                   onExpand={() => onDisplayToggle(topic.content.id)}
                 />
@@ -44,6 +59,15 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
+      {displayState === 'SHOW_TOPIC_FORM' && (
+        <FormWrapper>
+          <Overlay onClick={() => setDisplayState('')} />
+          <TopicForm
+            onSubmit={handleSubmit}
+            onCancel={() => setDisplayState('')}
+          />
+        </FormWrapper>
+      )}
     </DashboardContainer>
   )
 }
@@ -60,7 +84,8 @@ const TopicContainer = styled.div`
 `
 
 const TopicList = styled.ul`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 15px;
   padding: 15px;
 `
@@ -81,4 +106,21 @@ const Card = styled.li`
   border-radius: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  word-wrap: break-word;
+`
+const FormWrapper = styled.div`
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 `
