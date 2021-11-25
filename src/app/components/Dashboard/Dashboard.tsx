@@ -74,7 +74,12 @@ export default function Dashboard({
       </TopicContainer>
       {displayState !== '' && (
         <FormWrapper>
-          <Overlay onClick={() => setDisplayState('')} />
+          <Overlay
+            onClick={() => {
+              setTopicFocusId(null)
+              setDisplayState('')
+            }}
+          />
           {displayState === 'SHOW_TOPIC_FORM' ? (
             <TopicForm
               onSubmit={handleTopicSubmit}
