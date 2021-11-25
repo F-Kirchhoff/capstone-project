@@ -60,10 +60,12 @@ export default function Dashboard({
         </TopicList>
       </TopicContainer>
       {displayState === 'SHOW_TOPIC_FORM' && (
-        <TopicForm
-          onSubmit={handleSubmit}
-          onCancel={() => setDisplayState('')}
-        />
+        <FormWrapper onClick={() => setDisplayState('')}>
+          <TopicForm
+            onSubmit={handleSubmit}
+            onCancel={() => setDisplayState('')}
+          />
+        </FormWrapper>
       )}
     </DashboardContainer>
   )
@@ -104,4 +106,13 @@ const Card = styled.li`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;
+`
+const FormWrapper = styled.div`
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 `
