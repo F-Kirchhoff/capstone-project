@@ -22,7 +22,7 @@ function TopicDetailView({
       </TitleContainer>
       <Description>{description}</Description>
       <NeedsList>
-        {needs.map((need) => (
+        {needs.map(need => (
           <Need key={need.id} content={need} />
         ))}
       </NeedsList>

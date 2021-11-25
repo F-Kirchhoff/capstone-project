@@ -42,7 +42,7 @@ export default function Dashboard({
       </Navbar>
       <TopicContainer>
         <TopicList>
-          {content.map((topic) => (
+          {content.map(topic => (
             <Card key={topic.content.id}>
               {topic.showDetails ? (
                 <TopicDetailView
