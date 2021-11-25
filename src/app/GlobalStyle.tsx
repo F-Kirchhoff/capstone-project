@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     color: var(--c-dark); 
-    font-family: 'Poppins',Arial;
+    font-family: 'Lato',Arial;
   }
 `
 export default GlobalStyle
