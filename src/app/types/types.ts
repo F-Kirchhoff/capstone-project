@@ -1,10 +1,10 @@
 export type Need = {
-  id: number
+  id: string
   text: string
 }
 
 export type Topic = {
-  id: number
+  id: string
   title: string
   description: string
   needs: Need[]
