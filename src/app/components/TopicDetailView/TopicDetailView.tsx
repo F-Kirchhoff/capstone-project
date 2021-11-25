@@ -20,7 +20,6 @@ function TopicDetailView({
   return (
     <TopicContainer>
       <TitleContainer onClick={onCollapse}>
-        {' '}
         <h2> {title}</h2> <ChevronUp />
       </TitleContainer>
       <Description>{description}</Description>

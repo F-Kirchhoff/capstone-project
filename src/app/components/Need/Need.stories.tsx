@@ -8,12 +8,12 @@ export default {
 
 const EXAMPLE = {
   text: 'We should get more beer.',
-  id: 0,
+  id: '0',
 }
 
 const EXAMPLE_LONG = {
   text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem quidem ipsa assumenda repellendus non est, nostrum tempora illo eum distinctio laudantium velit. Rem, eos incidunt nulla eaque beatae cum impedit.',
-  id: 0,
+  id: '0',
 }
 
 export const Idle = (): JSX.Element => <Need content={EXAMPLE}></Need>
