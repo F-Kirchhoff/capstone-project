@@ -60,7 +60,8 @@ export default function Dashboard({
         </TopicList>
       </TopicContainer>
       {displayState === 'SHOW_TOPIC_FORM' && (
-        <FormWrapper onClick={() => setDisplayState('')}>
+        <FormWrapper>
+          <Overlay onClick={() => setDisplayState('')} />
           <TopicForm
             onSubmit={handleSubmit}
             onCancel={() => setDisplayState('')}
@@ -109,6 +110,13 @@ const Card = styled.li`
 `
 const FormWrapper = styled.div`
   z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`
+const Overlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
