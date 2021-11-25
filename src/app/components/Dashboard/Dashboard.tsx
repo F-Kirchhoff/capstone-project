@@ -7,7 +7,8 @@ import TopicCompactView from '../TopicCompactView/TopicCompactView'
 import TopicDetailView from '../TopicDetailView/TopicDetailView'
 import TopicForm from '../TopicForm/TopicForm'
 
-import type { Topic } from '../../types/types'
+import type { Topic, Need } from '../../types/types'
+import NeedForm from '../NeedForm/NeedForm'
 
 type DashboardProps = {
   content: {
@@ -16,20 +17,27 @@ type DashboardProps = {
   }[]
   onDisplayToggle: (id: number) => void
   onTopicSubmit: (topic: Topic) => void
+  onNeedSubmit: (id: number, need: Need) => void
 }
 
-type DisplayMsgType = '' | 'SHOW_TOPIC_FORM'
+type DisplayMsgType = '' | 'SHOW_TOPIC_FORM' | 'SHOW_NEED_FORM'
 
 export default function Dashboard({
   content,
   onDisplayToggle,
   onTopicSubmit,
+  onNeedSubmit,
 }: DashboardProps): JSX.Element {
   const [displayState, setDisplayState] = useState<DisplayMsgType>('')
-
-  function handleSubmit(topic: Topic) {
+  const [topicFocusId, setTopicFocusId] = useState<number | null>(null)
+  function handleTopicSubmit(topic: Topic) {
     setDisplayState('')
     onTopicSubmit(topic)
+  }
+  function handleNeedSubmit(need: Need) {
+    // resets the Display state and if topicFocus is set, a new need is added in app.tsx
+    setDisplayState('')
+    topicFocusId !== null && onNeedSubmit(topicFocusId, need)
   }
 
   return (
@@ -48,6 +56,11 @@ export default function Dashboard({
                 <TopicDetailView
                   content={topic.content}
                   onCollapse={() => onDisplayToggle(topic.content.id)}
+                  onAddNeed={() => {
+                    // on a Click on the Add need button the TopicFocus is set to the respective Topic id and the need Form is displayed
+                    setTopicFocusId(topic.content.id)
+                    setDisplayState('SHOW_NEED_FORM')
+                  }}
                 />
               ) : (
                 <TopicCompactView
@@ -59,13 +72,23 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
-      {displayState === 'SHOW_TOPIC_FORM' && (
+      {displayState !== '' && (
         <FormWrapper>
           <Overlay onClick={() => setDisplayState('')} />
-          <TopicForm
-            onSubmit={handleSubmit}
-            onCancel={() => setDisplayState('')}
-          />
+          {displayState === 'SHOW_TOPIC_FORM' ? (
+            <TopicForm
+              onSubmit={handleTopicSubmit}
+              onCancel={() => setDisplayState('')}
+            />
+          ) : (
+            <NeedForm
+              onSubmit={handleNeedSubmit}
+              onCancel={() => {
+                setTopicFocusId(null)
+                setDisplayState('')
+              }}
+            />
+          )}
         </FormWrapper>
       )}
     </DashboardContainer>
