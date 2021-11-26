@@ -74,7 +74,7 @@ export default function Dashboard({
       </TopicContainer>
       {displayState !== '' && (
         <FormWrapper>
-          <Overlay
+          <FormBackground
             onClick={() => {
               setTopicFocusId(null)
               setDisplayState('')
@@ -144,7 +144,7 @@ const FormWrapper = styled.div`
   bottom: 0;
   right: 0;
 `
-const Overlay = styled.div`
+const FormBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
