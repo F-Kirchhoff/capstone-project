@@ -21,7 +21,7 @@ export const Start0 = (): JSX.Element => {
 export const Start100 = (): JSX.Element => {
   const [count, setCount] = useState(100)
   return (
-    <div style={{ width: 30 }}>
+    <div style={{ width: 20 }}>
       <Counter
         value={count}
         onIncrement={() => setCount(prev => ++prev)}
