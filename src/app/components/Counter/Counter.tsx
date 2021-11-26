@@ -46,5 +46,3 @@ const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   transform: translateY(-50%);
   cursor: pointer;
 `
-
-const ValueView = styled.p``
