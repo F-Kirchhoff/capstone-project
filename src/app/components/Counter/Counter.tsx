@@ -28,18 +28,20 @@ export default function Counter({
 }
 
 const CounterContainer = styled.div`
-  width: 3rem;
+  max-width: 3rem;
   display: grid;
   justify-content: center;
   align-content: center;
   text-align: center;
+  border: solid 1px magenta;
 `
 
 const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   background-color: transparent;
+  align-self: center;
+  justify-self: center;
   border: none;
-  width: 1.7rem;
-  padding: 0 3px;
+  width: 20px;
   height: 10px;
   transform: translateY(-50%);
   cursor: pointer;
