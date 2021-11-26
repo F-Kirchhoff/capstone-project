@@ -14,7 +14,7 @@ export default function IconWrapper({
 }
 
 const Wrapper = styled.div<Partial<WrapperProps>>`
-  width: ${({ width }) => (width ? `${width}px` : '24px')};
+  width: ${({ width }) => (width ? `${width}px` : '100%')};
   display: flex;
   justify-content: center;
   align-items: center;
