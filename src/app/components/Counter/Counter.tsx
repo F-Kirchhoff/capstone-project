@@ -16,21 +16,33 @@ export default function Counter({
 }: CounterProps): JSX.Element {
   return (
     <CounterContainer>
-      <VoteUp onClick={onIncrement}>
+      <VoteButton displayType="up" onClick={onIncrement}>
         <ChevronUp />
-      </VoteUp>
+      </VoteButton>
       <ValueView>{value}</ValueView>
-      <VoteDown onClick={() => value > 0 && onDecrement()}>
+      <VoteButton displayType="down" onClick={() => value > 0 && onDecrement()}>
         <ChevronDown />
-      </VoteDown>
+      </VoteButton>
     </CounterContainer>
   )
 }
 
-const CounterContainer = styled.div``
+const CounterContainer = styled.div`
+  width: 3rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+`
 
-const VoteUp = styled.button``
-
-const VoteDown = styled.button``
+const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
+  background-color: transparent;
+  border: none;
+  width: 1.7rem;
+  padding: 0 3px;
+  height: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+`
 
 const ValueView = styled.p``

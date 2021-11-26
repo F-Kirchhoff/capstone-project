@@ -6,15 +6,27 @@ export default {
   component: Counter,
 }
 
-export const StepSize1 = (): JSX.Element => {
+export const Start0 = (): JSX.Element => {
   const [count, setCount] = useState(0)
   return (
-    <>
+    <div style={{ width: 20 }}>
       <Counter
         value={count}
         onIncrement={() => setCount(prev => ++prev)}
         onDecrement={() => setCount(prev => --prev)}
       />
-    </>
+    </div>
+  )
+}
+export const Start100 = (): JSX.Element => {
+  const [count, setCount] = useState(100)
+  return (
+    <div style={{ width: 20 }}>
+      <Counter
+        value={count}
+        onIncrement={() => setCount(prev => ++prev)}
+        onDecrement={() => setCount(prev => --prev)}
+      />
+    </div>
   )
 }
