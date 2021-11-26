@@ -19,7 +19,7 @@ export default function Counter({
       <VoteButton displayType="up" onClick={onIncrement}>
         <ChevronUp />
       </VoteButton>
-      <ValueView>{value}</ValueView>
+      <p>{value}</p>
       <VoteButton displayType="down" onClick={() => value > 0 && onDecrement()}>
         <ChevronDown />
       </VoteButton>
