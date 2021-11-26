@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard/Dashboard'
 
-import type { Topic } from './types/types'
+import type { Need, Topic } from './types/types'
 
 const TOPICS = [
   {
@@ -102,6 +102,23 @@ function App(): JSX.Element {
     ])
   }
 
+  function handleNeedSubmit(topicId: string, newNeed: Need) {
+    // finds the correct topic and adds a need on top of its needList
+    setTopics(prev =>
+      prev.map(topic =>
+        topic.content.id === topicId
+          ? {
+              ...topic,
+              content: {
+                ...topic.content,
+                needs: [newNeed, ...topic.content.needs],
+              },
+            }
+          : topic
+      )
+    )
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -112,6 +129,7 @@ function App(): JSX.Element {
               content={topics}
               onDisplayToggle={handleTopicDisplayToggle}
               onTopicSubmit={handleTopicSubmit}
+              onNeedSubmit={handleNeedSubmit}
             />
           }
         ></Route>

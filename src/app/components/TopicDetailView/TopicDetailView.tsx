@@ -3,21 +3,23 @@ import styled from 'styled-components'
 import Need from '../Need/Need'
 import type { Topic } from '../../types/types'
 import ChevronUp from '../../Icons/ChevronUp'
+import Button from '../Button/Button'
 
 type TopicDetailViewProps = {
   content: Topic
   onCollapse: () => void
+  onAddNeed: () => void
 }
 
 function TopicDetailView({
   content,
   onCollapse,
+  onAddNeed,
 }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
   return (
     <TopicContainer>
       <TitleContainer onClick={onCollapse}>
-        {' '}
         <h2> {title}</h2> <ChevronUp />
       </TitleContainer>
       <Description>{description}</Description>
@@ -26,6 +28,9 @@ function TopicDetailView({
           <Need key={need.id} content={need} />
         ))}
       </NeedsList>
+      <Button highlight onClick={onAddNeed}>
+        Add Need
+      </Button>
     </TopicContainer>
   )
 }
