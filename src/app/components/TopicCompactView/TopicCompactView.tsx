@@ -27,4 +27,7 @@ const TopicCompact = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
   cursor: pointer;
+  & > h2 {
+    overflow: hidden;
+  }
 `
