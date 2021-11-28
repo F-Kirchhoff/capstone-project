@@ -28,6 +28,6 @@ const TopicCompact = styled.div`
   grid-template-columns: 1fr auto;
   cursor: pointer;
   & > h2 {
-    max-width: 100%;
+    overflow: hidden;
   }
 `
