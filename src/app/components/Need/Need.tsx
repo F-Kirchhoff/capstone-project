@@ -1,15 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
 import type { Need as NeedType } from '../../types/types'
+import Counter from '../Counter/Counter'
 
 type NeedProps = {
   content: NeedType
 }
 
 export default function Need({ content }: NeedProps): JSX.Element {
-  const { text } = content
+  const { text, upvotes } = content
+
+  const handleUpvoteChange = (delta: number) => () => {
+    console.log(upvotes + delta)
+  }
+
   return (
     <NeedContainer>
+      <Counter
+        value={upvotes}
+        onIncrement={handleUpvoteChange(1)}
+        onDecrement={handleUpvoteChange(-1)}
+      />
       <p>{text}</p>
     </NeedContainer>
   )
