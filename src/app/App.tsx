@@ -130,7 +130,27 @@ function App(): JSX.Element {
 
   const handleNeedUpvote =
     (topicId: string) => (needId: string) => (newUpvotes: number) => {
-      console.log({ topicId, needId, newUpvotes })
+      // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
+      setTopics(prev =>
+        prev.map(topic =>
+          topic.content.id === topicId
+            ? {
+                ...topic,
+                content: {
+                  ...topic.content,
+                  needs: topic.content.needs.map(need =>
+                    need.id === needId
+                      ? {
+                          ...need,
+                          upvotes: newUpvotes,
+                        }
+                      : need
+                  ),
+                },
+              }
+            : topic
+        )
+      )
     }
 
   return (
