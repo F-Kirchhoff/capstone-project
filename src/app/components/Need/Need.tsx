@@ -31,7 +31,7 @@ const NeedContainer = styled.li`
   grid-template-columns: auto 1fr;
   align-items: start;
   gap: 10px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: var(--c-gray-50);
   & > p {
     align-self: center;
