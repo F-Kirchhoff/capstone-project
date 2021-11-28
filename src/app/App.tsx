@@ -128,6 +128,11 @@ function App(): JSX.Element {
     )
   }
 
+  const handleNeedUpvote =
+    (topicId: string) => (needId: string) => (newUpvotes: number) => {
+      console.log({ topicId, needId, newUpvotes })
+    }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -139,6 +144,7 @@ function App(): JSX.Element {
               onDisplayToggle={handleTopicDisplayToggle}
               onTopicSubmit={handleTopicSubmit}
               onNeedSubmit={handleNeedSubmit}
+              onNeedUpvote={handleNeedUpvote}
             />
           }
         ></Route>
