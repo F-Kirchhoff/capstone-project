@@ -16,14 +16,17 @@ const TOPICS = [
         {
           id: '1',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 4,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 9,
         },
         {
           id: '3',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 89,
         },
       ],
     },
@@ -39,14 +42,17 @@ const TOPICS = [
         {
           id: '1',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 57,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 2,
         },
         {
           id: '3',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 19,
         },
       ],
     },
@@ -62,14 +68,17 @@ const TOPICS = [
         {
           id: '1',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 3,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 9,
         },
         {
           id: '3',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          upvotes: 1,
         },
       ],
     },
