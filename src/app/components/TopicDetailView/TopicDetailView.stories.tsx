@@ -35,5 +35,7 @@ export const Topic_Regular = (): JSX.Element => (
     content={EXAMPLE}
     onCollapse={() => console.log('Collapse')}
     onAddNeed={() => console.log('add')}
+    onUpvoteChange={(needId: string) => (newUpvotes: number) =>
+      console.log({ needId, newUpvotes })}
   />
 )
