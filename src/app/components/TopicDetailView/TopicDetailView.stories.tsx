@@ -15,14 +15,17 @@ const EXAMPLE = {
     {
       id: '0',
       text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+      upvotes: 13,
     },
     {
       id: '1',
       text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+      upvotes: 13,
     },
     {
       id: '2',
       text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+      upvotes: 13,
     },
   ],
 }
