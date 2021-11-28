@@ -20,7 +20,7 @@ export default function Counter({
         <ChevronUp />
       </VoteButton>
       <p>{value}</p>
-      <VoteButton displayType="down" onClick={() => value > 0 && onDecrement()}>
+      <VoteButton displayType="down" onClick={onDecrement}>
         <ChevronDown />
       </VoteButton>
     </CounterContainer>
