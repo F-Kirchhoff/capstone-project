@@ -44,4 +44,13 @@ const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   height: 10px;
   transform: translateY(-50%);
   cursor: pointer;
+  transition: ease 0.1s;
+  &:hover {
+    transform: ${({ displayType }) =>
+      displayType === 'up' ? 'translateY(-60%)' : 'translateY(-40%)'};
+  }
+  &:active {
+    transform: ${({ displayType }) =>
+      displayType === 'up' ? 'translateY(-80%)' : 'translateY(-20%)'};
+  }
 `
