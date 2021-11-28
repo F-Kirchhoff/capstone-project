@@ -33,7 +33,6 @@ const CounterContainer = styled.div`
   justify-content: center;
   align-content: center;
   text-align: center;
-  border: solid 1px magenta;
 `
 
 const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`

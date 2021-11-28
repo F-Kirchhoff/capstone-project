@@ -28,9 +28,12 @@ export default function Need({ content }: NeedProps): JSX.Element {
 
 const NeedContainer = styled.li`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto 1fr;
   align-items: start;
   gap: 10px;
   padding: 10px 20px;
   background-color: var(--c-gray-50);
+  & > p {
+    align-self: center;
+  }
 `
