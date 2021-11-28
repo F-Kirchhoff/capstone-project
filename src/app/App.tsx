@@ -115,7 +115,7 @@ function App(): JSX.Element {
     // finds the correct topic and adds a need on top of its needList
     setTopics(prev =>
       prev.map(topic =>
-        topic.content.id === topicId
+        topic.content.id !== topicId
           ? topic
           : {
               ...topic,
