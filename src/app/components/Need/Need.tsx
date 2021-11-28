@@ -15,7 +15,7 @@ export default function Need({
   const { text, upvotes } = content
 
   const handleUpvoteChange = (delta: number) => () => {
-    onUpvoteChange(upvotes + delta)
+    upvotes + delta >= 1 && onUpvoteChange(upvotes + delta)
   }
 
   return (
