@@ -116,14 +116,14 @@ function App(): JSX.Element {
     setTopics(prev =>
       prev.map(topic =>
         topic.content.id === topicId
-          ? {
+          ? topic
+          : {
               ...topic,
               content: {
                 ...topic.content,
                 needs: [newNeed, ...topic.content.needs],
               },
             }
-          : topic
       )
     )
   }
@@ -133,22 +133,22 @@ function App(): JSX.Element {
       // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
       setTopics(prev =>
         prev.map(topic =>
-          topic.content.id === topicId
-            ? {
+          topic.content.id !== topicId
+            ? topic
+            : {
                 ...topic,
                 content: {
                   ...topic.content,
                   needs: topic.content.needs.map(need =>
-                    need.id === needId
-                      ? {
+                    need.id !== needId
+                      ? need
+                      : {
                           ...need,
                           upvotes: newUpvotes,
                         }
-                      : need
                   ),
                 },
               }
-            : topic
         )
       )
     }
