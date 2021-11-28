@@ -17,6 +17,11 @@ function TopicDetailView({
   onAddNeed,
 }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
+
+  const handleUpvoteChange = (needId: string) => (newUpvotes: number) => {
+    console.log({ needId, newUpvotes })
+  }
+
   return (
     <TopicContainer>
       <TitleContainer onClick={onCollapse}>
@@ -25,7 +30,11 @@ function TopicDetailView({
       <Description>{description}</Description>
       <NeedsList>
         {needs.map(need => (
-          <Need key={need.id} content={need} />
+          <Need
+            key={need.id}
+            content={need}
+            onUpvoteChange={handleUpvoteChange(need.id)}
+          />
         ))}
       </NeedsList>
       <Button highlight onClick={onAddNeed}>

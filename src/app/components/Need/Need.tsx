@@ -5,13 +5,17 @@ import Counter from '../Counter/Counter'
 
 type NeedProps = {
   content: NeedType
+  onUpvoteChange: (updatedVotes: number) => void
 }
 
-export default function Need({ content }: NeedProps): JSX.Element {
+export default function Need({
+  content,
+  onUpvoteChange,
+}: NeedProps): JSX.Element {
   const { text, upvotes } = content
 
   const handleUpvoteChange = (delta: number) => () => {
-    console.log(upvotes + delta)
+    onUpvoteChange(upvotes + delta)
   }
 
   return (
