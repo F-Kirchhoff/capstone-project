@@ -113,44 +113,56 @@ function App(): JSX.Element {
 
   function handleNeedSubmit(topicId: string, newNeed: Need) {
     // finds the correct topic and adds a need on top of its needList
-    setTopics(prev =>
-      prev.map(topic =>
-        topic.content.id !== topicId
-          ? topic
-          : {
-              ...topic,
-              content: {
-                ...topic.content,
-                needs: [newNeed, ...topic.content.needs],
-              },
-            }
+    setTopics(prev => {
+      const queriedTopic = prev.find(topic => topic.content.id === topicId)
+      if (!queriedTopic) return prev
+
+      const updatedTopic = {
+        ...queriedTopic,
+        content: {
+          ...queriedTopic.content,
+          needs: [newNeed, ...queriedTopic.content.needs],
+        },
+      }
+
+      return prev.map(topic =>
+        topic.content.id === topicId ? updatedTopic : topic
       )
-    )
+    })
   }
 
   const handleNeedUpvote =
     (topicId: string) => (needId: string) => (newUpvotes: number) => {
       // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
-      setTopics(prev =>
-        prev.map(topic =>
-          topic.content.id !== topicId
-            ? topic
-            : {
-                ...topic,
-                content: {
-                  ...topic.content,
-                  needs: topic.content.needs.map(need =>
-                    need.id !== needId
-                      ? need
-                      : {
-                          ...need,
-                          upvotes: newUpvotes,
-                        }
-                  ),
-                },
-              }
+
+      setTopics(prev => {
+        const queriedTopic = prev.find(topic => topic.content.id === topicId)
+        if (!queriedTopic) return prev
+
+        const queriedNeed = queriedTopic.content.needs.find(
+          need => need.id === needId
         )
-      )
+        if (!queriedNeed) return prev
+
+        const updatedNeed = {
+          ...queriedNeed,
+          upvotes: newUpvotes,
+        }
+
+        const updatedTopic = {
+          ...queriedTopic,
+          content: {
+            ...queriedTopic.content,
+            needs: queriedTopic.content.needs.map(need =>
+              need.id === needId ? updatedNeed : need
+            ),
+          },
+        }
+
+        return prev.map(topic =>
+          topic.content.id === topicId ? updatedTopic : topic
+        )
+      })
     }
 
   return (
