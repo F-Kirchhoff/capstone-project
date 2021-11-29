@@ -22,11 +22,11 @@ export const Short = (): JSX.Element => (
   <Need
     onUpvoteChange={(upvotes: number) => console.log(upvotes)}
     content={EXAMPLE}
-  ></Need>
+  />
 )
 export const Long = (): JSX.Element => (
   <Need
     onUpvoteChange={(upvotes: number) => console.log(upvotes)}
     content={EXAMPLE_LONG}
-  ></Need>
+  />
 )
