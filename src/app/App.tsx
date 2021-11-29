@@ -15,18 +15,18 @@ const TOPICS = [
       needs: [
         {
           id: '1',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 4,
+          text: 'sit amet consectetur adipisicing elit.',
+          upvotes: 57,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 9,
+          upvotes: 19,
         },
         {
           id: '3',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 89,
+          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+          upvotes: 2,
         },
       ],
     },
@@ -35,24 +35,24 @@ const TOPICS = [
     showDetails: false,
     content: {
       id: '1',
-      title: 'Annual income for employees',
+      title: 'New Logo Design',
       description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
+        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur.',
       needs: [
         {
           id: '1',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+          text: 'sit amet consectetur adipisicing elit.',
           upvotes: 57,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 2,
+          upvotes: 19,
         },
         {
           id: '3',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 19,
+          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+          upvotes: 2,
         },
       ],
     },
@@ -61,24 +61,24 @@ const TOPICS = [
     showDetails: false,
     content: {
       id: '2',
-      title: 'Annual income for employees',
+      title: 'Friday Night Activity',
       description:
         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
       needs: [
         {
           id: '1',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 3,
+          text: 'sit amet consectetur adipisicing elit.',
+          upvotes: 57,
         },
         {
           id: '2',
           text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 9,
+          upvotes: 19,
         },
         {
           id: '3',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 1,
+          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+          upvotes: 2,
         },
       ],
     },
