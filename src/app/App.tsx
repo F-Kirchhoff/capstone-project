@@ -149,13 +149,15 @@ function App(): JSX.Element {
           upvotes: newUpvotes,
         }
 
+        const resortedNeeds = queriedTopic.content.needs
+          .map(need => (need.id === needId ? updatedNeed : need))
+          .sort((a, b) => b.upvotes - a.upvotes)
+
         const updatedTopic = {
           ...queriedTopic,
           content: {
             ...queriedTopic.content,
-            needs: queriedTopic.content.needs.map(need =>
-              need.id === needId ? updatedNeed : need
-            ),
+            needs: resortedNeeds,
           },
         }
 
