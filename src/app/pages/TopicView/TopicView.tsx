@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
+import FormWrapper from '../../components/FormWrapper/FormWrapper'
 
 type TopicDetailViewProps = {
   content: Topic
@@ -45,7 +46,13 @@ function TopicView({
         </Button>
       </TopicContainer>
       {view === 'SHOW_NEED_FORM' && (
-        <NeedForm onSubmit={onNeedSubmit} onCancel={() => setView('')} />
+        <FormWrapper
+          onReturn={() => {
+            setView('')
+          }}
+        >
+          <NeedForm onSubmit={onNeedSubmit} onCancel={() => setView('')} />
+        </FormWrapper>
       )}
     </>
   )
