@@ -18,7 +18,13 @@ export default function AddTopic({ onSubmit }: AddTopicProps): JSX.Element {
         <DoubleChevronLeft width={'24'} />
       </ReturnButton>
       <Header>Add Topic</Header>
-      <TopicForm onSubmit={onSubmit} onCancel={() => nav('/')}></TopicForm>
+      <TopicForm
+        onSubmit={(newTopic: Topic) => {
+          onSubmit(newTopic)
+          nav('/')
+        }}
+        onCancel={() => nav('/')}
+      ></TopicForm>
     </AddTopicContainer>
   )
 }
