@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type FormWrapperProps = {
+type OverlayWrapperProps = {
   onReturn: () => void
   children: React.ReactNode
 }
 
-export default function FormWrapper({
+export default function OverlayWrapper({
   children,
   onReturn,
-}: FormWrapperProps): JSX.Element {
+}: OverlayWrapperProps): JSX.Element {
   return (
     <Wrapper>
       <FormBackground onClick={onReturn} />

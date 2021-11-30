@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Button from '../../components/Button/Button'
-import FormWrapper from '../../components/FormWrapper/FormWrapper'
+import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
 import TopicForm from '../../components/TopicForm/TopicForm'
@@ -44,7 +44,7 @@ export default function Dashboard({
         </TopicList>
       </TopicContainer>
       {view === 'SHOW_TOPIC_FORM' && (
-        <FormWrapper
+        <OverlayWrapper
           onReturn={() => {
             setView('')
           }}
@@ -53,7 +53,7 @@ export default function Dashboard({
             onSubmit={handleTopicSubmit}
             onCancel={() => setView('')}
           />
-        </FormWrapper>
+        </OverlayWrapper>
       )}
     </DashboardContainer>
   )
