@@ -37,15 +37,19 @@ function TopicView({
         </TitleContainer>
         <Description>{description}</Description>
         <h3>Needs</h3>
-        <NeedsList>
-          {needs.map(need => (
-            <Need
-              key={need.id}
-              content={need}
-              onUpvoteChange={onUpvoteChange(need.id)}
-            />
-          ))}
-        </NeedsList>
+        {needs.length > 0 ? (
+          <NeedsList>
+            {needs.map(need => (
+              <Need
+                key={need.id}
+                content={need}
+                onUpvoteChange={onUpvoteChange(need.id)}
+              />
+            ))}
+          </NeedsList>
+        ) : (
+          <Disclaimer>no needs here yet.</Disclaimer>
+        )}
         <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
           Add Need
         </Button>
@@ -85,7 +89,13 @@ const TitleContainer = styled(Link)`
 `
 
 const Description = styled.p`
-  color: var(--c-gray-600);
+  color: var(--c-gray-700);
+`
+
+const Disclaimer = styled.p`
+  text-align: center;
+  padding: 5px 0;
+  color: var(--c-gray-400);
 `
 
 const NeedsList = styled.ul`
