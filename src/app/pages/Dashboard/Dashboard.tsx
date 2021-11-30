@@ -14,15 +14,15 @@ type DashboardProps = {
   onTopicSubmit: (topic: Topic) => void
 }
 
-type DisplayMsgType = '' | 'SHOW_TOPIC_FORM'
+type ViewMsgType = '' | 'SHOW_TOPIC_FORM'
 
 export default function Dashboard({
   content,
   onTopicSubmit,
 }: DashboardProps): JSX.Element {
-  const [displayState, setDisplayState] = useState<DisplayMsgType>('')
+  const [view, setView] = useState<ViewMsgType>('')
   function handleTopicSubmit(topic: Topic) {
-    setDisplayState('')
+    setView('')
     onTopicSubmit(topic)
   }
 
@@ -30,7 +30,7 @@ export default function Dashboard({
     <DashboardContainer>
       <Navbar>
         <Logo />
-        <Button highlight onClick={() => setDisplayState('SHOW_TOPIC_FORM')}>
+        <Button highlight onClick={() => setView('SHOW_TOPIC_FORM')}>
           + Topic
         </Button>
       </Navbar>
@@ -43,15 +43,15 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
-      {displayState === 'SHOW_TOPIC_FORM' && (
+      {view === 'SHOW_TOPIC_FORM' && (
         <FormWrapper
           onReturn={() => {
-            setDisplayState('')
+            setView('')
           }}
         >
           <TopicForm
             onSubmit={handleTopicSubmit}
-            onCancel={() => setDisplayState('')}
+            onCancel={() => setView('')}
           />
         </FormWrapper>
       )}
@@ -95,19 +95,3 @@ const Card = styled.li`
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;
 `
-// const FormWrapper = styled.div`
-//   z-index: 1000;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-// `
-// const FormBackground = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-//   background-color: rgba(0, 0, 0, 0.7);
-// `
