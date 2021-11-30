@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import Need from '../Need/Need'
+import Need from '../../components/Need/Need'
 import type { Topic } from '../../types/types'
-import ChevronUp from '../../Icons/ChevronUp'
-import Button from '../Button/Button'
+import Button from '../../components/Button/Button'
+import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
+import { Link } from 'react-router-dom'
 
 type TopicDetailViewProps = {
   content: Topic
@@ -20,10 +21,11 @@ function TopicDetailView({
 
   return (
     <TopicContainer>
-      <TitleContainer>
-        <h2> {title}</h2> <ChevronUp width={'24'} />
+      <TitleContainer to={'/'}>
+        <DoubleChevronLeft width="24" /> <h2> {title}</h2>
       </TitleContainer>
       <Description>{description}</Description>
+      <h3>Needs</h3>
       <NeedsList>
         {needs.map(need => (
           <Need
@@ -43,17 +45,22 @@ function TopicDetailView({
 export default TopicDetailView
 
 const TopicContainer = styled.article`
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--c-gray-100);
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 `
-const TitleContainer = styled.div`
+const TitleContainer = styled(Link)`
+  text-decoration: none;
   color: var(--c-primary);
   font-family: 'Plairfair';
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
   cursor: pointer;
   & > h2 {
     overflow: hidden;
@@ -69,5 +76,8 @@ const NeedsList = styled.ul`
   flex-direction: column;
   background-color: var(--c-gray-200);
   gap: 1px;
-  padding: 1px 0;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
-import TopicDetailView from './components/TopicDetailView/TopicDetailView'
+import TopicView from './pages/TopicView/TopicView'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
@@ -163,7 +163,7 @@ function TopicHandler({ topics }: { topics: Topic[] }): JSX.Element {
   const params = useParams()
   const topic = topics.find(topic => topic.id === params.topicId)
   return topic ? (
-    <TopicDetailView
+    <TopicView
       onAddNeed={() => console.log('add need')}
       onUpvoteChange={(id: string) => (vote: number) =>
         console.log('upvote', vote, id)}
