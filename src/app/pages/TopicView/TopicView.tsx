@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom'
 
 type TopicDetailViewProps = {
   content: Topic
-  onAddNeed: () => void
+  onNeedSubmit: () => void
   onUpvoteChange: (needId: string) => (updatedVotes: number) => void
 }
 
 function TopicDetailView({
   content,
-  onAddNeed,
+  onNeedSubmit,
   onUpvoteChange,
 }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
@@ -35,7 +35,7 @@ function TopicDetailView({
           />
         ))}
       </NeedsList>
-      <Button highlight onClick={onAddNeed}>
+      <Button highlight onClick={() => console.log('Enter Need Form')}>
         Add Need
       </Button>
     </TopicContainer>
