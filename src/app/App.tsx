@@ -92,10 +92,7 @@ function App(): JSX.Element {
 
       const updatedTopic = {
         ...queriedTopic,
-        content: {
-          ...queriedTopic,
-          needs: [newNeed, ...queriedTopic.needs],
-        },
+        needs: [newNeed, ...queriedTopic.needs],
       }
 
       return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
@@ -124,10 +121,7 @@ function App(): JSX.Element {
 
         const updatedTopic = {
           ...queriedTopic,
-          content: {
-            ...queriedTopic,
-            needs: resortedNeeds,
-          },
+          needs: resortedNeeds,
         }
 
         return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
