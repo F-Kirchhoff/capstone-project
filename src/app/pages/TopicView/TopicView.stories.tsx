@@ -1,8 +1,8 @@
 import React from 'react'
-import TopicDetailView from './TopicDetailView'
+import TopicDetailView from './TopicView'
 
 export default {
-  title: 'Component/TopicDetailView',
+  title: 'Component/TopicView',
   component: TopicDetailView,
 }
 
@@ -33,7 +33,6 @@ const EXAMPLE = {
 export const Topic_Regular = (): JSX.Element => (
   <TopicDetailView
     content={EXAMPLE}
-    onCollapse={() => console.log('Collapse')}
     onAddNeed={() => console.log('add')}
     onUpvoteChange={(needId: string) => (newUpvotes: number) =>
       console.log({ needId, newUpvotes })}
