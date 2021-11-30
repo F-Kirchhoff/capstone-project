@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link } from 'react-router-dom'
+import NeedForm from '../../components/NeedForm/NeedForm'
 
 type TopicDetailViewProps = {
   content: Topic
@@ -12,33 +13,41 @@ type TopicDetailViewProps = {
   onUpvoteChange: (needId: string) => (updatedVotes: number) => void
 }
 
+type ViewMsgType = '' | 'SHOW_NEED_FORM'
+
 function TopicView({
   content,
   onNeedSubmit,
   onUpvoteChange,
 }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
+  const [view, setView] = useState<ViewMsgType>('')
 
   return (
-    <TopicContainer>
-      <TitleContainer to={'/'}>
-        <DoubleChevronLeft width="24" /> <h2> {title}</h2>
-      </TitleContainer>
-      <Description>{description}</Description>
-      <h3>Needs</h3>
-      <NeedsList>
-        {needs.map(need => (
-          <Need
-            key={need.id}
-            content={need}
-            onUpvoteChange={onUpvoteChange(need.id)}
-          />
-        ))}
-      </NeedsList>
-      <Button highlight onClick={() => console.log('Enter Need Form')}>
-        Add Need
-      </Button>
-    </TopicContainer>
+    <>
+      <TopicContainer>
+        <TitleContainer to={'/'}>
+          <DoubleChevronLeft width="24" /> <h2> {title}</h2>
+        </TitleContainer>
+        <Description>{description}</Description>
+        <h3>Needs</h3>
+        <NeedsList>
+          {needs.map(need => (
+            <Need
+              key={need.id}
+              content={need}
+              onUpvoteChange={onUpvoteChange(need.id)}
+            />
+          ))}
+        </NeedsList>
+        <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
+          Add Need
+        </Button>
+      </TopicContainer>
+      {view === 'SHOW_NEED_FORM' && (
+        <NeedForm onSubmit={onNeedSubmit} onCancel={() => setView('')} />
+      )}
+    </>
   )
 }
 
@@ -46,7 +55,7 @@ export default TopicView
 
 const TopicContainer = styled.article`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--c-gray-100);
   padding: 20px;
   display: flex;
