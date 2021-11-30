@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
-import type { Topic } from '../../types/types'
+import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link } from 'react-router-dom'
 
 type TopicDetailViewProps = {
   content: Topic
-  onNeedSubmit: () => void
+  onNeedSubmit: (need: NeedType) => void
   onUpvoteChange: (needId: string) => (updatedVotes: number) => void
 }
 
-function TopicDetailView({
+function TopicView({
   content,
   onNeedSubmit,
   onUpvoteChange,
@@ -42,7 +42,7 @@ function TopicDetailView({
   )
 }
 
-export default TopicDetailView
+export default TopicView
 
 const TopicContainer = styled.article`
   width: 100vw;

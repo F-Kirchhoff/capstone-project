@@ -6,36 +6,23 @@ import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
 import TopicForm from '../../components/TopicForm/TopicForm'
 
-import type { Topic, Need } from '../../types/types'
-import NeedForm from '../../components/NeedForm/NeedForm'
+import type { Topic } from '../../types/types'
 
 type DashboardProps = {
   content: Topic[]
   onTopicSubmit: (topic: Topic) => void
-  onNeedSubmit: (id: string, need: Need) => void
-  onNeedUpvote: (
-    topicId: string
-  ) => (needId: string) => (updatedVotes: number) => void
 }
 
-type DisplayMsgType = '' | 'SHOW_TOPIC_FORM' | 'SHOW_NEED_FORM'
+type DisplayMsgType = '' | 'SHOW_TOPIC_FORM'
 
 export default function Dashboard({
   content,
   onTopicSubmit,
-  onNeedSubmit,
-  onNeedUpvote,
 }: DashboardProps): JSX.Element {
   const [displayState, setDisplayState] = useState<DisplayMsgType>('')
-  const [topicFocusId, setTopicFocusId] = useState<string | null>(null)
   function handleTopicSubmit(topic: Topic) {
     setDisplayState('')
     onTopicSubmit(topic)
-  }
-  function handleNeedSubmit(need: Need) {
-    // resets the Display state and if topicFocus is set, a new need is added in app.tsx
-    setDisplayState('')
-    topicFocusId && onNeedSubmit(topicFocusId, need)
   }
 
   return (
@@ -55,28 +42,17 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
-      {displayState !== '' && (
+      {displayState === 'SHOW_TOPIC_FORM' && (
         <FormWrapper>
           <FormBackground
             onClick={() => {
-              setTopicFocusId(null)
               setDisplayState('')
             }}
           />
-          {displayState === 'SHOW_TOPIC_FORM' ? (
-            <TopicForm
-              onSubmit={handleTopicSubmit}
-              onCancel={() => setDisplayState('')}
-            />
-          ) : (
-            <NeedForm
-              onSubmit={handleNeedSubmit}
-              onCancel={() => {
-                setTopicFocusId(null)
-                setDisplayState('')
-              }}
-            />
-          )}
+          <TopicForm
+            onSubmit={handleTopicSubmit}
+            onCancel={() => setDisplayState('')}
+          />
         </FormWrapper>
       )}
     </DashboardContainer>

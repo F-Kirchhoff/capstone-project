@@ -84,7 +84,7 @@ function App(): JSX.Element {
     setTopics(prev => [topic, ...prev])
   }
 
-  function handleNeedSubmit(topicId: string, newNeed: Need) {
+  const handleNeedSubmit = (topicId: string) => (newNeed: Need) => {
     // finds the correct topic and adds a need on top of its needList
     setTopics(prev => {
       const queriedTopic = prev.find(topic => topic.id === topicId)
@@ -134,17 +134,18 @@ function App(): JSX.Element {
         <Route
           path="/"
           element={
-            <Dashboard
-              content={topics}
-              onTopicSubmit={handleTopicSubmit}
-              onNeedSubmit={handleNeedSubmit}
-              onNeedUpvote={handleNeedUpvote}
-            />
+            <Dashboard content={topics} onTopicSubmit={handleTopicSubmit} />
           }
         ></Route>
         <Route
           path="/:topicId"
-          element={<TopicHandler topics={topics} />}
+          element={
+            <TopicHandler
+              topics={topics}
+              onNeedSubmit={handleNeedSubmit}
+              onNeedUpvote={handleNeedUpvote}
+            />
+          }
         ></Route>
       </Routes>
     </BrowserRouter>
@@ -153,14 +154,25 @@ function App(): JSX.Element {
 
 export default App
 
-function TopicHandler({ topics }: { topics: Topic[] }): JSX.Element {
+type TopicHandlerProps = {
+  topics: Topic[]
+  onNeedUpvote: (
+    topicId: string
+  ) => (needId: string) => (updatedVotes: number) => void
+  onNeedSubmit: (topicId: string) => (need: Need) => void
+}
+
+function TopicHandler({
+  topics,
+  onNeedUpvote,
+  onNeedSubmit,
+}: TopicHandlerProps): JSX.Element {
   const params = useParams()
   const topic = topics.find(topic => topic.id === params.topicId)
   return topic ? (
     <TopicView
-      onAddNeed={() => console.log('add need')}
-      onUpvoteChange={(id: string) => (vote: number) =>
-        console.log('upvote', vote, id)}
+      onUpvoteChange={onNeedUpvote(topic.id)}
+      onNeedSubmit={onNeedSubmit(topic.id)}
       content={topic}
     />
   ) : (
