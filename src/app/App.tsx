@@ -132,12 +132,7 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Dashboard content={topics} onTopicSubmit={handleTopicSubmit} />
-          }
-        ></Route>
+        <Route path="/" element={<Dashboard content={topics} />}></Route>
         <Route
           path="/:topicId"
           element={

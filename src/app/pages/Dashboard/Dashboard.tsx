@@ -1,36 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import Button from '../../components/Button/Button'
-import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
-import TopicForm from '../../components/TopicForm/TopicForm'
 
 import type { Topic } from '../../types/types'
+import { useNavigate } from 'react-router'
 
 type DashboardProps = {
   content: Topic[]
-  onTopicSubmit: (topic: Topic) => void
 }
 
-type ViewMsgType = '' | 'SHOW_TOPIC_FORM'
-
-export default function Dashboard({
-  content,
-  onTopicSubmit,
-}: DashboardProps): JSX.Element {
-  const [view, setView] = useState<ViewMsgType>('')
-  function handleTopicSubmit(topic: Topic) {
-    setView('')
-    onTopicSubmit(topic)
-  }
+export default function Dashboard({ content }: DashboardProps): JSX.Element {
+  const nav = useNavigate()
 
   return (
     <DashboardContainer>
       <Navbar>
         <Logo />
-        <Button highlight onClick={() => setView('SHOW_TOPIC_FORM')}>
+        <Button highlight onClick={() => nav('/addtopic')}>
           + Topic
         </Button>
       </Navbar>
@@ -43,18 +32,6 @@ export default function Dashboard({
           ))}
         </TopicList>
       </TopicContainer>
-      {view === 'SHOW_TOPIC_FORM' && (
-        <OverlayWrapper
-          onReturn={() => {
-            setView('')
-          }}
-        >
-          <TopicForm
-            onSubmit={handleTopicSubmit}
-            onCancel={() => setView('')}
-          />
-        </OverlayWrapper>
-      )}
     </DashboardContainer>
   )
 }
