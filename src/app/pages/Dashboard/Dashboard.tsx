@@ -4,18 +4,13 @@ import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
-import TopicDetailView from '../../components/TopicDetailView/TopicDetailView'
 import TopicForm from '../../components/TopicForm/TopicForm'
 
 import type { Topic, Need } from '../../types/types'
 import NeedForm from '../../components/NeedForm/NeedForm'
 
 type DashboardProps = {
-  content: {
-    showDetails: boolean
-    content: Topic
-  }[]
-  onDisplayToggle: (id: string) => void
+  content: Topic[]
   onTopicSubmit: (topic: Topic) => void
   onNeedSubmit: (id: string, need: Need) => void
   onNeedUpvote: (
@@ -27,7 +22,6 @@ type DisplayMsgType = '' | 'SHOW_TOPIC_FORM' | 'SHOW_NEED_FORM'
 
 export default function Dashboard({
   content,
-  onDisplayToggle,
   onTopicSubmit,
   onNeedSubmit,
   onNeedUpvote,
@@ -55,24 +49,8 @@ export default function Dashboard({
       <TopicContainer>
         <TopicList>
           {content.map(topic => (
-            <Card key={topic.content.id}>
-              {topic.showDetails ? (
-                <TopicDetailView
-                  content={topic.content}
-                  onCollapse={() => onDisplayToggle(topic.content.id)}
-                  onAddNeed={() => {
-                    // on a Click on the Add need button the TopicFocus is set to the respective Topic id and the need Form is displayed
-                    setTopicFocusId(topic.content.id)
-                    setDisplayState('SHOW_NEED_FORM')
-                  }}
-                  onUpvoteChange={onNeedUpvote(topic.content.id)}
-                />
-              ) : (
-                <TopicCompactView
-                  content={topic.content}
-                  onExpand={() => onDisplayToggle(topic.content.id)}
-                />
-              )}
+            <Card key={topic.id}>
+              <TopicCompactView content={topic} />
             </Card>
           ))}
         </TopicList>

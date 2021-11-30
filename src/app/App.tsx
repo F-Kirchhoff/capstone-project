@@ -6,128 +6,98 @@ import type { Need, Topic } from './types/types'
 
 const TOPICS = [
   {
-    showDetails: true,
-    content: {
-      id: '0',
-      title: 'Annual income for employees',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
-      needs: [
-        {
-          id: '1',
-          text: 'sit amet consectetur adipisicing elit.',
-          upvotes: 57,
-        },
-        {
-          id: '2',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 19,
-        },
-        {
-          id: '3',
-          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-          upvotes: 2,
-        },
-      ],
-    },
+    id: '0',
+    title: 'Annual income for employees',
+    description:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
+    needs: [
+      {
+        id: '1',
+        text: 'sit amet consectetur adipisicing elit.',
+        upvotes: 57,
+      },
+      {
+        id: '2',
+        text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+        upvotes: 19,
+      },
+      {
+        id: '3',
+        text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+        upvotes: 2,
+      },
+    ],
   },
   {
-    showDetails: false,
-    content: {
-      id: '1',
-      title: 'New Logo Design',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur.',
-      needs: [
-        {
-          id: '1',
-          text: 'sit amet consectetur adipisicing elit.',
-          upvotes: 57,
-        },
-        {
-          id: '2',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 19,
-        },
-        {
-          id: '3',
-          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-          upvotes: 2,
-        },
-      ],
-    },
+    id: '1',
+    title: 'New Logo Design',
+    description:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur.',
+    needs: [
+      {
+        id: '1',
+        text: 'sit amet consectetur adipisicing elit.',
+        upvotes: 57,
+      },
+      {
+        id: '2',
+        text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+        upvotes: 19,
+      },
+      {
+        id: '3',
+        text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+        upvotes: 2,
+      },
+    ],
   },
   {
-    showDetails: false,
-    content: {
-      id: '2',
-      title: 'Friday Night Activity',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
-      needs: [
-        {
-          id: '1',
-          text: 'sit amet consectetur adipisicing elit.',
-          upvotes: 57,
-        },
-        {
-          id: '2',
-          text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
-          upvotes: 19,
-        },
-        {
-          id: '3',
-          text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-          upvotes: 2,
-        },
-      ],
-    },
+    id: '2',
+    title: 'Friday Night Activity',
+    description:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa, laborum. Molestias sint dicta, amet nemo vero enim pariatur ipsa maxime illo possimus repellendus fugiat modi odio consequatur maiores architecto natus dolorem eum quisquam dolor dolores, ut voluptatibus labore! Itaque officia quidem porro mollitia, deleniti voluptates! Minima cum aliquid minus provident?',
+    needs: [
+      {
+        id: '1',
+        text: 'sit amet consectetur adipisicing elit.',
+        upvotes: 57,
+      },
+      {
+        id: '2',
+        text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores, veniam.',
+        upvotes: 19,
+      },
+      {
+        id: '3',
+        text: ' Maiores, veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
+        upvotes: 2,
+      },
+    ],
   },
 ]
 
 function App(): JSX.Element {
   const [topics, setTopics] = useState(TOPICS)
 
-  function handleTopicDisplayToggle(id: string) {
-    setTopics(prev =>
-      prev.map(topic =>
-        topic.content.id === id
-          ? {
-              ...topic,
-              showDetails: !topic.showDetails,
-            }
-          : topic
-      )
-    )
-  }
-
   function handleTopicSubmit(topic: Topic) {
-    setTopics(prev => [
-      {
-        showDetails: false,
-        content: topic,
-      },
-      ...prev,
-    ])
+    setTopics(prev => [topic, ...prev])
   }
 
   function handleNeedSubmit(topicId: string, newNeed: Need) {
     // finds the correct topic and adds a need on top of its needList
     setTopics(prev => {
-      const queriedTopic = prev.find(topic => topic.content.id === topicId)
+      const queriedTopic = prev.find(topic => topic.id === topicId)
       if (!queriedTopic) return prev
 
       const updatedTopic = {
         ...queriedTopic,
         content: {
-          ...queriedTopic.content,
-          needs: [newNeed, ...queriedTopic.content.needs],
+          ...queriedTopic,
+          needs: [newNeed, ...queriedTopic.needs],
         },
       }
 
-      return prev.map(topic =>
-        topic.content.id === topicId ? updatedTopic : topic
-      )
+      return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
     })
   }
 
@@ -136,12 +106,10 @@ function App(): JSX.Element {
       // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
 
       setTopics(prev => {
-        const queriedTopic = prev.find(topic => topic.content.id === topicId)
+        const queriedTopic = prev.find(topic => topic.id === topicId)
         if (!queriedTopic) return prev
 
-        const queriedNeed = queriedTopic.content.needs.find(
-          need => need.id === needId
-        )
+        const queriedNeed = queriedTopic.needs.find(need => need.id === needId)
         if (!queriedNeed) return prev
 
         const updatedNeed = {
@@ -149,21 +117,19 @@ function App(): JSX.Element {
           upvotes: newUpvotes,
         }
 
-        const resortedNeeds = queriedTopic.content.needs
+        const resortedNeeds = queriedTopic.needs
           .map(need => (need.id === needId ? updatedNeed : need))
           .sort((a, b) => b.upvotes - a.upvotes)
 
         const updatedTopic = {
           ...queriedTopic,
           content: {
-            ...queriedTopic.content,
+            ...queriedTopic,
             needs: resortedNeeds,
           },
         }
 
-        return prev.map(topic =>
-          topic.content.id === topicId ? updatedTopic : topic
-        )
+        return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
       })
     }
 
@@ -175,7 +141,6 @@ function App(): JSX.Element {
           element={
             <Dashboard
               content={topics}
-              onDisplayToggle={handleTopicDisplayToggle}
               onTopicSubmit={handleTopicSubmit}
               onNeedSubmit={handleNeedSubmit}
               onNeedUpvote={handleNeedUpvote}
