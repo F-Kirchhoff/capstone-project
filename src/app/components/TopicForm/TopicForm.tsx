@@ -41,7 +41,6 @@ export default function TopicForm({
 
   return (
     <TopicFormContainer onSubmit={handleSubmit}>
-      <FormTitle>Add Topic</FormTitle>
       <InputWrapper>
         <FormLabel htmlFor="title">Title*</FormLabel>
         <FormInput
@@ -82,17 +81,15 @@ export default function TopicForm({
   )
 }
 
-const FormTitle = styled.h2`
-  color: var(--c-gray-200);
-  font-size: 2.8rem;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-`
-
 const TopicFormContainer = styled.form`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   padding: 20px;
+
   background-color: var(--c-gray-100);
   color: var(--c-dark);
   border-top-right-radius: 30px;
