@@ -14,6 +14,8 @@ export default function ChevronDown({ width }: IconProps): JSX.Element {
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
+        height="100%"
+        width="100%"
       >
         <path
           strokeLinecap="round"

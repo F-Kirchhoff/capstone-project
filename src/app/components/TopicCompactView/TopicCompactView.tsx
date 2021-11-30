@@ -15,7 +15,7 @@ export default function TopicCompactView({
   return (
     <TopicCompact onClick={onExpand}>
       <h2>{content.title}</h2>
-      <ChevronDown />
+      <ChevronDown width={'24'} />
     </TopicCompact>
   )
 }
@@ -27,4 +27,7 @@ const TopicCompact = styled.div`
   display: grid;
   grid-template-columns: 1fr auto;
   cursor: pointer;
+  & > h2 {
+    overflow: hidden;
+  }
 `

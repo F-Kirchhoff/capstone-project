@@ -1,6 +1,7 @@
 export type Need = {
   id: string
   text: string
+  upvotes: number
 }
 
 export type Topic = {

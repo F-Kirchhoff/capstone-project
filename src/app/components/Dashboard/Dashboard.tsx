@@ -18,6 +18,9 @@ type DashboardProps = {
   onDisplayToggle: (id: string) => void
   onTopicSubmit: (topic: Topic) => void
   onNeedSubmit: (id: string, need: Need) => void
+  onNeedUpvote: (
+    topicId: string
+  ) => (needId: string) => (updatedVotes: number) => void
 }
 
 type DisplayMsgType = '' | 'SHOW_TOPIC_FORM' | 'SHOW_NEED_FORM'
@@ -27,6 +30,7 @@ export default function Dashboard({
   onDisplayToggle,
   onTopicSubmit,
   onNeedSubmit,
+  onNeedUpvote,
 }: DashboardProps): JSX.Element {
   const [displayState, setDisplayState] = useState<DisplayMsgType>('')
   const [topicFocusId, setTopicFocusId] = useState<string | null>(null)
@@ -61,6 +65,7 @@ export default function Dashboard({
                     setTopicFocusId(topic.content.id)
                     setDisplayState('SHOW_NEED_FORM')
                   }}
+                  onUpvoteChange={onNeedUpvote(topic.content.id)}
                 />
               ) : (
                 <TopicCompactView
