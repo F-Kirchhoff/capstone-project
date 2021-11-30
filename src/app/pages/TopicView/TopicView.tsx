@@ -24,6 +24,11 @@ function TopicView({
   const { title, description, needs } = content
   const [view, setView] = useState<ViewMsgType>('')
 
+  function handleNeedSubmit(newNeed: NeedType) {
+    setView('')
+    onNeedSubmit(newNeed)
+  }
+
   return (
     <>
       <TopicContainer>
@@ -46,12 +51,8 @@ function TopicView({
         </Button>
       </TopicContainer>
       {view === 'SHOW_NEED_FORM' && (
-        <OverlayWrapper
-          onReturn={() => {
-            setView('')
-          }}
-        >
-          <NeedForm onSubmit={onNeedSubmit} onCancel={() => setView('')} />
+        <OverlayWrapper onReturn={() => setView('')}>
+          <NeedForm onSubmit={handleNeedSubmit} onCancel={() => setView('')} />
         </OverlayWrapper>
       )}
     </>

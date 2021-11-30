@@ -92,7 +92,7 @@ function App(): JSX.Element {
 
       const updatedTopic = {
         ...queriedTopic,
-        needs: [newNeed, ...queriedTopic.needs],
+        needs: [...queriedTopic.needs, newNeed],
       }
 
       return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
