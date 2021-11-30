@@ -4,6 +4,7 @@ import TopicView from './pages/TopicView/TopicView'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
+import AddTopic from './pages/AddTopic/AddTopic'
 
 const TOPICS = [
   {
@@ -146,6 +147,10 @@ function App(): JSX.Element {
               onNeedUpvote={handleNeedUpvote}
             />
           }
+        ></Route>
+        <Route
+          path="/addTopic"
+          element={<AddTopic onSubmit={handleTopicSubmit} />}
         ></Route>
       </Routes>
     </BrowserRouter>

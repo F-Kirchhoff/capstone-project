@@ -90,14 +90,9 @@ const FormTitle = styled.h2`
 `
 
 const TopicFormContainer = styled.form`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
   display: flex;
   flex-direction: column;
   padding: 20px;
-
   background-color: var(--c-gray-100);
   color: var(--c-dark);
   border-top-right-radius: 30px;
