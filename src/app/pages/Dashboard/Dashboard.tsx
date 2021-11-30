@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import Button from '../Button/Button'
-import Logo from '../Logo/Logo'
-import TopicCompactView from '../TopicCompactView/TopicCompactView'
-import TopicDetailView from '../TopicDetailView/TopicDetailView'
-import TopicForm from '../TopicForm/TopicForm'
+import Button from '../../components/Button/Button'
+import Logo from '../../components/Logo/Logo'
+import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
+import TopicDetailView from '../../components/TopicDetailView/TopicDetailView'
+import TopicForm from '../../components/TopicForm/TopicForm'
 
 import type { Topic, Need } from '../../types/types'
-import NeedForm from '../NeedForm/NeedForm'
+import NeedForm from '../../components/NeedForm/NeedForm'
 
 type DashboardProps = {
   content: {

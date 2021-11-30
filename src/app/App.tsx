@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Dashboard from './components/Dashboard/Dashboard'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
 
