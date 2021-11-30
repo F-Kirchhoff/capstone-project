@@ -22,6 +22,7 @@ export default function NeedForm({
     const newNeed = {
       id: nanoid(),
       text,
+      upvotes: 1,
     }
     onSubmit(newNeed)
   }

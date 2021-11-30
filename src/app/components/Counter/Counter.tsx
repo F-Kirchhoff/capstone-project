@@ -33,7 +33,6 @@ const CounterContainer = styled.div`
   justify-content: center;
   align-content: center;
   text-align: center;
-  border: solid 1px magenta;
 `
 
 const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
@@ -45,4 +44,13 @@ const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   height: 10px;
   transform: translateY(-50%);
   cursor: pointer;
+  transition: ease 0.1s;
+  &:hover {
+    transform: ${({ displayType }) =>
+      displayType === 'up' ? 'translateY(-60%)' : 'translateY(-40%)'};
+  }
+  &:active {
+    transform: ${({ displayType }) =>
+      displayType === 'up' ? 'translateY(-80%)' : 'translateY(-20%)'};
+  }
 `

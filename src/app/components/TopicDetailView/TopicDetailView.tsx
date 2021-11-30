@@ -9,14 +9,17 @@ type TopicDetailViewProps = {
   content: Topic
   onCollapse: () => void
   onAddNeed: () => void
+  onUpvoteChange: (needId: string) => (updatedVotes: number) => void
 }
 
 function TopicDetailView({
   content,
   onCollapse,
   onAddNeed,
+  onUpvoteChange,
 }: TopicDetailViewProps): JSX.Element {
   const { title, description, needs } = content
+
   return (
     <TopicContainer>
       <TitleContainer onClick={onCollapse}>
@@ -25,7 +28,11 @@ function TopicDetailView({
       <Description>{description}</Description>
       <NeedsList>
         {needs.map(need => (
-          <Need key={need.id} content={need} />
+          <Need
+            key={need.id}
+            content={need}
+            onUpvoteChange={onUpvoteChange(need.id)}
+          />
         ))}
       </NeedsList>
       <Button highlight onClick={onAddNeed}>
