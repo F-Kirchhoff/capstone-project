@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
+import TopicDetailView from './components/TopicDetailView/TopicDetailView'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
@@ -147,9 +148,28 @@ function App(): JSX.Element {
             />
           }
         ></Route>
+        <Route
+          path="/:topicId"
+          element={<TopicHandler topics={topics} />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   )
 }
 
 export default App
+
+function TopicHandler({ topics }: { topics: Topic[] }): JSX.Element {
+  const params = useParams()
+  const topic = topics.find(topic => topic.id === params.topicId)
+  return topic ? (
+    <TopicDetailView
+      onAddNeed={() => console.log('add need')}
+      onUpvoteChange={(id: string) => (vote: number) =>
+        console.log('upvote', vote, id)}
+      content={topic}
+    />
+  ) : (
+    <h1>404 Page not found</h1>
+  )
+}
