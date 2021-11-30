@@ -7,14 +7,12 @@ import Button from '../Button/Button'
 
 type TopicDetailViewProps = {
   content: Topic
-  onCollapse: () => void
   onAddNeed: () => void
   onUpvoteChange: (needId: string) => (updatedVotes: number) => void
 }
 
 function TopicDetailView({
   content,
-  onCollapse,
   onAddNeed,
   onUpvoteChange,
 }: TopicDetailViewProps): JSX.Element {
@@ -22,7 +20,7 @@ function TopicDetailView({
 
   return (
     <TopicContainer>
-      <TitleContainer onClick={onCollapse}>
+      <TitleContainer>
         <h2> {title}</h2> <ChevronUp width={'24'} />
       </TitleContainer>
       <Description>{description}</Description>
