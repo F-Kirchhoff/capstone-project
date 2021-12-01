@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
+import TopicView from './pages/TopicView/TopicView'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
+import AddTopic from './pages/AddTopic/AddTopic'
 
 const TOPICS = [
   {
@@ -83,7 +85,7 @@ function App(): JSX.Element {
     setTopics(prev => [topic, ...prev])
   }
 
-  function handleNeedSubmit(topicId: string, newNeed: Need) {
+  const handleNeedSubmit = (topicId: string) => (newNeed: Need) => {
     // finds the correct topic and adds a need on top of its needList
     setTopics(prev => {
       const queriedTopic = prev.find(topic => topic.id === topicId)
@@ -91,10 +93,7 @@ function App(): JSX.Element {
 
       const updatedTopic = {
         ...queriedTopic,
-        content: {
-          ...queriedTopic,
-          needs: [newNeed, ...queriedTopic.needs],
-        },
+        needs: [...queriedTopic.needs, newNeed],
       }
 
       return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
@@ -123,10 +122,7 @@ function App(): JSX.Element {
 
         const updatedTopic = {
           ...queriedTopic,
-          content: {
-            ...queriedTopic,
-            needs: resortedNeeds,
-          },
+          needs: resortedNeeds,
         }
 
         return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
@@ -136,16 +132,20 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Dashboard content={topics} />}></Route>
         <Route
-          path="/"
+          path="/:topicId"
           element={
-            <Dashboard
-              content={topics}
-              onTopicSubmit={handleTopicSubmit}
+            <TopicHandler
+              topics={topics}
               onNeedSubmit={handleNeedSubmit}
               onNeedUpvote={handleNeedUpvote}
             />
           }
+        ></Route>
+        <Route
+          path="/addTopic"
+          element={<AddTopic onSubmit={handleTopicSubmit} />}
         ></Route>
       </Routes>
     </BrowserRouter>
@@ -153,3 +153,29 @@ function App(): JSX.Element {
 }
 
 export default App
+
+type TopicHandlerProps = {
+  topics: Topic[]
+  onNeedUpvote: (
+    topicId: string
+  ) => (needId: string) => (updatedVotes: number) => void
+  onNeedSubmit: (topicId: string) => (need: Need) => void
+}
+
+function TopicHandler({
+  topics,
+  onNeedUpvote,
+  onNeedSubmit,
+}: TopicHandlerProps): JSX.Element {
+  const params = useParams()
+  const topic = topics.find(topic => topic.id === params.topicId)
+  return topic ? (
+    <TopicView
+      onUpvoteChange={onNeedUpvote(topic.id)}
+      onNeedSubmit={onNeedSubmit(topic.id)}
+      content={topic}
+    />
+  ) : (
+    <h1>404 Page not found</h1>
+  )
+}
