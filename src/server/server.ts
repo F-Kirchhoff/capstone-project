@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
+import { connectToDB } from '../utils/db'
 import api from './routes/api'
 
 const app = express()
@@ -19,6 +20,10 @@ app.get('*', (_request, response) => {
   response.sendFile('index.html', { root: 'dist/app' })
 })
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}!`)
+const url = process.env.MONGODB_API_KEY || ''
+console.log(url)
+connectToDB(url).then(() => {
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}!`)
+  })
 })
