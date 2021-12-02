@@ -1,13 +1,7 @@
 import type { Collection } from 'mongodb'
 import { MongoClient } from 'mongodb'
 
-type collectionType =
-  | 'users'
-  | 'topics'
-  | 'board'
-  | 'needs'
-  | 'proposals'
-  | 'comments'
+type collectionType = 'users' | 'topics' | 'boards'
 
 let client: MongoClient
 
@@ -16,6 +10,10 @@ export async function connectToDB(url: string): Promise<void> {
   await client.connect()
 }
 
-export function getCollection(collection: collectionType): Collection {
+const getCollection = (collection: collectionType) => (): Collection => {
   return client.db('dartagnan').collection(collection)
 }
+
+export const getUsers = getCollection('users')
+export const getBoards = getCollection('boards')
+export const getTopics = getCollection('topics')
