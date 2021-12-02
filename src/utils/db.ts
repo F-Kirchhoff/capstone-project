@@ -1,3 +1,4 @@
+import type { Collection } from 'mongodb'
 import { MongoClient } from 'mongodb'
 
 type collectionType =
@@ -15,6 +16,6 @@ export async function connectToDB(url: string): Promise<void> {
   await client.connect()
 }
 
-export function getCollection(collection: collectionType) {
+export function getCollection(collection: collectionType): Collection {
   return client.db('dartagnan').collection(collection)
 }
