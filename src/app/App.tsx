@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
-import TopicView from './pages/TopicView/TopicView'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
 import AddTopic from './pages/AddTopic/AddTopic'
+import TopicHandler from './components/TopicHandler/TopicHandler'
 
 const TOPICS = [
   {
@@ -153,29 +153,3 @@ function App(): JSX.Element {
 }
 
 export default App
-
-type TopicHandlerProps = {
-  topics: Topic[]
-  onNeedUpvote: (
-    topicId: string
-  ) => (needId: string) => (updatedVotes: number) => void
-  onNeedSubmit: (topicId: string) => (need: Need) => void
-}
-
-function TopicHandler({
-  topics,
-  onNeedUpvote,
-  onNeedSubmit,
-}: TopicHandlerProps): JSX.Element {
-  const params = useParams()
-  const topic = topics.find(topic => topic.id === params.topicId)
-  return topic ? (
-    <TopicView
-      onUpvoteChange={onNeedUpvote(topic.id)}
-      onNeedSubmit={onNeedSubmit(topic.id)}
-      content={topic}
-    />
-  ) : (
-    <h1>404 Page not found</h1>
-  )
-}
