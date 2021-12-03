@@ -1,0 +1,9 @@
+### GET many topcis
+GET http://localhost:3001/api/topics/many
+Content-Type: application/json
+
+[
+  "61a8cae7f548b2f101257e06",
+  "61a8cae7f548b2f101257e07",
+  "61a8cae7f548b2f101257e08"
+]

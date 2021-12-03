@@ -4,7 +4,7 @@
   "scripts": {
     "client:dev": "vite",
     "client:build": "tsc && vite build",
-    "server:dev": "ts-node-dev --respawn --transpile-only --project tsconfig.server.json src/server.ts",
+    "server:dev": "ts-node-dev --respawn --transpile-only --project tsconfig.server.json src/server/server.ts",
     "server:build": "tsc --project tsconfig.server.json",
     "build": "npm run server:build && npm run client:build && npm run storybook:build",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\" \"npm run storybook\"",
