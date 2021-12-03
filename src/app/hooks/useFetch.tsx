@@ -4,7 +4,7 @@ function useFetch<Type>(
   method: string,
   url: string,
   body = undefined
-): Type | null {
+): [Type | null, () => void] {
   const [data, setData] = useState(null)
 
   async function fetchData() {
@@ -22,11 +22,7 @@ function useFetch<Type>(
     }
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  return data
+  return [data, fetchData]
 }
 
 export default useFetch

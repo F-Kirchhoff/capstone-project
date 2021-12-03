@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 import TopicView from './pages/TopicView/TopicView'
 import Dashboard from './pages/Dashboard/Dashboard'
@@ -87,7 +87,11 @@ type Board = {
 }
 
 function App(): JSX.Element {
-  const board = useFetch<Board>('GET', 'api/boards/exampleboard')
+  const [board, fetchBoard] = useFetch<Board>('GET', 'api/boards/exampleboard')
+
+  useEffect(() => {
+    fetchBoard()
+  }, [])
 
   console.log(board)
 
