@@ -1,13 +1,11 @@
 import { useState } from 'react'
 
 function useFetch<Type>(
-  method: string,
-  url: string,
-  body?: any
-): [Type | null, () => void] {
+  url: string
+): [Type | null, (method: string, body?: any) => void] {
   const [data, setData] = useState(null)
 
-  async function fetchData() {
+  async function fetchData(method: string, body?: any) {
     switch (method) {
       case 'GET': {
         const res = await fetch(url)

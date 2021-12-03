@@ -87,13 +87,18 @@ type Board = {
 }
 
 function App(): JSX.Element {
-  const [board, fetchBoard] = useFetch<Board>('GET', 'api/boards/exampleboard')
+  const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
+  const [DBtopics, fetchTopics] = useFetch<Board>('api/topics/')
 
   useEffect(() => {
-    fetchBoard()
+    fetchBoard('GET')
   }, [])
 
-  console.log(board)
+  // useEffect(() => {
+  //   board && fetchTopics('POST', board.topics)
+  // }, [board])
+
+  console.log(DBtopics)
 
   const [topics, setTopics] = useState(TOPICS)
 
