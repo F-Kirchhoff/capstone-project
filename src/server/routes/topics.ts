@@ -8,7 +8,6 @@ const topics = express.Router()
 topics
   .post('/', async (req: Request, res: Response) => {
     const topicIds = req.body
-    console.log(topicIds)
     const topics = getTopics()
     const topic = await topics
       .find({ _id: { $in: topicIds.map((id: string) => ObjectId(id)) } })
