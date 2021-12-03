@@ -5,7 +5,7 @@ function useFetch<Type>(
 ): [Type | null, (method: string, body?: any) => void] {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, body?: any) {
+  async function fetchData(method: string, body: any) {
     switch (method) {
       case 'GET': {
         const res = await fetch(url)
@@ -24,6 +24,7 @@ function useFetch<Type>(
           headers: {
             'Content-Type': 'application/json',
           },
+          body: body ? JSON.stringify(body) : '[]',
         })
         if (res.status === 200) {
           const fetchedData = await res.json()

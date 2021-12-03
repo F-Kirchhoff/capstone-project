@@ -94,9 +94,10 @@ function App(): JSX.Element {
     fetchBoard('GET')
   }, [])
 
-  // useEffect(() => {
-  //   board && fetchTopics('POST', board.topics)
-  // }, [board])
+  useEffect(() => {
+    console.log({ board })
+    board !== null && fetchTopics('POST', board.topics)
+  }, [board])
 
   console.log(DBtopics)
 
