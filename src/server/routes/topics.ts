@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb'
 const topics = express.Router()
 
 topics
-  .get('/many', async (req: Request, res: Response) => {
+  .post('/', async (req: Request, res: Response) => {
     const topicIds = req.body
     const topics = getTopics()
     const topic = await topics
