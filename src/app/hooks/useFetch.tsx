@@ -9,7 +9,7 @@ function useFetch<Type>(
     switch (method) {
       case 'GET': {
         const res = await fetch(url)
-        if (res.status === 200) {
+        if (res.ok) {
           const fetchedData = await res.json()
           setData(fetchedData)
         } else {
@@ -26,7 +26,7 @@ function useFetch<Type>(
           },
           body: body ? JSON.stringify(body) : '[]',
         })
-        if (res.status === 200) {
+        if (res.ok) {
           const fetchedData = await res.json()
           setData(fetchedData)
         } else {
