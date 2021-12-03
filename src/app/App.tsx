@@ -4,7 +4,9 @@ import TopicView from './pages/TopicView/TopicView'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
+import type { ObjectId } from 'mongodb'
 import AddTopic from './pages/AddTopic/AddTopic'
+import useFetch from './hooks/useFetch'
 
 const TOPICS = [
   {
@@ -78,7 +80,17 @@ const TOPICS = [
   },
 ]
 
+type Board = {
+  _id: ObjectId
+  name: string
+  topics: Topic[]
+}
+
 function App(): JSX.Element {
+  const board = useFetch<Board>('GET', 'api/boards/exampleboard')
+
+  console.log(board)
+
   const [topics, setTopics] = useState(TOPICS)
 
   function handleTopicSubmit(topic: Topic) {
