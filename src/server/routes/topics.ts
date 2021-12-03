@@ -10,7 +10,9 @@ topics
     const topicIds = req.body
     const topics = getTopics()
     const topic = await topics
-      .find({ _id: { $in: topicIds.map((id: string) => ObjectId(id)) } })
+      .find({
+        _id: { $in: topicIds.map((id: string): ObjectId => new ObjectId(id)) },
+      })
       .toArray()
     if (topic.length === 0) {
       res.status(404).send(`Error: Topics not found.`)
@@ -21,7 +23,7 @@ topics
   .get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params
     const topics = getTopics()
-    const topic = await topics.find({ _id: ObjectId(id) }).toArray()
+    const topic = await topics.find({ _id: new ObjectId(id) }).toArray()
     if (topic.length === 0) {
       res.status(404).send(`Error: Topic not found.`)
       return
