@@ -7,8 +7,8 @@ const boards = express.Router()
 boards.get('/:name', async (req: Request, res: Response) => {
   const { name } = req.params
   const boards = await getBoards()
-  const board = await boards.find({ name: name }).toArray()
-  if (board.length === 0) {
+  const board = await boards.findOne({ name: name })
+  if (!board) {
     res.status(404).send(`Error: no board called ${name} found.`)
     return
   }
