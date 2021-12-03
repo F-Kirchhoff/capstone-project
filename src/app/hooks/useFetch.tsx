@@ -24,7 +24,6 @@ function useFetch<Type>(
           headers: {
             'Content-Type': 'application/json',
           },
-          body,
         })
         if (res.status === 200) {
           const fetchedData = await res.json()
