@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 import TopicView from './pages/TopicView/TopicView'
@@ -7,6 +8,7 @@ import type { Need, Topic } from './types/types'
 import type { ObjectId } from 'mongodb'
 import AddTopic from './pages/AddTopic/AddTopic'
 import useFetch from './hooks/useFetch'
+import TopicHandler from './components/TopicHandler/TopicHandler'
 
 type Board = {
   _id: ObjectId
@@ -104,29 +106,3 @@ function App(): JSX.Element {
 }
 
 export default App
-
-type TopicHandlerProps = {
-  topics: Topic[]
-  onNeedUpvote: (
-    topicId: string
-  ) => (needId: string) => (updatedVotes: number) => void
-  onNeedSubmit: (topicId: string) => (need: Need) => void
-}
-
-function TopicHandler({
-  topics,
-  onNeedUpvote,
-  onNeedSubmit,
-}: TopicHandlerProps): JSX.Element {
-  const params = useParams()
-  const topic = topics.find(topic => topic.id === params.topicId)
-  return topic ? (
-    <TopicView
-      onUpvoteChange={onNeedUpvote(topic.id)}
-      onNeedSubmit={onNeedSubmit(topic.id)}
-      content={topic}
-    />
-  ) : (
-    <h1>404 Page not found</h1>
-  )
-}
