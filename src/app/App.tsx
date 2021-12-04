@@ -34,7 +34,11 @@ function App(): JSX.Element {
 
   const handleNeedSubmit = (topicId: string) => async (newNeed: Need) => {
     // finds the correct topic and adds a need
-    await fetchBoard('POST', `/${topicId}/need`, JSON.stringify({ newNeed }))
+    await fetchBoard(
+      'POST',
+      `/topics/${topicId}/need`,
+      JSON.stringify({ newNeed })
+    )
     fetchBoard('GET', '/')
   }
 

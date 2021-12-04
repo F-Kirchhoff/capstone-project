@@ -15,18 +15,35 @@ boards.get('/:name', async (req: Request, res: Response) => {
   }
   res.send(board)
 })
+boards.post(
+  '/:name/topics/:topicId/addNeed',
+  async (req: Request, res: Response) => {
+    const { name, topicId } = req.params
+    const { newNeed } = req.body
 
-boards.post('/:name/:topicId/need', async (req: Request, res: Response) => {
-  const { name, topicId } = req.params
-  const { newNeed } = req.body
+    const boards = await getBoards()
+    const msg = await boards.updateOne(
+      { name, 'topics.id': topicId },
+      { $push: { 'topics.$.needs': newNeed } }
+    )
+    res.send(msg)
+  }
+)
 
-  const boards = await getBoards()
-  const msg = await boards.updateOne(
-    { name, 'topics.id': topicId },
-    { $push: { 'topics.$.needs': newNeed } }
-  )
-  res.send(msg)
-})
+boards.patch(
+  '/:name/topics/:topicId/needs/:needId',
+  async (req: Request, res: Response) => {
+    const { name, topicId, needId } = req.params
+    const { updatedNeed } = req.body
+
+    const boards = await getBoards()
+    const msg = await boards.updateOne(
+      { name, 'topics.id': topicId, 'needs.id': needId },
+      { $set: { 'topics.$.needs.$': updatedNeed } }
+    )
+    res.send(msg)
+  }
+)
 
 boards.post('/:name', async (req: Request, res: Response) => {
   const { name } = req.params
