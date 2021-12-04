@@ -32,19 +32,10 @@ function App(): JSX.Element {
     fetchBoard('GET', '/')
   }
 
-  const handleNeedSubmit = (topicId: string) => (newNeed: Need) => {
-    // finds the correct topic and adds a need on top of its needList
-    setTopics(prev => {
-      const queriedTopic = prev.find(topic => topic.id === topicId)
-      if (!queriedTopic) return prev
-
-      const updatedTopic = {
-        ...queriedTopic,
-        needs: [...queriedTopic.needs, newNeed],
-      }
-
-      return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
-    })
+  const handleNeedSubmit = (topicId: string) => async (newNeed: Need) => {
+    // finds the correct topic and adds a need
+    await fetchBoard('POST', `/${topicId}/need`, JSON.stringify({ newNeed }))
+    fetchBoard('GET', '/')
   }
 
   const handleNeedUpvote =
