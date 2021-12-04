@@ -51,25 +51,6 @@ function App(): JSX.Element {
         JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
       )
       fetchBoard('GET', '/')
-
-      // setTopics(prev => {
-      //   const queriedTopic = prev.find(topic => topic.id === topicId)
-      //   if (!queriedTopic) return prev
-      //   const queriedNeed = queriedTopic.needs.find(need => need.id === needId)
-      //   if (!queriedNeed) return prev
-      //   const updatedNeed = {
-      //     ...queriedNeed,
-      //     upvotes: newUpvotes,
-      //   }
-      //   const resortedNeeds = queriedTopic.needs
-      //     .map(need => (need.id === needId ? updatedNeed : need))
-      //     .sort((a, b) => b.upvotes - a.upvotes)
-      //   const updatedTopic = {
-      //     ...queriedTopic,
-      //     needs: resortedNeeds,
-      //   }
-      //   return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
-      // })
     }
 
   return (
