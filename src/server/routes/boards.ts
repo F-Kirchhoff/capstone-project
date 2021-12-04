@@ -34,14 +34,21 @@ boards.patch(
   '/:name/topics/:topicId/needs/:needId',
   async (req: Request, res: Response) => {
     const { name, topicId, needId } = req.params
-    const { updatedNeed } = req.body
+    const { patchMsg, payload } = req.body
 
     const boards = await getBoards()
-    const msg = await boards.updateOne(
-      { name, 'topics.id': topicId, 'needs.id': needId },
-      { $set: { 'topics.$.needs.$': updatedNeed } }
-    )
-    res.send(msg)
+
+    switch (patchMsg) {
+      case 'UPVOTES': {
+        const msg = await boards.updateOne(
+          { name },
+          { $set: { 'topics.$[topic].needs.$[need].upvotes': payload } },
+          { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+        )
+        res.send(msg)
+        break
+      }
+    }
   }
 )
 

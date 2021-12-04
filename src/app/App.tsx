@@ -36,39 +36,40 @@ function App(): JSX.Element {
     // finds the correct topic and adds a need
     await fetchBoard(
       'POST',
-      `/topics/${topicId}/need`,
+      `/topics/${topicId}/addNeed`,
       JSON.stringify({ newNeed })
     )
     fetchBoard('GET', '/')
   }
 
   const handleNeedUpvote =
-    (topicId: string) => (needId: string) => (newUpvotes: number) => {
+    (topicId: string) => (needId: string) => async (upvotes: number) => {
       // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
+      await fetchBoard(
+        'PATCH',
+        `/topics/${topicId}/needs/${needId}`,
+        JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
+      )
+      fetchBoard('GET', '/')
 
-      setTopics(prev => {
-        const queriedTopic = prev.find(topic => topic.id === topicId)
-        if (!queriedTopic) return prev
-
-        const queriedNeed = queriedTopic.needs.find(need => need.id === needId)
-        if (!queriedNeed) return prev
-
-        const updatedNeed = {
-          ...queriedNeed,
-          upvotes: newUpvotes,
-        }
-
-        const resortedNeeds = queriedTopic.needs
-          .map(need => (need.id === needId ? updatedNeed : need))
-          .sort((a, b) => b.upvotes - a.upvotes)
-
-        const updatedTopic = {
-          ...queriedTopic,
-          needs: resortedNeeds,
-        }
-
-        return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
-      })
+      // setTopics(prev => {
+      //   const queriedTopic = prev.find(topic => topic.id === topicId)
+      //   if (!queriedTopic) return prev
+      //   const queriedNeed = queriedTopic.needs.find(need => need.id === needId)
+      //   if (!queriedNeed) return prev
+      //   const updatedNeed = {
+      //     ...queriedNeed,
+      //     upvotes: newUpvotes,
+      //   }
+      //   const resortedNeeds = queriedTopic.needs
+      //     .map(need => (need.id === needId ? updatedNeed : need))
+      //     .sort((a, b) => b.upvotes - a.upvotes)
+      //   const updatedTopic = {
+      //     ...queriedTopic,
+      //     needs: resortedNeeds,
+      //   }
+      //   return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
+      // })
     }
 
   return (
