@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 import TopicView from './pages/TopicView/TopicView'
@@ -18,24 +17,20 @@ type Board = {
 
 function App(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
-  const [DBtopics, fetchTopics] = useFetch<Topic[]>('api/topics/')
 
   useEffect(() => {
-    fetchBoard('GET')
+    fetchBoard('GET', '/')
   }, [])
 
   useEffect(() => {
-    board && fetchTopics('POST', board.topics)
+    board && board.topics && setTopics(board.topics)
   }, [board])
-
-  useEffect(() => {
-    DBtopics && setTopics(DBtopics)
-  }, [DBtopics])
 
   const [topics, setTopics] = useState<Topic[] | []>([])
 
-  function handleTopicSubmit(topic: Topic) {
-    setTopics(prev => [topic, ...prev])
+  async function handleTopicSubmit(topic: Topic) {
+    await fetchBoard('POST', '/', JSON.stringify({ topic }))
+    fetchBoard('GET', '/')
   }
 
   const handleNeedSubmit = (topicId: string) => (newNeed: Need) => {
