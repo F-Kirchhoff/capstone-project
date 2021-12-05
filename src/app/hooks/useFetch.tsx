@@ -2,10 +2,10 @@ import { useState } from 'react'
 
 function useFetch<Type>(
   url: string
-): [Type | null, (method: string, body?: any) => void] {
+): [Type | null, (method: string, endpoint: string, body?: string) => void] {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, body?: any) {
+  async function fetchData(method: string, endpoint: string, body?: string) {
     switch (method) {
       case 'GET': {
         const res = await fetch(url)
@@ -15,27 +15,50 @@ function useFetch<Type>(
         } else {
           console.error(`${res.status}: Something went wrong :/`)
         }
-        return
+        break
       }
 
       case 'POST': {
-        const res = await fetch(url, {
+        const res = await fetch(`${url}${endpoint}`, {
           method,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: body ? JSON.stringify(body) : '[]',
+          body: body || '[]',
         })
-        if (res.ok) {
-          const fetchedData = await res.json()
-          setData(fetchedData)
-        } else {
+        if (!res.ok) {
           console.error(`${res.status}: Something went wrong :/`)
         }
-        return
+        break
+      }
+      case 'UPDATE': {
+        const res = await fetch(`${url}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body || '[]',
+        })
+        if (!res.ok) {
+          console.error(`${res.status}: Something went wrong :/`)
+        }
+        break
+      }
+      case 'DELETE': {
+        const res = await fetch(`${url}${endpoint}`, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body || '[]',
+        })
+        if (!res.ok) {
+          console.error(`${res.status}: Something went wrong :/`)
+        }
+        break
       }
       default:
-        console.error(`Error: ${method} is not a valid http type.`)
+        console.error(`Error: ${method} is not a valid http method.`)
     }
   }
 

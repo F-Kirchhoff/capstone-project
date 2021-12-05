@@ -16,4 +16,3 @@ const getCollection = (collection: collectionType) => (): Collection => {
 
 export const getUsers = getCollection('users')
 export const getBoards = getCollection('boards')
-export const getTopics = getCollection('topics')

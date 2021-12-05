@@ -1,7 +1,5 @@
-
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
-import TopicView from './pages/TopicView/TopicView'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
@@ -18,39 +16,26 @@ type Board = {
 
 function App(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
-  const [DBtopics, fetchTopics] = useFetch<Topic[]>('api/topics/')
 
   useEffect(() => {
-    fetchBoard('GET')
+    fetchBoard('GET', '/')
   }, [])
 
   useEffect(() => {
-    board && fetchTopics('POST', board.topics)
+    board && board.topics && setTopics(board.topics)
   }, [board])
-
-  useEffect(() => {
-    DBtopics && setTopics(DBtopics)
-  }, [DBtopics])
 
   const [topics, setTopics] = useState<Topic[] | []>([])
 
-  function handleTopicSubmit(topic: Topic) {
-    setTopics(prev => [topic, ...prev])
+  async function handleTopicSubmit(topic: Topic) {
+    await fetchBoard('POST', '/', JSON.stringify({ topic }))
+    fetchBoard('GET', '/')
   }
 
-  const handleNeedSubmit = (topicId: string) => (newNeed: Need) => {
-    // finds the correct topic and adds a need on top of its needList
-    setTopics(prev => {
-      const queriedTopic = prev.find(topic => topic.id === topicId)
-      if (!queriedTopic) return prev
-
-      const updatedTopic = {
-        ...queriedTopic,
-        needs: [...queriedTopic.needs, newNeed],
-      }
-
-      return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
-    })
+  const handleNeedSubmit = (topicId: string) => async (newNeed: Need) => {
+    // finds the correct topic and adds a need
+    await fetchBoard('POST', `/${topicId}/need`, JSON.stringify({ newNeed }))
+    fetchBoard('GET', '/')
   }
 
   const handleNeedUpvote =
