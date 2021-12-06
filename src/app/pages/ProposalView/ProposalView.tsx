@@ -53,9 +53,15 @@ const ProposalViewContainer = styled.div``
 
 const CategoryContainer = styled.ul`
   list-style: none;
+  display: flex;
 `
 
 const Category = styled.li<{ active: boolean }>`
+  flex-grow: 1;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+
   border-bottom: ${({ active }) =>
     active ? 'solid 5px var(--c-secondary)' : 'unset'};
 `
