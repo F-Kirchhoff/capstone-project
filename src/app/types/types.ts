@@ -10,3 +10,14 @@ export type Topic = {
   description: string
   needs: Need[]
 }
+
+export type Proposal = {
+  id: string
+  description: string
+  votes: {
+    pro: string[]
+    neutral: string[]
+    remarks: string[]
+    concerns: string[]
+  }
+}
