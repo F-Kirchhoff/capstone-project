@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 
@@ -30,7 +31,9 @@ export default function ProposalView({ content }: ProposalViewProps) {
 
   return (
     <ProposalViewContainer>
+      <ReturnButton to = '/'>
       <DoubleChevronLeft width={'24'} />
+      </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
       <CategoryContainer>
@@ -85,4 +88,9 @@ const VoteDisplay = styled.li`
 const Disclaimer = styled.p`
   color: var(--c-gray-400);
   text-align: center;
+`
+
+const ReturnButton = styled(Link)`
+  color: inherit;
+  text-decoration: none;
 `
