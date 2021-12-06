@@ -46,13 +46,15 @@ export default function ProposalView({ content }: ProposalViewProps) {
           </Category>
         ))}
       </CategoryContainer>
-      <VotesContainer>
-        { VotesWithTextAvailable ? votes.[voteCategory.toLowerCase()]
+      { VotesWithTextAvailable ? 
+        <VotesContainer>
+         {votes.[voteCategory.toLowerCase()]
           .filter((voteText: string) => voteText !== '')
           .map((voteText: string) => (
             <VoteDisplay>{voteText}</VoteDisplay>
-          )) : <Disclaimer>No votes with comments in this category.</Disclaimer> }
-      </VotesContainer>
+          )) }
+        </VotesContainer> : 
+        <Disclaimer> No votes with comments in this category.</Disclaimer> }
     </ProposalViewContainer>
   )
 }
@@ -77,13 +79,22 @@ const Category = styled.button<{ active: boolean }>`
   background-color: transparent;
   transition: 0.5s ease;
   border-bottom: ${({ active }) =>
-    active ? 'solid 5px var(--c-secondary)' : 'solid 5px transparent'};
+    active ? 'solid 3px var(--c-secondary)' : 'solid 3px transparent'};
 `
 
-const VotesContainer = styled.ul``
+const VotesContainer = styled.ul`
+  display: grid;
+  gap: 1px;
+  background-color: var(--c-gray-400);
+  border-radius: 3px;
+  overflow: hidden;
+`
 
 const VoteDisplay = styled.li`
   list-style: none;
+  padding: 10px 20px;
+  background-color: var(--c-gray-100);
+
 `
 const Disclaimer = styled.p`
   color: var(--c-gray-400);
