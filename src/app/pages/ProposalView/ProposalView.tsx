@@ -26,6 +26,8 @@ export default function ProposalView({ content }: ProposalViewProps) {
 
   const [voteCategory, setVoteCategory] = useState<VoteCategories>('PRO')
 
+  const VotesWithTextAvailable = votes[voteCategory.toLowerCase()].filter((voteText: string) => voteText !== '').length > 0 
+
   return (
     <ProposalViewContainer>
       <DoubleChevronLeft width={'24'} />
@@ -42,17 +44,22 @@ export default function ProposalView({ content }: ProposalViewProps) {
         ))}
       </CategoryContainer>
       <VotesContainer>
-        {votes[voteCategory.toLowerCase()]
+        { VotesWithTextAvailable ? votes.[voteCategory.toLowerCase()]
           .filter((voteText: string) => voteText !== '')
           .map((voteText: string) => (
             <VoteDisplay>{voteText}</VoteDisplay>
-          ))}
+          )) : <Disclaimer>No votes with comments in this category.</Disclaimer> }
       </VotesContainer>
     </ProposalViewContainer>
   )
 }
 
-const ProposalViewContainer = styled.div``
+const ProposalViewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+`
 
 const CategoryContainer = styled.div`
   display: flex;
@@ -74,4 +81,8 @@ const VotesContainer = styled.ul``
 
 const VoteDisplay = styled.li`
   list-style: none;
+`
+const Disclaimer = styled.p`
+  color: var(--c-gray-400);
+  text-align: center;
 `

@@ -12,7 +12,7 @@ const EXAMPLE = {
   id: '0',
   votes: {
     pro: ['', 'great!', '', '', '', '', '', '', ''],
-    neutral: ['', 'ok', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+    neutral: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
     remarks: ['', 'Would be better if we buy at Dannovsky.', ''],
     concerns: ['I think we shouldnt drink that much beer.'],
   },
