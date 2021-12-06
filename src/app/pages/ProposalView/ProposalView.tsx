@@ -19,7 +19,7 @@ type ProposalViewProps = {
 
 type VoteCategories = 'PRO' | 'NEUTRAL' | 'REMARKS' | 'CONCERNS'
 
-const CATEGORIES = ['PRO', 'NEUTRAL', 'REMARKS', 'CONCERNS']
+const CATEGORIES: VoteCategories[] = ['PRO', 'NEUTRAL', 'REMARKS', 'CONCERNS']
 
 export default function ProposalView({ content }: ProposalViewProps) {
   const { description, votes } = content
@@ -32,8 +32,11 @@ export default function ProposalView({ content }: ProposalViewProps) {
       <h1>Proposal</h1>
       <p>{description}</p>
       <CategoryContainer>
-        {CATEGORIES.map(category => (
-          <Category active={voteCategory === category}>
+        {CATEGORIES.map((category: VoteCategories) => (
+          <Category
+            active={voteCategory === category}
+            onClick={() => setVoteCategory(category)}
+          >
             {category.toLowerCase()} ({votes[category.toLowerCase()].length})
           </Category>
         ))}
@@ -51,19 +54,20 @@ export default function ProposalView({ content }: ProposalViewProps) {
 
 const ProposalViewContainer = styled.div``
 
-const CategoryContainer = styled.ul`
-  list-style: none;
+const CategoryContainer = styled.div`
   display: flex;
 `
 
-const Category = styled.li<{ active: boolean }>`
+const Category = styled.button<{ active: boolean }>`
   flex-grow: 1;
   text-align: center;
   padding: 10px 0;
   cursor: pointer;
-
+  border: none;
+  background-color: transparent;
+  transition: 0.5s ease;
   border-bottom: ${({ active }) =>
-    active ? 'solid 5px var(--c-secondary)' : 'unset'};
+    active ? 'solid 5px var(--c-secondary)' : 'solid 5px transparent'};
 `
 
 const VotesContainer = styled.ul``
