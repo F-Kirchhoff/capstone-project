@@ -41,7 +41,7 @@ const PropsoalContainer = styled.li`
   border-radius: 2px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
+  gap: 2px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 
