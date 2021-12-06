@@ -19,6 +19,8 @@ type ProposalViewProps = {
 
 type VoteCategories = 'PRO' | 'NEUTRAL' | 'REMARKS' | 'CONCERNS'
 
+const CATEGORIES = ['PRO', 'NEUTRAL', 'REMARKS', 'CONCERNS']
+
 export default function ProposalView({ content }: ProposalViewProps) {
   const { description, votes } = content
 
@@ -30,18 +32,11 @@ export default function ProposalView({ content }: ProposalViewProps) {
       <h1>Proposal</h1>
       <p>{description}</p>
       <CategoryContainer>
-        <Category active={voteCategory === 'PRO'}>
-          Pro ({votes.pro.length})
-        </Category>
-        <Category active={voteCategory === 'NEUTRAL'}>
-          Neutral ({votes.neutral.length})
-        </Category>
-        <Category active={voteCategory === 'REMARKS'}>
-          Remarks ({votes.remarks.length})
-        </Category>
-        <Category active={voteCategory === 'CONCERNS'}>
-          Concerns ({votes.concerns.length})
-        </Category>
+        {CATEGORIES.map(category => (
+          <Category active={voteCategory === category}>
+            {category.toLowerCase()} ({votes[category.toLowerCase()].length})
+          </Category>
+        ))}
       </CategoryContainer>
       <VotesContainer>
         {votes[voteCategory.toLowerCase()]
