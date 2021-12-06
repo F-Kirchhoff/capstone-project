@@ -30,10 +30,18 @@ export default function ProposalView({ content }: ProposalViewProps) {
       <h1>Proposal</h1>
       <p>{description}</p>
       <CategoryContainer>
-        <Category>Pro</Category>
-        <Category>Neutral</Category>
-        <Category>Remarks</Category>
-        <Category>Concerns</Category>
+        <Category active={voteCategory === 'PRO'}>
+          Pro ({votes.pro.length})
+        </Category>
+        <Category active={voteCategory === 'NEUTRAL'}>
+          Neutral ({votes.neutral.length})
+        </Category>
+        <Category active={voteCategory === 'REMARKS'}>
+          Remarks ({votes.remarks.length})
+        </Category>
+        <Category active={voteCategory === 'CONCERNS'}>
+          Concerns ({votes.concerns.length})
+        </Category>
       </CategoryContainer>
       <VotesContainer>
         {votes[voteCategory.toLowerCase()]
@@ -52,7 +60,10 @@ const CategoryContainer = styled.ul`
   list-style: none;
 `
 
-const Category = styled.li``
+const Category = styled.li<{ active: boolean }>`
+  border-bottom: ${({ active }) =>
+    active ? 'solid 5px var(--c-secondary)' : 'unset'};
+`
 
 const VotesContainer = styled.ul``
 
