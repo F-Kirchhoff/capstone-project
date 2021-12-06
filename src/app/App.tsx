@@ -34,37 +34,23 @@ function App(): JSX.Element {
 
   const handleNeedSubmit = (topicId: string) => async (newNeed: Need) => {
     // finds the correct topic and adds a need
-    await fetchBoard('POST', `/${topicId}/need`, JSON.stringify({ newNeed }))
+    await fetchBoard(
+      'POST',
+      `/topics/${topicId}/addNeed`,
+      JSON.stringify({ newNeed })
+    )
     fetchBoard('GET', '/')
   }
 
   const handleNeedUpvote =
-    (topicId: string) => (needId: string) => (newUpvotes: number) => {
+    (topicId: string) => (needId: string) => async (upvotes: number) => {
       // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
-
-      setTopics(prev => {
-        const queriedTopic = prev.find(topic => topic.id === topicId)
-        if (!queriedTopic) return prev
-
-        const queriedNeed = queriedTopic.needs.find(need => need.id === needId)
-        if (!queriedNeed) return prev
-
-        const updatedNeed = {
-          ...queriedNeed,
-          upvotes: newUpvotes,
-        }
-
-        const resortedNeeds = queriedTopic.needs
-          .map(need => (need.id === needId ? updatedNeed : need))
-          .sort((a, b) => b.upvotes - a.upvotes)
-
-        const updatedTopic = {
-          ...queriedTopic,
-          needs: resortedNeeds,
-        }
-
-        return prev.map(topic => (topic.id === topicId ? updatedTopic : topic))
-      })
+      await fetchBoard(
+        'PATCH',
+        `/topics/${topicId}/needs/${needId}`,
+        JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
+      )
+      fetchBoard('GET', '/')
     }
 
   return (
