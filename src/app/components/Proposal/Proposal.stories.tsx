@@ -10,7 +10,7 @@ const EXAMPLE = {
   description: 'We buy more beer in a store.',
   id: '0',
   votes: {
-    pros: ['', 'great!', '', ''],
+    pro: ['', 'great!', '', ''],
     neutral: ['', 'ok', '', ''],
     remarks: ['', 'Would be better if we buy at Dannovsky.', '', ''],
     concerns: ['I think we shouldnt drink that much beer.'],
