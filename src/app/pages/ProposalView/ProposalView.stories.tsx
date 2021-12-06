@@ -2,20 +2,20 @@ import React from 'react'
 import ProposalView from './ProposalView'
 
 export default {
-  title: 'Component/Need',
+  title: 'Page/ProposalView',
   component: ProposalView,
 }
 
 const EXAMPLE = {
-  text: 'We should get more beer.',
+  description:
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id qui nobis odit voluptates consequuntur quam, voluptatibus quod, fugiat praesentium, non error totam blanditiis eum reprehenderit alias sapiente facere. Debitis doloremque nisi a ducimus neque pariatur nesciunt in. Aliquam deserunt eligendi soluta harum consequuntur deleniti atque sequi asperiores, nam doloremque id?',
   id: '0',
-  upvotes: 12,
-}
-
-const EXAMPLE_LONG = {
-  text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem quidem ipsa assumenda repellendus non est, nostrum tempora illo eum distinctio laudantium velit. Rem, eos incidunt nulla eaque beatae cum impedit.',
-  id: '0',
-  upvotes: 3,
+  votes: {
+    pro: ['', 'great!', '', '', '', '', '', '', ''],
+    neutral: ['', 'ok', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+    remarks: ['', 'Would be better if we buy at Dannovsky.', ''],
+    concerns: ['I think we shouldnt drink that much beer.'],
+  },
 }
 
 export const Short = (): JSX.Element => <ProposalView content={EXAMPLE} />
