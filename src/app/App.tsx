@@ -16,16 +16,10 @@ type Board = {
 
 function App(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
-
+  const topics = board ? board.topics : []
   useEffect(() => {
     fetchBoard('GET', '/')
   }, [])
-
-  useEffect(() => {
-    board && board.topics && setTopics(board.topics)
-  }, [board])
-
-  const [topics, setTopics] = useState<Topic[] | []>([])
 
   async function handleTopicSubmit(topic: Topic) {
     await fetchBoard('POST', '/', JSON.stringify({ topic }))
