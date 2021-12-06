@@ -31,7 +31,7 @@ function useFetch<Type>(
         }
         break
       }
-      case 'UPDATE': {
+      case 'PATCH': {
         const res = await fetch(`${url}${endpoint}`, {
           method,
           headers: {
