@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import AddTopic from './pages/AddTopic/AddTopic'
 import AddProposal from './pages/AddProposal/AddProposal'
 import TopicView from './pages/TopicView/TopicView'
+import ProposalView from './pages/ProposalView/ProposalView'
 
 function App(): JSX.Element {
   return (

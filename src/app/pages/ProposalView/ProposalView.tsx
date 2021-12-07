@@ -18,10 +18,6 @@ export type Proposal = {
   votes: Votes
 }
 
-type ProposalViewProps = {
-  content: Proposal
-}
-
 const DEFAULT = {
   id: '0',
   description: '',
