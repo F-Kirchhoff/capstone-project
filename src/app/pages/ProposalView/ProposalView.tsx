@@ -48,7 +48,7 @@ export default function ProposalView({
             active={voteCategory === category}
             onClick={() => setVoteCategory(category)}
           >
-            {category.toLowerCase()} ({votesFromCategory.length})
+            {category.toLowerCase()} ({votes[category].length})
           </Category>
         ))}
       </CategoryContainer>
@@ -85,7 +85,7 @@ const Category = styled.button<{ active: boolean }>`
   cursor: pointer;
   border: none;
   background-color: transparent;
-  transition: 0.5s ease;
+  transition: 0.1s ease;
   border-bottom: ${({ active }) =>
     active ? 'solid 3px var(--c-secondary)' : 'solid 3px transparent'};
 `
