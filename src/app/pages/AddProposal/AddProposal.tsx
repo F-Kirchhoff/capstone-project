@@ -1,24 +1,30 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import FormInput from '../../components/FormInput/FormInput'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import type { Need, Proposal } from '../../types/types'
+import type { Need, Proposal, Topic } from '../../types/types'
 
 const MAX_DESCRIPTION_LENGTH = 144
 
 type AddProposalProps = {
   onSubmit: () => void
-  needs: Need[]
+  topics: Topic[]
 }
 
 export default function AddProposal({
   onSubmit,
-  needs,
+  topics,
 }: AddProposalProps): JSX.Element {
   const [description, setDescription] = useState('')
   const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
+
+  const params = useParams()
+  console.log(topics)
+
+  const topic = topics.find(topic => topic.id === params.topicId)
+  const needs = topic ? topic.needs : []
 
   const nav = useNavigate()
 
@@ -50,17 +56,22 @@ export default function AddProposal({
             setDescription(event.target.value)
           }
         />
-        <NeedsList>
-          {needs.map(need => (
-            <NeedContainer key={need.id}>
-              <input type="checkbox" />
-              <p>
-                {need.text}
-                {` (${need.upvotes})`}
-              </p>
-            </NeedContainer>
-          ))}
-        </NeedsList>
+        <h3>Needs</h3>
+        {needs.length > 0 ? (
+          <NeedsList>
+            {needs.map(need => (
+              <NeedContainer key={need.id}>
+                <input type="checkbox" />
+                <p>
+                  {need.text}
+                  {` (${need.upvotes})`}
+                </p>
+              </NeedContainer>
+            ))}
+          </NeedsList>
+        ) : (
+          <Disclaimer>No needs added yet.</Disclaimer>
+        )}
         <ButtonContainer>
           <Button type="button" onClick={handleCancel}>
             Cancel
@@ -80,6 +91,7 @@ const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   height: 100vh;
   background-color: var(--c-secondary);
 `
@@ -102,9 +114,10 @@ const Header = styled.h1`
 const FormContainer = styled.form`
   margin-top: 60vh;
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   width: 100%;
-  min-height: 30vh;
+  min-height: 40vh;
   flex-direction: column;
   padding: 20px;
   background-color: var(--c-gray-100);
@@ -129,4 +142,10 @@ const NeedContainer = styled.li`
   display: flex;
   gap: 20px;
   padding: 10px;
+`
+
+const Disclaimer = styled.p`
+  color: var(--c-gray-600);
+  text-align: center;
+  padding: 20px;
 `
