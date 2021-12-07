@@ -4,7 +4,7 @@ import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
@@ -13,6 +13,7 @@ type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
+  const nav = useNavigate()
 
   const [topic, fetchTopic] = useFetch<Topic>(
     `/api/boards/${boardName}/topics/${topicId}`
@@ -50,7 +51,7 @@ function TopicView(): JSX.Element {
       {topic && (
         <>
           <TopicContainer>
-            <TitleContainer to={'..'}>
+            <TitleContainer to={`../..`}>
               <DoubleChevronLeft width="24" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
@@ -68,8 +69,9 @@ function TopicView(): JSX.Element {
             ) : (
               <Disclaimer>no needs added yet.</Disclaimer>
             )}
-            <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
-              Add Need
+            <Button onClick={() => setView('SHOW_NEED_FORM')}>Add Need</Button>
+            <Button highlight onClick={() => nav('addProposal')}>
+              Add Proposal
             </Button>
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
