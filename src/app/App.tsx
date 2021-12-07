@@ -7,6 +7,7 @@ import type { Need, Topic, Board } from './types/types'
 import AddTopic from './pages/AddTopic/AddTopic'
 import useFetch from './hooks/useFetch'
 import TopicHandler from './components/TopicHandler/TopicHandler'
+import AddProposal from './pages/AddProposal/AddProposal'
 
 function App(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
@@ -52,6 +53,15 @@ function App(): JSX.Element {
               topics={topics}
               onNeedSubmit={handleNeedSubmit}
               onNeedUpvote={handleNeedUpvote}
+            />
+          }
+        ></Route>
+        <Route
+          path="/:topicId/addproposal"
+          element={
+            <AddProposal
+              topics={topics}
+              onSubmit={() => console.log('It Works!')}
             />
           }
         ></Route>
