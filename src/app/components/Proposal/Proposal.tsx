@@ -9,7 +9,7 @@ type ProposalProps = {
 }
 
 export default function Proposal({ content }: ProposalProps): JSX.Element {
-  const { description, votes } = content
+  const { id, description, votes } = content
   return (
     <PropsoalContainer>
       <Description>{description}</Description>
@@ -25,7 +25,7 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
       <VoteCounter>
         <span>!</span> <span>{votes.concerns.length}</span>
       </VoteCounter>
-      <DetailViewButton to="/">
+      <DetailViewButton to={`proposals/${id}`}>
         <DoubleChevronRight width={'24'} />
       </DetailViewButton>
     </PropsoalContainer>

@@ -8,8 +8,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
+import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import Proposal from '../../components/Proposal/Proposal'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
+
+const menuCategories = [
+  { id: 'needs', text: 'needs' },
+  { id: 'proposals', text: 'proposals' },
+]
 
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
@@ -19,15 +26,16 @@ function TopicView(): JSX.Element {
     `/api/boards/${boardName}/topics/${topicId}`
   )
 
-  const { title, description, needs } = topic
+  const { title, description, needs, proposals } = topic
     ? topic
-    : { title: '', description: '', needs: [] }
+    : { title: '', description: '', needs: [], proposals: [] }
 
   useEffect(() => {
     fetchTopic('GET', '/')
   }, [])
 
   const [view, setView] = useState<ViewMsgType>('')
+  const [category, setCategory] = useState('needs')
 
   const handleNeedSubmit = async (newNeed: NeedType) => {
     // finds the correct topic and adds a need
@@ -55,24 +63,46 @@ function TopicView(): JSX.Element {
               <DoubleChevronLeft width="24" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
-            <h3>Needs</h3>
-            {needs.length > 0 ? (
-              <NeedsList>
-                {needs.map(need => (
-                  <Need
-                    key={need.id}
-                    content={need}
-                    onUpvoteChange={handleNeedUpvote(need.id)}
-                  />
-                ))}
-              </NeedsList>
+            <SliderMenu
+              options={menuCategories}
+              selectedOption={category}
+              onSelect={category => setCategory(category)}
+            />
+            {category === 'needs' ? (
+              <>
+                {needs.length > 0 ? (
+                  <NeedsList>
+                    {needs.map(need => (
+                      <Need
+                        key={need.id}
+                        content={need}
+                        onUpvoteChange={handleNeedUpvote(need.id)}
+                      />
+                    ))}
+                  </NeedsList>
+                ) : (
+                  <Disclaimer>no needs added yet.</Disclaimer>
+                )}
+                <Button onClick={() => setView('SHOW_NEED_FORM')}>
+                  Add Need
+                </Button>
+              </>
             ) : (
-              <Disclaimer>no needs added yet.</Disclaimer>
+              <>
+                {proposals.length > 0 ? (
+                  <ProposalList>
+                    {proposals.map(proposal => (
+                      <Proposal content={proposal} key={proposal.id} />
+                    ))}
+                  </ProposalList>
+                ) : (
+                  <Disclaimer>no needs added yet.</Disclaimer>
+                )}
+                <Button highlight onClick={() => nav('addProposal')}>
+                  Add Proposal
+                </Button>
+              </>
             )}
-            <Button onClick={() => setView('SHOW_NEED_FORM')}>Add Need</Button>
-            <Button highlight onClick={() => nav('addProposal')}>
-              Add Proposal
-            </Button>
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
             <OverlayWrapper onReturn={() => setView('')}>
@@ -132,4 +162,8 @@ const NeedsList = styled.ul`
   overflow: hidden;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`
+const ProposalList = styled.ul`
+  display: grid;
+  gap: 10px;
 `
