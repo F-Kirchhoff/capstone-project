@@ -58,7 +58,7 @@ const Input = styled.input`
   margin-bottom: 20px;
   border-radius: 12px;
   font-weight: bold;
-  font-size: 1.125rem;
+  font-size: 18px;
   color: var(--c-primary);
   transition: ease 0.3s;
 
