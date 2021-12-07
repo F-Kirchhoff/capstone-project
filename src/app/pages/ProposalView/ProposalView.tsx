@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 
 type Votes = {
@@ -21,10 +22,29 @@ type ProposalViewProps = {
   content: Proposal
 }
 
-export default function ProposalView({
-  content,
-}: ProposalViewProps): JSX.Element {
-  const { description, votes } = content
+const DEFAULT = {
+  id: '0',
+  description: '',
+  votes: {
+    pro: [],
+    neutral: [],
+    remarks: [],
+    concerns: [],
+  },
+}
+
+export default function ProposalView(): JSX.Element {
+  const { boardName, topicId, ProposalId } = useParams()
+
+  const [proposal, fetchProposal] = useFetch<Proposal>(
+    `/api/boards/${boardName}/topics/${topicId}/proposals/${ProposalId}`
+  )
+
+  useEffect(() => {
+    fetchProposal('GET', '/')
+  }, [])
+
+  const { description, votes } = proposal ? proposal : DEFAULT
 
   const [voteCategory, setVoteCategory] = useState<string>('pro')
   const votesFromCategory: string[] = votes[voteCategory as keyof Votes]
