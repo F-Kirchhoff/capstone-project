@@ -1,63 +1,86 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
-import type { Topic, Need as NeedType } from '../../types/types'
+import type { Topic, Need as NeedType, Board } from '../../types/types'
 import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
-
-type TopicDetailViewProps = {
-  content: Topic
-  onNeedSubmit: (need: NeedType) => void
-  onUpvoteChange: (needId: string) => (updatedVotes: number) => void
-}
+import useFetch from '../../hooks/useFetch'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
-function TopicView({
-  content,
-  onNeedSubmit,
-  onUpvoteChange,
-}: TopicDetailViewProps): JSX.Element {
-  const { title, description, needs } = content
+function TopicView(): JSX.Element {
+  const { boardName, topicId } = useParams()
+
+  const [topic, fetchTopic] = useFetch<Topic>(
+    `/api/boards/${boardName}/topics/${topicId}`
+  )
+
+  const { title, description, needs } = topic
+    ? topic
+    : { title: '', description: '', needs: [] }
+
+  useEffect(() => {
+    fetchTopic('GET', '/')
+  }, [])
+
   const [view, setView] = useState<ViewMsgType>('')
 
-  function handleNeedSubmit(newNeed: NeedType) {
+  const handleNeedSubmit = async (newNeed: NeedType) => {
+    // finds the correct topic and adds a need
+    await fetchTopic('POST', `/addNeed`, JSON.stringify({ newNeed }))
     setView('')
-    onNeedSubmit(newNeed)
+    fetchTopic('GET', '/')
+  }
+
+  const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
+    // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
+    await fetchTopic(
+      'PATCH',
+      `/needs/${needId}`,
+      JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
+    )
+    fetchTopic('GET', '/')
   }
 
   return (
     <>
-      <TopicContainer>
-        <TitleContainer to={'/'}>
-          <DoubleChevronLeft width="24" /> <h2> {title}</h2>
-        </TitleContainer>
-        <Description>{description}</Description>
-        <h3>Needs</h3>
-        {needs.length > 0 ? (
-          <NeedsList>
-            {needs.map(need => (
-              <Need
-                key={need.id}
-                content={need}
-                onUpvoteChange={onUpvoteChange(need.id)}
+      {topic && (
+        <>
+          <TopicContainer>
+            <TitleContainer to={'..'}>
+              <DoubleChevronLeft width="24" /> <h2> {title}</h2>
+            </TitleContainer>
+            <Description>{description}</Description>
+            <h3>Needs</h3>
+            {needs.length > 0 ? (
+              <NeedsList>
+                {needs.map(need => (
+                  <Need
+                    key={need.id}
+                    content={need}
+                    onUpvoteChange={handleNeedUpvote(need.id)}
+                  />
+                ))}
+              </NeedsList>
+            ) : (
+              <Disclaimer>no needs added yet.</Disclaimer>
+            )}
+            <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
+              Add Need
+            </Button>
+          </TopicContainer>
+          {view === 'SHOW_NEED_FORM' && (
+            <OverlayWrapper onReturn={() => setView('')}>
+              <NeedForm
+                onSubmit={handleNeedSubmit}
+                onCancel={() => setView('')}
               />
-            ))}
-          </NeedsList>
-        ) : (
-          <Disclaimer>no needs here yet.</Disclaimer>
-        )}
-        <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
-          Add Need
-        </Button>
-      </TopicContainer>
-      {view === 'SHOW_NEED_FORM' && (
-        <OverlayWrapper onReturn={() => setView('')}>
-          <NeedForm onSubmit={handleNeedSubmit} onCancel={() => setView('')} />
-        </OverlayWrapper>
+            </OverlayWrapper>
+          )}
+        </>
       )}
     </>
   )
