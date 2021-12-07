@@ -15,6 +15,10 @@ function App(): JSX.Element {
           <Route path="topics/:topicId">
             <Route path="" element={<TopicView />}></Route>
             <Route path="addproposal" element={<AddProposal />}></Route>
+            <Route
+              path="proposals/:proposalId"
+              element={<ProposalView />}
+            ></Route>
           </Route>
           <Route path="addTopic" element={<AddTopic />}></Route>
         </Route>
