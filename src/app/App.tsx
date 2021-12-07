@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard/Dashboard'
 
-import type { Need, Topic } from './types/types'
+import type { Need, Topic, Board } from './types/types'
 
 import AddTopic from './pages/AddTopic/AddTopic'
 import useFetch from './hooks/useFetch'
@@ -44,7 +44,7 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard content={topics} />}></Route>
+        <Route path="/:boardName" element={<Dashboard />}></Route>
         <Route
           path="/:topicId"
           element={

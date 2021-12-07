@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
 
-import type { Topic, Board } from '../../types/types'
-import { useNavigate } from 'react-router'
+import type { Board } from '../../types/types'
+import { useNavigate, useParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 
-type DashboardProps = {
-  content: Topic[]
-}
-
-export default function Dashboard({ content }: DashboardProps): JSX.Element {
+export default function Dashboard(): JSX.Element {
   const nav = useNavigate()
-  const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
+
+  const { boardName } = useParams()
+
+  const [board, fetchBoard] = useFetch<Board>(`api/boards/${boardName}`)
+
+  useEffect(() => {
+    fetchBoard('GET', '/')
+  }, [])
+
+  const topics = board ? board.topics : []
 
   return (
     <DashboardContainer>
@@ -27,7 +32,7 @@ export default function Dashboard({ content }: DashboardProps): JSX.Element {
       </Navbar>
       <TopicContainer>
         <TopicList>
-          {content.map(topic => (
+          {topics.map(topic => (
             <Card key={topic.id}>
               <TopicCompactView content={topic} />
             </Card>
