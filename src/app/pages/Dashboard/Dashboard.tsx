@@ -14,7 +14,7 @@ export default function Dashboard(): JSX.Element {
 
   const { boardName } = useParams()
 
-  const [board, fetchBoard] = useFetch<Board>(`api/boards/${boardName}`)
+  const [board, fetchBoard] = useFetch<Board>(`/api/boards/${boardName}`)
 
   useEffect(() => {
     fetchBoard('GET', '/')
@@ -26,7 +26,7 @@ export default function Dashboard(): JSX.Element {
     <DashboardContainer>
       <Navbar>
         <Logo />
-        <Button highlight onClick={() => nav('/addtopic')}>
+        <Button highlight onClick={() => nav('addtopic')}>
           + Topic
         </Button>
       </Navbar>

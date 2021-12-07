@@ -45,30 +45,32 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/:boardName" element={<Dashboard />}></Route>
-        <Route
-          path="/:topicId"
-          element={
-            <TopicHandler
-              topics={topics}
-              onNeedSubmit={handleNeedSubmit}
-              onNeedUpvote={handleNeedUpvote}
-            />
-          }
-        ></Route>
-        <Route
-          path="/:topicId/addproposal"
-          element={
-            <AddProposal
-              topics={topics}
-              onSubmit={() => console.log('It Works!')}
-            />
-          }
-        ></Route>
-        <Route
-          path="/addTopic"
-          element={<AddTopic onSubmit={handleTopicSubmit} />}
-        ></Route>
+        <Route path="/boards/:boardName">
+          <Route path="" element={<Dashboard />}></Route>
+          <Route
+            path="topics/:topicId"
+            element={
+              <TopicHandler
+                topics={topics}
+                onNeedSubmit={handleNeedSubmit}
+                onNeedUpvote={handleNeedUpvote}
+              />
+            }
+          ></Route>
+          <Route
+            path=":topicId/addproposal"
+            element={
+              <AddProposal
+                topics={topics}
+                onSubmit={() => console.log('It Works!')}
+              />
+            }
+          ></Route>
+          <Route
+            path="addTopic"
+            element={<AddTopic onSubmit={handleTopicSubmit} />}
+          ></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

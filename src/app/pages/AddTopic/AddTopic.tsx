@@ -14,7 +14,7 @@ export default function AddTopic({ onSubmit }: AddTopicProps): JSX.Element {
   const nav = useNavigate()
   return (
     <AddTopicContainer>
-      <ReturnButton to="/">
+      <ReturnButton to="..">
         <DoubleChevronLeft width={'24'} />
       </ReturnButton>
       <Header>Add Topic</Header>

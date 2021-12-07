@@ -12,7 +12,7 @@ export default function TopicCompactView({
   content,
 }: TopicCompactViewProps): JSX.Element {
   return (
-    <TopicCompact to={`/${content.id}`}>
+    <TopicCompact to={`topics/${content.id}`}>
       <h2>{content.title}</h2>
       <DoubleChevronRight width={'24'} />
     </TopicCompact>

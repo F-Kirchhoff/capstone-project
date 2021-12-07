@@ -8,7 +8,7 @@ function useFetch<Type>(
   async function fetchData(method: string, endpoint: string, body?: string) {
     switch (method) {
       case 'GET': {
-        const res = await fetch(url)
+        const res = await fetch(`${url}${endpoint}`)
         if (res.ok) {
           const fetchedData = await res.json()
           setData(fetchedData)
