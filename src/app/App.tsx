@@ -3,16 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import type { Need, Topic } from './types/types'
-import type { ObjectId } from 'mongodb'
+
 import AddTopic from './pages/AddTopic/AddTopic'
 import useFetch from './hooks/useFetch'
 import TopicHandler from './components/TopicHandler/TopicHandler'
-
-type Board = {
-  _id: ObjectId
-  name: string
-  topics: Topic[]
-}
 
 function App(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')

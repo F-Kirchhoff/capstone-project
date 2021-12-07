@@ -5,8 +5,9 @@ import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
 
-import type { Topic } from '../../types/types'
+import type { Topic, Board } from '../../types/types'
 import { useNavigate } from 'react-router'
+import useFetch from '../../hooks/useFetch'
 
 type DashboardProps = {
   content: Topic[]
@@ -14,6 +15,7 @@ type DashboardProps = {
 
 export default function Dashboard({ content }: DashboardProps): JSX.Element {
   const nav = useNavigate()
+  const [board, fetchBoard] = useFetch<Board>('api/boards/exampleboard')
 
   return (
     <DashboardContainer>
