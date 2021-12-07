@@ -1,41 +1,54 @@
-import React, { useState } from 'react'
+import { nanoid } from 'nanoid'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import FormInput from '../../components/FormInput/FormInput'
+import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import type { Need, Proposal, Topic } from '../../types/types'
+import type { Proposal, Topic } from '../../types/types'
 
 const MAX_DESCRIPTION_LENGTH = 144
 
-type AddProposalProps = {
-  onSubmit: () => void
-  topics: Topic[]
-}
+export default function AddProposal(): JSX.Element {
+  const { boardName, topicId } = useParams()
 
-export default function AddProposal({
-  onSubmit,
-  topics,
-}: AddProposalProps): JSX.Element {
+  const [topic, fetchTopic] = useFetch<Topic>(
+    `/api/boards/${boardName}/topics/${topicId}`
+  )
+
+  const needs = topic ? topic.needs : []
+
+  useEffect(() => {
+    fetchTopic('GET', '/')
+  }, [])
+
   const [description, setDescription] = useState('')
   const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
-
-  const params = useParams()
-  console.log(topics)
-
-  const topic = topics.find(topic => topic.id === params.topicId)
-  const needs = topic ? topic.needs : []
 
   const nav = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    onSubmit()
+
+    const newProposal: Proposal = {
+      id: nanoid(),
+      description,
+      votes: {
+        pro: [],
+        neutral: [],
+        remarks: [],
+        concerns: [],
+      },
+    }
+
+    fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
+    nav('..')
   }
 
   const handleCancel = () => {
     setDescription('')
-    nav('/')
+    nav('..')
   }
   return (
     <PageContainer>
