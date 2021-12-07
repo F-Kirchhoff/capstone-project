@@ -1,29 +1,33 @@
 import React from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import TopicForm from '../../components/TopicForm/TopicForm'
+import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import type { Topic } from '../../types/types'
+import type { Board, Topic } from '../../types/types'
 
-type AddTopicProps = {
-  onSubmit: (topic: Topic) => void
-}
-
-export default function AddTopic({ onSubmit }: AddTopicProps): JSX.Element {
+export default function AddTopic(): JSX.Element {
   const nav = useNavigate()
+  const { boardName } = useParams()
+  const [_, fetchBoard] = useFetch<Board>(`/api/boards/${boardName}/addTopic`)
+
+  async function handleTopicSubmit(topic: Topic) {
+    await fetchBoard('POST', '/', JSON.stringify({ topic }))
+    nav('..')
+  }
   return (
     <AddTopicContainer>
-      <ReturnButton to="/">
+      <ReturnButton to="..">
         <DoubleChevronLeft width={'24'} />
       </ReturnButton>
       <Header>Add Topic</Header>
       <TopicForm
         onSubmit={(newTopic: Topic) => {
-          onSubmit(newTopic)
-          nav('/')
+          handleTopicSubmit(newTopic)
+          nav('..')
         }}
-        onCancel={() => nav('/')}
+        onCancel={() => nav('..')}
       ></TopicForm>
     </AddTopicContainer>
   )
