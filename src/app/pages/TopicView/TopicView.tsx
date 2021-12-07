@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
-import type { Topic, Need as NeedType, Board } from '../../types/types'
+import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link, useParams } from 'react-router-dom'
@@ -125,7 +125,7 @@ const NeedsList = styled.ul`
   display: flex;
   flex-direction: column;
   background-color: var(--c-gray-200);
-  gap: 1px;
+  gap: 2px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,

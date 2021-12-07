@@ -72,7 +72,7 @@ boards.patch(
   }
 )
 
-boards.post('/:name', async (req: Request, res: Response) => {
+boards.post('/:name/addtopic', async (req: Request, res: Response) => {
   const { name } = req.params
   const { topic } = req.body
 
