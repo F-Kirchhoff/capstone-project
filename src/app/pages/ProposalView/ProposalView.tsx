@@ -3,34 +3,37 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 
+type Votes = {
+  pro: string[]
+  neutral: string[]
+  remarks: string[]
+  concerns: string[]
+}
+
 export type Proposal = {
   id: string
   description: string
-  votes: {
-    pro: string[]
-    neutral: string[]
-    remarks: string[]
-    concerns: string[]
-  }
+  votes: Votes
 }
 
 type ProposalViewProps = {
   content: Proposal
 }
 
-type VoteCategories = 'PRO' | 'NEUTRAL' | 'REMARKS' | 'CONCERNS'
+type CategoryNames = 'pro' | 'neutral' | 'remarks' | 'concerns'
+const CATEGORIES: CategoryNames[] = ['pro', 'neutral', 'remarks', 'concerns']
 
-const CATEGORIES: VoteCategories[] = ['PRO', 'NEUTRAL', 'REMARKS', 'CONCERNS']
-
-export default function ProposalView({ content }: ProposalViewProps) {
+export default function ProposalView({
+  content,
+}: ProposalViewProps): JSX.Element {
   const { description, votes } = content
 
-  const [voteCategory, setVoteCategory] = useState<VoteCategories>('PRO')
+  const [voteCategory, setVoteCategory] = useState<CategoryNames>('pro')
+  const votesFromCategory: string[] =
+    votes[voteCategory.toLowerCase() as keyof Votes]
 
   const VotesWithTextAvailable =
-    votes[voteCategory.toLowerCase()].filter(
-      (voteText: string) => voteText !== ''
-    ).length > 0
+    votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
 
   return (
     <ProposalViewContainer>
@@ -40,18 +43,18 @@ export default function ProposalView({ content }: ProposalViewProps) {
       <h1>Proposal</h1>
       <p>{description}</p>
       <CategoryContainer>
-        {CATEGORIES.map((category: VoteCategories) => (
+        {CATEGORIES.map((category: CategoryNames) => (
           <Category
             active={voteCategory === category}
             onClick={() => setVoteCategory(category)}
           >
-            {category.toLowerCase()} ({votes[category.toLowerCase()].length})
+            {category.toLowerCase()} ({votesFromCategory.length})
           </Category>
         ))}
       </CategoryContainer>
       {VotesWithTextAvailable ? (
         <VotesContainer>
-          {votes[voteCategory.toLowerCase()]
+          {votesFromCategory
             .filter((voteText: string) => voteText !== '')
             .map((voteText: string) => (
               <VoteDisplay>{voteText}</VoteDisplay>
