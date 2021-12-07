@@ -49,6 +49,20 @@ boards.post(
     res.send(msg)
   }
 )
+boards.post(
+  '/:name/topics/:topicId/addProposal',
+  async (req: Request, res: Response) => {
+    const { name, topicId } = req.params
+    const { newProposal } = req.body
+
+    const boards = await getBoards()
+    const msg = await boards.updateOne(
+      { name, 'topics.id': topicId },
+      { $push: { 'topics.$.proposals': newProposal } }
+    )
+    res.send(msg)
+  }
+)
 
 boards.patch(
   '/:name/topics/:topicId/needs/:needId',
