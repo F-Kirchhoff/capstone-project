@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
+import type { Proposal } from '../../types/types'
 
 const DEFAULT = {
   id: '0',
