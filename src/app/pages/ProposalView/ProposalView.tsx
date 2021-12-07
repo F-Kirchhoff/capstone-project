@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 
 type Votes = {
@@ -20,20 +21,21 @@ type ProposalViewProps = {
   content: Proposal
 }
 
-type CategoryNames = 'pro' | 'neutral' | 'remarks' | 'concerns'
-const CATEGORIES: CategoryNames[] = ['pro', 'neutral', 'remarks', 'concerns']
-
 export default function ProposalView({
   content,
 }: ProposalViewProps): JSX.Element {
   const { description, votes } = content
 
-  const [voteCategory, setVoteCategory] = useState<CategoryNames>('pro')
-  const votesFromCategory: string[] =
-    votes[voteCategory.toLowerCase() as keyof Votes]
+  const [voteCategory, setVoteCategory] = useState<string>('pro')
+  const votesFromCategory: string[] = votes[voteCategory as keyof Votes]
 
   const VotesWithTextAvailable =
     votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
+
+  const menuCategories = Object.keys(votes).map(category => ({
+    id: category,
+    text: `${category} (${category.length})`,
+  }))
 
   return (
     <ProposalViewContainer>
@@ -42,16 +44,11 @@ export default function ProposalView({
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
-      <CategoryContainer>
-        {CATEGORIES.map((category: CategoryNames) => (
-          <Category
-            active={voteCategory === category}
-            onClick={() => setVoteCategory(category)}
-          >
-            {category.toLowerCase()} ({votes[category].length})
-          </Category>
-        ))}
-      </CategoryContainer>
+      <SliderMenu
+        options={menuCategories}
+        selectedOption={voteCategory}
+        onSelect={setVoteCategory}
+      />
       {VotesWithTextAvailable ? (
         <VotesContainer>
           {votesFromCategory
@@ -72,22 +69,6 @@ const ProposalViewContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   padding: 20px;
-`
-
-const CategoryContainer = styled.div`
-  display: flex;
-`
-
-const Category = styled.button<{ active: boolean }>`
-  flex-grow: 1;
-  text-align: center;
-  padding: 10px 0;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  transition: 0.1s ease;
-  border-bottom: ${({ active }) =>
-    active ? 'solid 3px var(--c-secondary)' : 'solid 3px transparent'};
 `
 
 const VotesContainer = styled.ul`
