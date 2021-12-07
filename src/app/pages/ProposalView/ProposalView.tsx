@@ -5,19 +5,6 @@ import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 
-type Votes = {
-  pro: string[]
-  neutral: string[]
-  remarks: string[]
-  concerns: string[]
-}
-
-export type Proposal = {
-  id: string
-  description: string
-  votes: Votes
-}
-
 const DEFAULT = {
   id: '0',
   description: '',
@@ -30,10 +17,10 @@ const DEFAULT = {
 }
 
 export default function ProposalView(): JSX.Element {
-  const { boardName, topicId, ProposalId } = useParams()
+  const { boardName, topicId, proposalId } = useParams()
 
   const [proposal, fetchProposal] = useFetch<Proposal>(
-    `/api/boards/${boardName}/topics/${topicId}/proposals/${ProposalId}`
+    `/api/boards/${boardName}/topics/${topicId}/proposals/${proposalId}`
   )
 
   useEffect(() => {
@@ -43,19 +30,19 @@ export default function ProposalView(): JSX.Element {
   const { description, votes } = proposal ? proposal : DEFAULT
 
   const [voteCategory, setVoteCategory] = useState<string>('pro')
-  const votesFromCategory: string[] = votes[voteCategory as keyof Votes]
+  const votesFromCategory: string[] = votes[voteCategory as keyof typeof votes]
 
   const VotesWithTextAvailable =
     votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
 
   const menuCategories = Object.keys(votes).map(category => ({
     id: category,
-    text: `${category} (${category.length})`,
+    text: `${category} (${votes[category as keyof typeof votes].length})`,
   }))
 
   return (
     <ProposalViewContainer>
-      <ReturnButton to="/">
+      <ReturnButton to="..">
         <DoubleChevronLeft width={'24'} />
       </ReturnButton>
       <h1>Proposal</h1>

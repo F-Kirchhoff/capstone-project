@@ -24,7 +24,7 @@ boards.get(
       return
     }
 
-    const proposal = topic.proposal.find(
+    const proposal = topic.proposals.find(
       (proposal: Proposal) => proposal.id === proposalId
     )
 

@@ -36,17 +36,17 @@ const PropsoalContainer = styled.li`
   position: relative;
   max-width: 400px;
   margin-right: 15px;
-  background-color: var(--c-gray-600);
+  background-color: var(--c-gray-200);
   list-style: none;
   border-radius: 2px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   & > * {
-    background-color: var(--c-gray-200);
+    background-color: var(--c-gray-50);
   }
 `
 const Description = styled.p`
