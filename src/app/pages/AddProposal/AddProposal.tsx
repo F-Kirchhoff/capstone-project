@@ -28,7 +28,7 @@ export default function AddProposal(): JSX.Element {
 
   const nav = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const newProposal: Proposal = {
@@ -42,7 +42,7 @@ export default function AddProposal(): JSX.Element {
       },
     }
 
-    fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
+    await fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
     nav('..')
   }
 
@@ -53,7 +53,7 @@ export default function AddProposal(): JSX.Element {
   return (
     <PageContainer>
       <Background>
-        <ReturnButton to="/">
+        <ReturnButton to="..">
           <DoubleChevronLeft width={'24'} />
         </ReturnButton>
         <Header>Add Proposal</Header>
