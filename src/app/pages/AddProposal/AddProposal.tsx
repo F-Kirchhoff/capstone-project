@@ -4,16 +4,18 @@ import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import FormInput from '../../components/FormInput/FormInput'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import type { Proposal } from '../../types/types'
+import type { Need, Proposal } from '../../types/types'
 
 const MAX_DESCRIPTION_LENGTH = 144
 
 type AddProposalProps = {
   onSubmit: () => void
+  needs: Need[]
 }
 
 export default function AddProposal({
   onSubmit,
+  needs,
 }: AddProposalProps): JSX.Element {
   const [description, setDescription] = useState('')
   const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
@@ -48,6 +50,17 @@ export default function AddProposal({
             setDescription(event.target.value)
           }
         />
+        <NeedsList>
+          {needs.map(need => (
+            <NeedContainer key={need.id}>
+              <input type="checkbox" />
+              <p>
+                {need.text}
+                {` (${need.upvotes})`}
+              </p>
+            </NeedContainer>
+          ))}
+        </NeedsList>
         <ButtonContainer>
           <Button type="button" onClick={handleCancel}>
             Cancel
@@ -107,4 +120,13 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+`
+const NeedsList = styled.ul`
+  list-style: none;
+`
+
+const NeedContainer = styled.li`
+  display: flex;
+  gap: 20px;
+  padding: 10px;
 `
