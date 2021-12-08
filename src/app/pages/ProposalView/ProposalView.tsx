@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import Button from '../../components/Button/Button'
+import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import type { Proposal } from '../../types/types'
+import type { Proposal, Vote } from '../../types/types'
 
 const DEFAULT = {
   id: '0',
@@ -24,6 +27,8 @@ export default function ProposalView(): JSX.Element {
     `/api/boards/${boardName}/topics/${topicId}/proposals/${proposalId}`
   )
 
+  const [view, setView] = useState<'SHOW_VOTE_FORM' | ''>('')
+
   useEffect(() => {
     fetchProposal('GET', '/')
   }, [])
@@ -40,6 +45,11 @@ export default function ProposalView(): JSX.Element {
     id: category,
     text: `${category} (${votes[category as keyof typeof votes].length})`,
   }))
+
+  function handleVoteSubmit(newVote: Vote) {
+    console.log(newVote)
+    setView('')
+  }
 
   return (
     <ProposalViewContainer>
@@ -63,6 +73,14 @@ export default function ProposalView(): JSX.Element {
         </VotesContainer>
       ) : (
         <Disclaimer> No votes with comments in this category.</Disclaimer>
+      )}
+      <Button highlight onClick={() => setView('SHOW_VOTE_FORM')}>
+        submit your vote
+      </Button>
+      {view === 'SHOW_VOTE_FORM' && (
+        <OverlayWrapper onReturn={() => setView('')}>
+          <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
+        </OverlayWrapper>
       )}
     </ProposalViewContainer>
   )
