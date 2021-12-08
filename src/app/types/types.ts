@@ -30,3 +30,9 @@ export type Board = {
   name: string
   topics: Topic[]
 }
+
+export type Vote = {
+  id: string
+  text: string
+  voteType: string
+}
