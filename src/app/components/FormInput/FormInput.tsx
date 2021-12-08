@@ -40,7 +40,9 @@ export default function FormInput({
           required={required}
         />
       )}
-      {diff && <TextLimitDisplay diff={diff}>{`${diff}`}</TextLimitDisplay>}
+      {diff !== undefined && (
+        <TextLimitDisplay diff={diff}>{`${diff}`}</TextLimitDisplay>
+      )}
     </InputWrapper>
   )
 }
@@ -55,7 +57,6 @@ const Input = styled.input`
   background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.5);
   padding: 8px 12px;
-  margin-bottom: 20px;
   border-radius: 12px;
   font-weight: bold;
   font-size: 18px;
@@ -76,7 +77,6 @@ const TextArea = styled.textarea`
   resize: none;
   font-size: 1rem;
   padding: 8px 12px;
-  margin-bottom: 20px;
   color: var(--c-primary);
   transition: ease 0.3s;
 
@@ -92,9 +92,9 @@ const InputWrapper = styled.div`
 
 const TextLimitDisplay = styled.span<{ diff: number }>`
   position: absolute;
-  bottom: 1.3rem;
+  bottom: 5px;
   right: 10px;
   font-size: 0.8rem;
   z-index: 10;
-  color: ${({ diff }) => (diff <= 0 ? 'var(--c-alert)' : 'rgba(0, 0, 0, 0.7)')};
+  color: ${({ diff }) => (diff <= 0 ? 'var(--c-alert)' : 'inherit')};
 `
