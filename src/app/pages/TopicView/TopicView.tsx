@@ -96,7 +96,7 @@ function TopicView(): JSX.Element {
                     ))}
                   </ProposalList>
                 ) : (
-                  <Disclaimer>no needs added yet.</Disclaimer>
+                  <Disclaimer>no proposals added yet.</Disclaimer>
                 )}
                 <Button highlight onClick={() => nav('addProposal')}>
                   Add Proposal
