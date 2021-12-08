@@ -1,45 +1,49 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import useFetch from '../../hooks/useFetch'
 import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
+import type { Proposal } from '../../types/types'
 
-type Votes = {
-  pro: string[]
-  neutral: string[]
-  remarks: string[]
-  concerns: string[]
+const DEFAULT = {
+  id: '0',
+  description: '',
+  votes: {
+    pro: [],
+    neutral: [],
+    remarks: [],
+    concerns: [],
+  },
 }
 
-export type Proposal = {
-  id: string
-  description: string
-  votes: Votes
-}
+export default function ProposalView(): JSX.Element {
+  const { boardName, topicId, proposalId } = useParams()
 
-type ProposalViewProps = {
-  content: Proposal
-}
+  const [proposal, fetchProposal] = useFetch<Proposal>(
+    `/api/boards/${boardName}/topics/${topicId}/proposals/${proposalId}`
+  )
 
-export default function ProposalView({
-  content,
-}: ProposalViewProps): JSX.Element {
-  const { description, votes } = content
+  useEffect(() => {
+    fetchProposal('GET', '/')
+  }, [])
+
+  const { description, votes } = proposal ? proposal : DEFAULT
 
   const [voteCategory, setVoteCategory] = useState<string>('pro')
-  const votesFromCategory: string[] = votes[voteCategory as keyof Votes]
+  const votesFromCategory: string[] = votes[voteCategory as keyof typeof votes]
 
   const VotesWithTextAvailable =
     votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
 
   const menuCategories = Object.keys(votes).map(category => ({
     id: category,
-    text: `${category} (${category.length})`,
+    text: `${category} (${votes[category as keyof typeof votes].length})`,
   }))
 
   return (
     <ProposalViewContainer>
-      <ReturnButton to="/">
+      <ReturnButton to="..">
         <DoubleChevronLeft width={'24'} />
       </ReturnButton>
       <h1>Proposal</h1>

@@ -19,6 +19,7 @@ export default function SliderMenu({
     <Container>
       {options.map(option => (
         <Option
+          key={option.id}
           active={selectedOption === option.id}
           onClick={() => onSelect(option.id)}
         >
