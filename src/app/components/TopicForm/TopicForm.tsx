@@ -27,6 +27,7 @@ export default function TopicForm({
       title,
       description,
       needs: [],
+      proposals: [],
     }
     onSubmit(newTopic)
   }
