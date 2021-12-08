@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import DoubleChevronRight from '../../Icons/DoubleChevronRight'
 import type { Proposal as ProposalType } from '../../types/types'
+import Icon from '@mdi/react'
+import {
+  mdiPartyPopper,
+  mdiCheck,
+  mdiHelpRhombusOutline,
+  mdiAlertRhombusOutline,
+} from '@mdi/js'
 
 type ProposalProps = {
   content: ProposalType
@@ -13,10 +20,10 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
 
   const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
   const voteTypeSymbols = {
-    pro: '+',
-    neutral: '=',
-    remarks: '?',
-    concerns: '!',
+    pro: mdiPartyPopper,
+    neutral: mdiCheck,
+    remarks: mdiHelpRhombusOutline,
+    concerns: mdiAlertRhombusOutline,
   }
 
   return (
@@ -24,7 +31,10 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
       <Description>{description}</Description>
       {voteTypes.map(type => (
         <VoteCounter>
-          <span>{voteTypeSymbols[type as keyof typeof voteTypeSymbols]}</span>
+          <Icon
+            path={voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
+            size="1em"
+          />
           <span>{votes.filter(vote => vote.type === type).length}</span>
         </VoteCounter>
       ))}
@@ -60,6 +70,7 @@ const Description = styled.p`
 const VoteCounter = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 20px;
   padding: 5px;
   flex-grow: 1;

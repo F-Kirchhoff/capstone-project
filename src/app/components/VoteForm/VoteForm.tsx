@@ -4,6 +4,13 @@ import type { Vote } from '../../types/types'
 import Button from '../Button/Button'
 import { nanoid } from 'nanoid'
 import FormInput from '../FormInput/FormInput'
+import Icon from '@mdi/react'
+import {
+  mdiPartyPopper,
+  mdiCheck,
+  mdiHelpRhombusOutline,
+  mdiAlertRhombusOutline,
+} from '@mdi/js'
 
 type VoteFormProps = {
   onSubmit: (newVote: Vote) => void
@@ -48,10 +55,10 @@ export default function VoteForm({
   const textDiff = MAX_DESCRIPTION_LENGTH - text.length
   const voteTypes: VoteTypes[] = ['pro', 'neutral', 'remarks', 'concerns']
   const voteTypeSymbols = {
-    pro: '+',
-    neutral: '=',
-    remarks: '?',
-    concerns: '!',
+    pro: mdiPartyPopper,
+    neutral: mdiCheck,
+    remarks: mdiHelpRhombusOutline,
+    concerns: mdiAlertRhombusOutline,
   }
   const voteTypeColors = {
     pro: '#65ac95',
@@ -78,7 +85,10 @@ export default function VoteForm({
               onClick={() => setVoteType(type)}
               active={voteType === type}
             >
-              {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
+              <Icon
+                path={voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
+                size="1em"
+              />
             </VoteType>
           ))}
         </VoteTypePicker>
@@ -136,6 +146,7 @@ const ButtonContainer = styled.div`
 
 const VoteTypePicker = styled.fieldset`
   display: flex;
+  align-items: center;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 `
@@ -145,6 +156,9 @@ const VoteType = styled.button<{ active: boolean; color: string }>`
   color: rgba(0, 0, 0, 0.4);
   font-weight: bold;
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: ${({ active }) => (active ? '1' : '0.7')};
   padding: 10px 20px;
   font-size: 1.2rem;
