@@ -35,8 +35,8 @@ export default function ProposalView(): JSX.Element {
   const VotesWithComments = votes.filter(
     (vote: Vote) => vote.type === voteCategory && vote.text !== ''
   )
-
-  const menuCategories = Object.keys(votes).map(category => ({
+  const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
+  const menuCategories = voteTypes.map(category => ({
     id: category,
     text: `${category} (${
       votes.filter((vote: Vote) => vote.type === category).length
@@ -44,7 +44,8 @@ export default function ProposalView(): JSX.Element {
   }))
 
   function handleVoteSubmit(newVote: Vote) {
-    console.log(newVote)
+    fetchProposal('POST', '/addVote', JSON.stringify({ newVote }))
+    fetchProposal('GET', '/')
     setView('')
   }
 
@@ -91,6 +92,7 @@ const ProposalViewContainer = styled.div`
 const VotesContainer = styled.ul`
   display: grid;
   gap: 1px;
+  padding: 1px 0;
   background-color: var(--c-gray-400);
   border-radius: 3px;
   overflow: hidden;

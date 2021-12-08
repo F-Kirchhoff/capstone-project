@@ -72,6 +72,7 @@ export default function VoteForm({
         <VoteTypePicker>
           {voteTypes.map((type: VoteTypes) => (
             <VoteType
+              key={type}
               type="button"
               color={voteTypeColors[type as keyof typeof voteTypeColors]}
               onClick={() => setVoteType(type)}

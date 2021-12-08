@@ -10,21 +10,24 @@ type ProposalProps = {
 
 export default function Proposal({ content }: ProposalProps): JSX.Element {
   const { id, description, votes } = content
+
+  const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
+  const voteTypeSymbols = {
+    pro: '+',
+    neutral: '=',
+    remarks: '?',
+    concerns: '!',
+  }
+
   return (
     <PropsoalContainer>
       <Description>{description}</Description>
-      <VoteCounter>
-        <span>+</span> <span>{votes.pro.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>=</span> <span>{votes.neutral.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>?</span> <span>{votes.remarks.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>!</span> <span>{votes.concerns.length}</span>
-      </VoteCounter>
+      {voteTypes.map(type => (
+        <VoteCounter>
+          <span>{voteTypeSymbols[type as keyof typeof voteTypeSymbols]}</span>
+          <span>{votes.filter(vote => vote.type === type).length}</span>
+        </VoteCounter>
+      ))}
       <DetailViewButton to={`proposals/${id}`}>
         <DoubleChevronRight width={'24'} />
       </DetailViewButton>
