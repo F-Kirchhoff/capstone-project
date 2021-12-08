@@ -42,6 +42,20 @@ export default function VoteForm({
   return (
     <FormContainer onSubmit={handleSubmit}>
       <FormTitle>Add Vote</FormTitle>
+      <VoteTypePicker>
+        <VoteType type="button" onClick={() => setVoteType('pro')}>
+          +
+        </VoteType>
+        <VoteType type="button" onClick={() => setVoteType('neutral')}>
+          =
+        </VoteType>
+        <VoteType type="button" onClick={() => setVoteType('remarks')}>
+          ?
+        </VoteType>
+        <VoteType type="button" onClick={() => setVoteType('concerns')}>
+          !
+        </VoteType>
+      </VoteTypePicker>
       <FormInput
         type="text"
         name="comment"
@@ -90,4 +104,22 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+`
+
+const VoteTypePicker = styled.fieldset`
+  border: none;
+  display: flex;
+`
+
+const VoteType = styled.button`
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  flex-grow: 1;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background-color: var(--c-dark);
+  }
 `
