@@ -43,16 +43,32 @@ export default function VoteForm({
     <FormContainer onSubmit={handleSubmit}>
       <FormTitle>Add Vote</FormTitle>
       <VoteTypePicker>
-        <VoteType type="button" onClick={() => setVoteType('pro')}>
+        <VoteType
+          type="button"
+          active={voteType === 'pro'}
+          onClick={() => setVoteType('pro')}
+        >
           +
         </VoteType>
-        <VoteType type="button" onClick={() => setVoteType('neutral')}>
+        <VoteType
+          type="button"
+          active={voteType === 'neutral'}
+          onClick={() => setVoteType('neutral')}
+        >
           =
         </VoteType>
-        <VoteType type="button" onClick={() => setVoteType('remarks')}>
+        <VoteType
+          type="button"
+          active={voteType === 'remarks'}
+          onClick={() => setVoteType('remarks')}
+        >
           ?
         </VoteType>
-        <VoteType type="button" onClick={() => setVoteType('concerns')}>
+        <VoteType
+          type="button"
+          active={voteType === 'concerns'}
+          onClick={() => setVoteType('concerns')}
+        >
           !
         </VoteType>
       </VoteTypePicker>
@@ -107,18 +123,24 @@ const ButtonContainer = styled.div`
 `
 
 const VoteTypePicker = styled.fieldset`
-  border: none;
   display: flex;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 `
 
-const VoteType = styled.button`
+const VoteType = styled.button<{ active: boolean }>`
   background-color: transparent;
   color: rgba(255, 255, 255, 0.4);
   flex-grow: 1;
   padding: 10px 20px;
   font-size: 1.2rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-
+  border: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: ${({ active }) =>
+    active
+      ? ' rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;'
+      : 'unset'};
+  z-index: ${({ active }) => (active ? '10' : '1')};
   &:hover {
     background-color: var(--c-dark);
   }
