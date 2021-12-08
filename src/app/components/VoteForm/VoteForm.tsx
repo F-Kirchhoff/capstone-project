@@ -10,7 +10,7 @@ type VoteFormProps = {
   onCancel: () => void
 }
 
-type VoteTypes = 'pro' | 'neutral' | 'remarks' | 'concerns' | null
+type VoteTypes = 'pro' | 'neutral' | 'remarks' | 'concerns' | ''
 
 const MAX_DESCRIPTION_LENGTH = 40
 
@@ -19,7 +19,7 @@ export default function VoteForm({
   onCancel,
 }: VoteFormProps): JSX.Element {
   const [text, setText] = useState('')
-  const [voteType, setVoteType] = useState<VoteTypes>(null)
+  const [voteType, setVoteType] = useState<VoteTypes>('')
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -28,12 +28,12 @@ export default function VoteForm({
       text,
       voteType: voteType,
     }
-    onSubmit(newVote)
+    voteType && onSubmit(newVote)
   }
 
   function handleCancel() {
     setText('')
-    setVoteType(null)
+    setVoteType('')
     onCancel()
   }
 
