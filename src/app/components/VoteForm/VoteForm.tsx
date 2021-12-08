@@ -33,7 +33,7 @@ export default function VoteForm({
     const newVote = {
       id: nanoid(),
       text,
-      voteType: voteType,
+      type: voteType,
     }
     onSubmit(newVote)
   }

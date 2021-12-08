@@ -12,12 +12,7 @@ import type { Proposal, Vote } from '../../types/types'
 const DEFAULT = {
   id: '0',
   description: '',
-  votes: {
-    pro: [],
-    neutral: [],
-    remarks: [],
-    concerns: [],
-  },
+  votes: [],
 }
 
 export default function ProposalView(): JSX.Element {
@@ -36,14 +31,16 @@ export default function ProposalView(): JSX.Element {
   const { description, votes } = proposal ? proposal : DEFAULT
 
   const [voteCategory, setVoteCategory] = useState<string>('pro')
-  const votesFromCategory: string[] = votes[voteCategory as keyof typeof votes]
 
-  const VotesWithTextAvailable =
-    votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
+  const VotesWithComments = votes.filter(
+    (vote: Vote) => vote.type === voteCategory && vote.text !== ''
+  )
 
   const menuCategories = Object.keys(votes).map(category => ({
     id: category,
-    text: `${category} (${votes[category as keyof typeof votes].length})`,
+    text: `${category} (${
+      votes.filter((vote: Vote) => vote.type === category).length
+    })`,
   }))
 
   function handleVoteSubmit(newVote: Vote) {
@@ -63,13 +60,11 @@ export default function ProposalView(): JSX.Element {
         selectedOption={voteCategory}
         onSelect={setVoteCategory}
       />
-      {VotesWithTextAvailable ? (
+      {VotesWithComments.length > 0 ? (
         <VotesContainer>
-          {votesFromCategory
-            .filter((voteText: string) => voteText !== '')
-            .map((voteText: string) => (
-              <VoteDisplay>{voteText}</VoteDisplay>
-            ))}
+          {VotesWithComments.map((vote: Vote) => (
+            <VoteDisplay key={vote.id}>{vote.text}</VoteDisplay>
+          ))}
         </VotesContainer>
       ) : (
         <Disclaimer> No votes with comments in this category.</Disclaimer>

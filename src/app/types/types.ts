@@ -17,12 +17,7 @@ export type Topic = {
 export type Proposal = {
   id: string
   description: string
-  votes: {
-    pro: string[]
-    neutral: string[]
-    remarks: string[]
-    concerns: string[]
-  }
+  votes: Vote[]
 }
 
 export type Board = {
@@ -34,5 +29,5 @@ export type Board = {
 export type Vote = {
   id: string
   text: string
-  voteType: string
+  type: string
 }
