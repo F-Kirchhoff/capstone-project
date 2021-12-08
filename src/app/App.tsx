@@ -12,7 +12,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/boards/:boardName">
-          <Route path="" element={<Dashboard />}></Route>
+          <Route path="" element={<Dashboard />} />
           <Route path="topics/:topicId">
             <Route path="" element={<TopicView />} />
             <Route path="addproposal" element={<AddProposal />} />
