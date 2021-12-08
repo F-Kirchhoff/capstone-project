@@ -101,6 +101,13 @@ function TopicView(): JSX.Element {
               onSelect={option => setCategory(option)}
             />
             {tabContent}
+            {tab === 'needs' ? (
+              <Button onClick={() => setView('SHOW_NEED_FORM')}>
+                Add Need
+              </Button>
+            ) : (
+              <Button onClick={() => nav('addProposal')}>Add Proposal</Button>
+            )}
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
             <OverlayWrapper onReturn={() => setView('')}>

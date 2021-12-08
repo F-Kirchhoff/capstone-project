@@ -12,16 +12,16 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/boards/:boardName">
-          <Route path="" element={<Dashboard />}></Route>
+          <Route path="" element={<Dashboard />} />
           <Route path="topics/:topicId">
-            <Route path="" element={<TopicView />}></Route>
-            <Route path="addproposal" element={<AddProposal />}></Route>
+            <Route path="" element={<TopicView />} />
+            <Route path="addproposal" element={<AddProposal />} />
             <Route
               path="proposals/:proposalId"
               element={<ProposalView />}
-            ></Route>
+            />
           </Route>
-          <Route path="addTopic" element={<AddTopic />}></Route>
+          <Route path="addTopic" element={<AddTopic />} />
         </Route>
       </Routes>
     </BrowserRouter>
