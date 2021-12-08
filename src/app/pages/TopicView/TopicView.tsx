@@ -13,7 +13,7 @@ import Proposal from '../../components/Proposal/Proposal'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
-const menuCategories = [
+const menuTabs = [
   { id: 'needs', text: 'needs' },
   { id: 'proposals', text: 'proposals' },
 ]
@@ -35,7 +35,7 @@ function TopicView(): JSX.Element {
   }, [])
 
   const [view, setView] = useState<ViewMsgType>('')
-  const [category, setCategory] = useState('needs')
+  const [tab, setCategory] = useState('needs')
 
   const handleNeedSubmit = async (newNeed: NeedType) => {
     // finds the correct topic and adds a need
@@ -54,6 +54,38 @@ function TopicView(): JSX.Element {
     fetchTopic('GET', '/')
   }
 
+  let tabContent
+
+  if (tab === 'needs') {
+    if (needs.length > 0) {
+      tabContent = (
+        <NeedsList>
+          {needs.map(need => (
+            <Need
+              key={need.id}
+              content={need}
+              onUpvoteChange={handleNeedUpvote(need.id)}
+            />
+          ))}
+        </NeedsList>
+      )
+    } else {
+      tabContent = <Disclaimer>no needs added yet.</Disclaimer>
+    }
+  } else {
+    if (proposals.length > 0) {
+      tabContent = (
+        <ProposalList>
+          {proposals.map(proposal => (
+            <Proposal content={proposal} key={proposal.id} />
+          ))}
+        </ProposalList>
+      )
+    } else {
+      tabContent = <Disclaimer>no proposals added yet.</Disclaimer>
+    }
+  }
+
   return (
     <>
       {topic && (
@@ -64,45 +96,11 @@ function TopicView(): JSX.Element {
             </TitleContainer>
             <Description>{description}</Description>
             <SliderMenu
-              options={menuCategories}
-              selectedOption={category}
-              onSelect={category => setCategory(category)}
+              options={menuTabs}
+              selectedOption={tab}
+              onSelect={option => setCategory(option)}
             />
-            {category === 'needs' ? (
-              <>
-                {needs.length > 0 ? (
-                  <NeedsList>
-                    {needs.map(need => (
-                      <Need
-                        key={need.id}
-                        content={need}
-                        onUpvoteChange={handleNeedUpvote(need.id)}
-                      />
-                    ))}
-                  </NeedsList>
-                ) : (
-                  <Disclaimer>no needs added yet.</Disclaimer>
-                )}
-                <Button onClick={() => setView('SHOW_NEED_FORM')}>
-                  Add Need
-                </Button>
-              </>
-            ) : (
-              <>
-                {proposals.length > 0 ? (
-                  <ProposalList>
-                    {proposals.map(proposal => (
-                      <Proposal content={proposal} key={proposal.id} />
-                    ))}
-                  </ProposalList>
-                ) : (
-                  <Disclaimer>no needs added yet.</Disclaimer>
-                )}
-                <Button highlight onClick={() => nav('addProposal')}>
-                  Add Proposal
-                </Button>
-              </>
-            )}
+            {tabContent}
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
             <OverlayWrapper onReturn={() => setView('')}>
