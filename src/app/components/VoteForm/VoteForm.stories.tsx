@@ -1,13 +1,13 @@
 import React from 'react'
-import NeedForm from './NeedForm'
+import VoteForm from './VoteForm'
 
 export default {
-  title: 'Component/NeedForm',
-  component: NeedForm,
+  title: 'Component/VoteForm',
+  component: VoteForm,
 }
 
 export const Regular = (): JSX.Element => (
-  <NeedForm
+  <VoteForm
     onSubmit={console.log}
     onCancel={() => console.log('Cancel Button Clicked!')}
   />

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import type { Need } from '../../types/types'
+import type { Vote } from '../../types/types'
 import Button from '../Button/Button'
 import { nanoid } from 'nanoid'
+import FormInput from '../FormInput/FormInput'
 
 type VoteFormProps = {
   onSubmit: (newVote: Vote) => void
@@ -32,35 +33,32 @@ export default function VoteForm({
 
   function handleCancel() {
     setText('')
+    setVoteType(null)
     onCancel()
   }
 
   const textDiff = MAX_DESCRIPTION_LENGTH - text.length
 
   return (
-    <TopicFormContainer onSubmit={handleSubmit}>
-      <FormTitle>Add Need</FormTitle>
-      <InputWrapper>
-        <FormLabel htmlFor="text">Need</FormLabel>
-        <FormTextArea
-          name="text"
-          rows={10}
-          value={text}
-          onChange={event =>
-            event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
+    <FormContainer onSubmit={handleSubmit}>
+      <FormTitle>Add Vote</FormTitle>
+      <FormInput
+        type="text"
+        name="comment"
+        value={text}
+        diff={textDiff}
+        onChange={event => {
+          event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
             setText(event.target.value)
-          }
-        />
-        <TextLimitDisplay diff={textDiff}>{`${textDiff}`}</TextLimitDisplay>
-      </InputWrapper>
-
+        }}
+      />
       <ButtonContainer>
         <Button type="button" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button highlight>Add Topic</Button>
+        <Button>Vote</Button>
       </ButtonContainer>
-    </TopicFormContainer>
+    </FormContainer>
   )
 }
 
@@ -71,7 +69,7 @@ const FormTitle = styled.h2`
   margin-bottom: 20px;
 `
 
-const TopicFormContainer = styled.form`
+const FormContainer = styled.form`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -80,7 +78,7 @@ const TopicFormContainer = styled.form`
   flex-direction: column;
   padding: 20px;
   color: rgba(255, 255, 255, 0.3);
-  background-color: var(--c-dark);
+  background-color: var(--c-secondary);
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
@@ -92,41 +90,4 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-`
-const FormLabel = styled.label`
-  display: block;
-  font-weight: bold;
-  text-transform: capitalize;
-  color: var(--c-gray-200);
-`
-
-const FormTextArea = styled.textarea`
-  width: 100%;
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--c-gray-200);
-  border-radius: 12px;
-  resize: none;
-  font-size: 1rem;
-  padding: 8px 12px;
-  margin-bottom: 20px;
-  transition: ease 0.3s;
-
-  &:focus {
-    outline: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-  }
-`
-const InputWrapper = styled.div`
-  position: relative;
-`
-
-const TextLimitDisplay = styled.span<{ diff: number }>`
-  position: absolute;
-  bottom: 1.3rem;
-  right: 10px;
-  font-size: 0.8rem;
-  z-index: 10;
-  color: ${({ diff }) => (diff <= 0 ? 'var(--c-alert)' : 'var(--c-gray-500)')};
 `
