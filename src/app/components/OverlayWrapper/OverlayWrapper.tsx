@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   z-index: 1000;
 `
 const FormBackground = styled.div<{ transparent?: boolean }>`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
