@@ -2,44 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 
 type TabMenuProps = {
-  options: {
-    id: string
-    text: string
-  }[]
-  selectedOption: string
-  onSelect: (option: string) => void
+  children: React.ReactNode
 }
 
-export default function TabMenu({
-  options,
-  selectedOption,
-  onSelect,
-}: TabMenuProps): JSX.Element {
-  return (
-    <Container>
-      {options.map(option => (
-        <Option
-          key={option.id}
-          active={selectedOption === option.id}
-          onClick={() => onSelect(option.id)}
-        >
-          {option.text}
-        </Option>
-      ))}
-    </Container>
-  )
+export default function TabMenu({ children }: TabMenuProps): JSX.Element {
+  return <MenuContainer>{children}</MenuContainer>
 }
 
-const Container = styled.div`
+const MenuContainer = styled.div`
   display: flex;
 `
 
-const Option = styled.button<{ active: boolean }>`
-  flex-grow: 1;
+export const Tab = styled.button<{ active?: boolean }>`
   text-align: center;
-  padding: 10px 0;
-  cursor: pointer;
   border: none;
+  padding: 10px 0;
+  flex-grow: 1;
+  cursor: pointer;
   background-color: transparent;
   transition: 0.1s ease;
   border-bottom: ${({ active }) =>
