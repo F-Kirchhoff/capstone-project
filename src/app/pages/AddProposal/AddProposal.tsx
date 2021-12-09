@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import FormInput from '../../components/FormInput/FormInput'
 import useFetch from '../../hooks/useFetch'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
+import { BiChevronsLeft } from 'react-icons/bi'
 import type { Proposal, Topic } from '../../types/types'
 
 const MAX_DESCRIPTION_LENGTH = 144
@@ -34,12 +34,7 @@ export default function AddProposal(): JSX.Element {
     const newProposal: Proposal = {
       id: nanoid(),
       description,
-      votes: {
-        pro: [],
-        neutral: [],
-        remarks: [],
-        concerns: [],
-      },
+      votes: [],
     }
 
     await fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
@@ -54,7 +49,7 @@ export default function AddProposal(): JSX.Element {
     <PageContainer>
       <Background>
         <ReturnButton to="..">
-          <DoubleChevronLeft width={'24'} />
+          <BiChevronsLeft size="32px" />
         </ReturnButton>
         <Header>Add Proposal</Header>
       </Background>

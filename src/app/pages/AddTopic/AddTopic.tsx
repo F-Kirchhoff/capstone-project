@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import TopicForm from '../../components/TopicForm/TopicForm'
 import useFetch from '../../hooks/useFetch'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
+import { BiChevronsLeft } from 'react-icons/bi'
 import type { Board, Topic } from '../../types/types'
 
 export default function AddTopic(): JSX.Element {
@@ -21,7 +21,7 @@ export default function AddTopic(): JSX.Element {
   return (
     <AddTopicContainer>
       <ReturnButton to="..">
-        <DoubleChevronLeft width={'24'} />
+        <BiChevronsLeft size="32px" />
       </ReturnButton>
       <Header>Add Topic</Header>
       <TopicForm

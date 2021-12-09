@@ -7,7 +7,7 @@ import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import type { Proposal, Vote } from '../../types/types'
-import { BiChevronsRight } from 'react-icons/bi'
+import { BiChevronsLeft } from 'react-icons/bi'
 
 const DEFAULT = {
   id: '0',
@@ -52,7 +52,7 @@ export default function ProposalView(): JSX.Element {
   return (
     <ProposalViewContainer>
       <ReturnButton to="..">
-        <BiChevronsRight size="32px" />
+        <BiChevronsLeft size="32px" />
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>

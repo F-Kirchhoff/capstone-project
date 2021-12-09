@@ -9,8 +9,8 @@ import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import Proposal from '../../components/Proposal/Proposal'
-import Icon from '@mdi/react'
-import { mdiChevronDoubleLeft } from '@mdi/js'
+import { BiChevronsLeft } from 'react-icons/bi'
+
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
 const menuTabs = [
@@ -92,7 +92,7 @@ function TopicView(): JSX.Element {
         <>
           <TopicContainer>
             <TitleContainer to={`../..`}>
-              <Icon path={mdiChevronDoubleLeft} size="32px" /> <h2> {title}</h2>
+              <BiChevronsLeft size="32px" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
             <SliderMenu

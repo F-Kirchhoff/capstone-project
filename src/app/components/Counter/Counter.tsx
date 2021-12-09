@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { mdiChevronDown, mdiChevronUp } from '@mdi/js'
-import Icon from '@mdi/react'
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa'
 
 type CounterProps = {
   value: number
@@ -17,11 +16,11 @@ export default function Counter({
   return (
     <CounterContainer>
       <VoteButton displayType="up" onClick={onIncrement}>
-        <Icon path={mdiChevronUp} />
+        <FaChevronUp />
       </VoteButton>
       <p>{value}</p>
       <VoteButton displayType="down" onClick={onDecrement}>
-        <Icon path={mdiChevronDown} />
+        <FaChevronDown />
       </VoteButton>
     </CounterContainer>
   )
@@ -39,19 +38,19 @@ const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   background-color: transparent;
   align-self: center;
   justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
-  width: 20px;
-  height: 10px;
-  transform: ${({ displayType }) =>
-    displayType === 'up' ? 'translateY(-30%)' : 'translateY(-70%)'};
+  height: 8px;
   cursor: pointer;
   transition: ease 0.1s;
   &:hover {
     transform: ${({ displayType }) =>
-      displayType === 'up' ? 'translateY(-40%)' : 'translateY(-60%)'};
+      displayType === 'up' ? 'translateY(-10%)' : 'translateY(10%)'};
   }
   &:active {
     transform: ${({ displayType }) =>
-      displayType === 'up' ? 'translateY(-50%)' : 'translateY(-50%)'};
+      displayType === 'up' ? 'translateY(-30%)' : 'translateY(30%)'};
   }
 `
