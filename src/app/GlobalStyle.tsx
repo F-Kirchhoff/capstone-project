@@ -31,7 +31,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     padding: 0;
-    color: var(--c-dark); 
+    color: var(--c-dark);
+    background-color: var(--c-gray-100) ;
     font-family: 'Lato',Arial;
   }
 `

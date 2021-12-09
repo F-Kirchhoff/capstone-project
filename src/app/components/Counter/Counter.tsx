@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ChevronDown from '../../Icons/ChevronDown'
-import ChevronUp from '../../Icons/ChevronUp'
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa'
 
 type CounterProps = {
   value: number
@@ -17,11 +16,11 @@ export default function Counter({
   return (
     <CounterContainer>
       <VoteButton displayType="up" onClick={onIncrement}>
-        <ChevronUp />
+        <FaChevronUp />
       </VoteButton>
       <p>{value}</p>
       <VoteButton displayType="down" onClick={onDecrement}>
-        <ChevronDown />
+        <FaChevronDown />
       </VoteButton>
     </CounterContainer>
   )
@@ -39,18 +38,19 @@ const VoteButton = styled.button<{ displayType?: 'up' | 'down' }>`
   background-color: transparent;
   align-self: center;
   justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
-  width: 20px;
-  height: 10px;
-  transform: translateY(-50%);
+  height: 8px;
   cursor: pointer;
   transition: ease 0.1s;
   &:hover {
     transform: ${({ displayType }) =>
-      displayType === 'up' ? 'translateY(-60%)' : 'translateY(-40%)'};
+      displayType === 'up' ? 'translateY(-10%)' : 'translateY(10%)'};
   }
   &:active {
     transform: ${({ displayType }) =>
-      displayType === 'up' ? 'translateY(-80%)' : 'translateY(-20%)'};
+      displayType === 'up' ? 'translateY(-30%)' : 'translateY(30%)'};
   }
 `

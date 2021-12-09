@@ -1,63 +1,123 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
-
-type TopicDetailViewProps = {
-  content: Topic
-  onNeedSubmit: (need: NeedType) => void
-  onUpvoteChange: (needId: string) => (updatedVotes: number) => void
-}
+import useFetch from '../../hooks/useFetch'
+import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import Proposal from '../../components/Proposal/Proposal'
+import { BiChevronsLeft } from 'react-icons/bi'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
-function TopicView({
-  content,
-  onNeedSubmit,
-  onUpvoteChange,
-}: TopicDetailViewProps): JSX.Element {
-  const { title, description, needs } = content
-  const [view, setView] = useState<ViewMsgType>('')
+const menuTabs = [
+  { id: 'needs', text: 'needs' },
+  { id: 'proposals', text: 'proposals' },
+]
 
-  function handleNeedSubmit(newNeed: NeedType) {
+function TopicView(): JSX.Element {
+  const { boardName, topicId } = useParams()
+  const nav = useNavigate()
+
+  const [topic, fetchTopic] = useFetch<Topic>(
+    `/api/boards/${boardName}/topics/${topicId}`
+  )
+
+  const { title, description, needs, proposals } = topic
+    ? topic
+    : { title: '', description: '', needs: [], proposals: [] }
+
+  useEffect(() => {
+    fetchTopic('GET', '/')
+  }, [])
+
+  const [view, setView] = useState<ViewMsgType>('')
+  const [tab, setCategory] = useState('needs')
+
+  const handleNeedSubmit = async (newNeed: NeedType) => {
+    // finds the correct topic and adds a need
+    await fetchTopic('POST', `/addNeed`, JSON.stringify({ newNeed }))
     setView('')
-    onNeedSubmit(newNeed)
+    fetchTopic('GET', '/')
+  }
+
+  const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
+    // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
+    await fetchTopic(
+      'PATCH',
+      `/needs/${needId}`,
+      JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
+    )
+    fetchTopic('GET', '/')
+  }
+
+  let tabContent
+
+  if (tab === 'needs') {
+    if (needs.length > 0) {
+      tabContent = (
+        <NeedsList>
+          {needs.map(need => (
+            <Need
+              key={need.id}
+              content={need}
+              onUpvoteChange={handleNeedUpvote(need.id)}
+            />
+          ))}
+        </NeedsList>
+      )
+    } else {
+      tabContent = <Disclaimer>no needs added yet.</Disclaimer>
+    }
+  } else {
+    if (proposals.length > 0) {
+      tabContent = (
+        <ProposalList>
+          {proposals.map(proposal => (
+            <Proposal content={proposal} key={proposal.id} />
+          ))}
+        </ProposalList>
+      )
+    } else {
+      tabContent = <Disclaimer>no proposals added yet.</Disclaimer>
+    }
   }
 
   return (
     <>
-      <TopicContainer>
-        <TitleContainer to={'/'}>
-          <DoubleChevronLeft width="24" /> <h2> {title}</h2>
-        </TitleContainer>
-        <Description>{description}</Description>
-        <h3>Needs</h3>
-        {needs.length > 0 ? (
-          <NeedsList>
-            {needs.map(need => (
-              <Need
-                key={need.id}
-                content={need}
-                onUpvoteChange={onUpvoteChange(need.id)}
+      {topic && (
+        <>
+          <TopicContainer>
+            <TitleContainer to={`../..`}>
+              <BiChevronsLeft size="32px" /> <h2> {title}</h2>
+            </TitleContainer>
+            <Description>{description}</Description>
+            <SliderMenu
+              options={menuTabs}
+              selectedOption={tab}
+              onSelect={option => setCategory(option)}
+            />
+            {tabContent}
+            {tab === 'needs' ? (
+              <Button onClick={() => setView('SHOW_NEED_FORM')}>
+                Add Need
+              </Button>
+            ) : (
+              <Button onClick={() => nav('addProposal')}>Add Proposal</Button>
+            )}
+          </TopicContainer>
+          {view === 'SHOW_NEED_FORM' && (
+            <OverlayWrapper onReturn={() => setView('')}>
+              <NeedForm
+                onSubmit={handleNeedSubmit}
+                onCancel={() => setView('')}
               />
-            ))}
-          </NeedsList>
-        ) : (
-          <Disclaimer>no needs here yet.</Disclaimer>
-        )}
-        <Button highlight onClick={() => setView('SHOW_NEED_FORM')}>
-          Add Need
-        </Button>
-      </TopicContainer>
-      {view === 'SHOW_NEED_FORM' && (
-        <OverlayWrapper onReturn={() => setView('')}>
-          <NeedForm onSubmit={handleNeedSubmit} onCancel={() => setView('')} />
-        </OverlayWrapper>
+            </OverlayWrapper>
+          )}
+        </>
       )}
     </>
   )
@@ -102,9 +162,13 @@ const NeedsList = styled.ul`
   display: flex;
   flex-direction: column;
   background-color: var(--c-gray-200);
-  gap: 1px;
+  gap: 2px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+`
+const ProposalList = styled.ul`
+  display: grid;
+  gap: 10px;
 `

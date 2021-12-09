@@ -1,3 +1,5 @@
+import type { ObjectId } from 'mongodb'
+
 export type Need = {
   id: string
   text: string
@@ -9,15 +11,23 @@ export type Topic = {
   title: string
   description: string
   needs: Need[]
+  proposals: Proposal[]
 }
 
 export type Proposal = {
   id: string
   description: string
-  votes: {
-    pro: string[]
-    neutral: string[]
-    remarks: string[]
-    concerns: string[]
-  }
+  votes: Vote[]
+}
+
+export type Board = {
+  _id: ObjectId
+  name: string
+  topics: Topic[]
+}
+
+export type Vote = {
+  id: string
+  text: string
+  type: string
 }
