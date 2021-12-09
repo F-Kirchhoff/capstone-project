@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import Proposal from '../../components/Proposal/Proposal'
-
+import Icon from '@mdi/react'
+import { mdiChevronDoubleLeft } from '@mdi/js'
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
 const menuTabs = [
@@ -92,7 +92,7 @@ function TopicView(): JSX.Element {
         <>
           <TopicContainer>
             <TitleContainer to={`../..`}>
-              <DoubleChevronLeft width="24" /> <h2> {title}</h2>
+              <Icon path={mdiChevronDoubleLeft} size="32px" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
             <SliderMenu
