@@ -4,13 +4,12 @@ import type { Vote } from '../../types/types'
 import Button from '../Button/Button'
 import { nanoid } from 'nanoid'
 import FormInput from '../FormInput/FormInput'
-import Icon from '@mdi/react'
 import {
-  mdiPartyPopper,
-  mdiCheck,
-  mdiHelpRhombusOutline,
-  mdiAlertRhombusOutline,
-} from '@mdi/js'
+  FaStar,
+  FaCheck,
+  FaRegQuestionCircle,
+  FaExclamationCircle,
+} from 'react-icons/fa'
 
 type VoteFormProps = {
   onSubmit: (newVote: Vote) => void
@@ -55,10 +54,10 @@ export default function VoteForm({
   const textDiff = MAX_DESCRIPTION_LENGTH - text.length
   const voteTypes: VoteTypes[] = ['pro', 'neutral', 'remarks', 'concerns']
   const voteTypeSymbols = {
-    pro: mdiPartyPopper,
-    neutral: mdiCheck,
-    remarks: mdiHelpRhombusOutline,
-    concerns: mdiAlertRhombusOutline,
+    pro: <FaStar size="1em" />,
+    neutral: <FaCheck size="1em" />,
+    remarks: <FaRegQuestionCircle size="1em" />,
+    concerns: <FaExclamationCircle size="1em" />,
   }
   const voteTypeColors = {
     pro: '#65ac95',
@@ -85,10 +84,7 @@ export default function VoteForm({
               onClick={() => setVoteType(type)}
               active={voteType === type}
             >
-              <Icon
-                path={voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
-                size="1em"
-              />
+              {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
             </VoteType>
           ))}
         </VoteTypePicker>

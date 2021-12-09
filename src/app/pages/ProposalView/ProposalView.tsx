@@ -6,8 +6,8 @@ import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import type { Proposal, Vote } from '../../types/types'
+import { BiChevronsLeft } from 'react-icons/bi'
 
 const DEFAULT = {
   id: '0',
@@ -52,7 +52,7 @@ export default function ProposalView(): JSX.Element {
   return (
     <ProposalViewContainer>
       <ReturnButton to="..">
-        <DoubleChevronLeft width={'24'} />
+        <BiChevronsLeft size="32px" />
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
@@ -109,6 +109,7 @@ const Disclaimer = styled.p`
 `
 
 const ReturnButton = styled(Link)`
+  line-height: 0;
   color: inherit;
   text-decoration: none;
 `

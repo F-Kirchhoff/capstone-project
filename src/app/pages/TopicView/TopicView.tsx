@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import Proposal from '../../components/Proposal/Proposal'
+import { BiChevronsLeft } from 'react-icons/bi'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
@@ -92,7 +92,7 @@ function TopicView(): JSX.Element {
         <>
           <TopicContainer>
             <TitleContainer to={`../..`}>
-              <DoubleChevronLeft width="24" /> <h2> {title}</h2>
+              <BiChevronsLeft size="32px" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
             <SliderMenu
