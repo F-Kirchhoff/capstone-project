@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import type { Topic } from '../../types/types'
 import DoubleChevronRight from '../../Icons/DoubleChevronRight'
 import { Link } from 'react-router-dom'
+import Icon from '@mdi/react'
+import { mdiChevronDoubleRight } from '@mdi/js'
 
 type TopicCompactViewProps = {
   content: Topic
@@ -14,7 +16,7 @@ export default function TopicCompactView({
   return (
     <TopicCompact to={`topics/${content.id}`}>
       <h2>{content.title}</h2>
-      <DoubleChevronRight width={'24'} />
+      <Icon path={mdiChevronDoubleRight} size="32px" />
     </TopicCompact>
   )
 }
@@ -25,6 +27,7 @@ const TopicCompact = styled(Link)`
   font-weight: bold;
   text-decoration: none;
   display: grid;
+  align-items: center;
   grid-template-columns: 1fr auto;
   cursor: pointer;
   & > h2 {
