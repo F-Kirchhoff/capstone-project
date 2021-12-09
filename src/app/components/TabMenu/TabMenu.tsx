@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type SliderMenuProps = {
+type TabMenuProps = {
   options: {
     id: string
     text: string
@@ -10,11 +10,11 @@ type SliderMenuProps = {
   onSelect: (option: string) => void
 }
 
-export default function SliderMenu({
+export default function TabMenu({
   options,
   selectedOption,
   onSelect,
-}: SliderMenuProps): JSX.Element {
+}: TabMenuProps): JSX.Element {
   return (
     <Container>
       {options.map(option => (

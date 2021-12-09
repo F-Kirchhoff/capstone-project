@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import SliderMenu from './SliderMenu'
+import TabMenu from './TabMenu'
 
 export default {
-  title: 'Component/SliderMenu',
-  component: SliderMenu,
+  title: 'Component/TabMenu',
+  component: TabMenu,
 }
 
 export const Regular = (): JSX.Element => {
@@ -14,10 +14,6 @@ export const Regular = (): JSX.Element => {
   ]
   const [option, setOption] = useState('pro')
   return (
-    <SliderMenu
-      options={options}
-      onSelect={setOption}
-      selectedOption={option}
-    />
+    <TabMenu options={options} onSelect={setOption} selectedOption={option} />
   )
 }

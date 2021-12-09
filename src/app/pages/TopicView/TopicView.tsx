@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
-import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import TabMenu from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
 
@@ -95,7 +95,7 @@ function TopicView(): JSX.Element {
               <BiChevronsLeft size="32px" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
-            <SliderMenu
+            <TabMenu
               options={menuTabs}
               selectedOption={tab}
               onSelect={option => setCategory(option)}

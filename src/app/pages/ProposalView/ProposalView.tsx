@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
-import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import TabMenu from '../../components/TabMenu/TabMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import type { Proposal, Vote } from '../../types/types'
@@ -56,7 +56,7 @@ export default function ProposalView(): JSX.Element {
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
-      <SliderMenu
+      <TabMenu
         options={menuCategories}
         selectedOption={voteCategory}
         onSelect={setVoteCategory}
