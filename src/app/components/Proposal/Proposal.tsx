@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import DoubleChevronRight from '../../Icons/DoubleChevronRight'
 import type { Proposal as ProposalType } from '../../types/types'
 import Icon from '@mdi/react'
 import {
@@ -9,6 +8,7 @@ import {
   mdiCheck,
   mdiHelpRhombusOutline,
   mdiAlertRhombusOutline,
+  mdiChevronDoubleRight,
 } from '@mdi/js'
 
 type ProposalProps = {
@@ -39,7 +39,7 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
         </VoteCounter>
       ))}
       <DetailViewButton to={`proposals/${id}`}>
-        <DoubleChevronRight width={'24'} />
+        <Icon path={mdiChevronDoubleRight} size="24px" />
       </DetailViewButton>
     </PropsoalContainer>
   )
@@ -85,6 +85,7 @@ const DetailViewButton = styled(Link)`
   background-color: var(--c-primary);
   text-decoration: none;
   padding: 5px;
+  line-height: 0;
   border-radius: 999px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
