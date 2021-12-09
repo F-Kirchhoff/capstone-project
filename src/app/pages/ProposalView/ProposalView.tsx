@@ -7,8 +7,7 @@ import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import type { Proposal, Vote } from '../../types/types'
-import Icon from '@mdi/react'
-import { mdiChevronDoubleLeft } from '@mdi/js'
+import { BiChevronsRight } from 'react-icons/bi'
 
 const DEFAULT = {
   id: '0',
@@ -53,7 +52,7 @@ export default function ProposalView(): JSX.Element {
   return (
     <ProposalViewContainer>
       <ReturnButton to="..">
-        <Icon path={mdiChevronDoubleLeft} size="32px" />
+        <BiChevronsRight size="32px" />
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
@@ -110,7 +109,7 @@ const Disclaimer = styled.p`
 `
 
 const ReturnButton = styled(Link)`
-  color: inherit;
   line-height: 0;
+  color: inherit;
   text-decoration: none;
 `
