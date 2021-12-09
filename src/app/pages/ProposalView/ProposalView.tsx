@@ -3,11 +3,17 @@ import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
-import TabMenu from '../../components/TabMenu/TabMenu'
+import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import type { Proposal, Vote } from '../../types/types'
 import { BiChevronsLeft } from 'react-icons/bi'
+import {
+  FaCheck,
+  FaExclamationCircle,
+  FaRegQuestionCircle,
+  FaStar,
+} from 'react-icons/fa'
 
 const DEFAULT = {
   id: '0',
@@ -35,20 +41,21 @@ export default function ProposalView(): JSX.Element {
   const VotesWithComments = votes.filter(
     (vote: Vote) => vote.type === voteCategory && vote.text !== ''
   )
+
   const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
-  const menuCategories = voteTypes.map(category => ({
-    id: category,
-    text: `${category} (${
-      votes.filter((vote: Vote) => vote.type === category).length
-    })`,
-  }))
+  const voteTypeSymbols = {
+    pro: <FaStar size="1em" />,
+    neutral: <FaCheck size="1em" />,
+    remarks: <FaRegQuestionCircle size="1em" />,
+    concerns: <FaExclamationCircle size="1em" />,
+  }
 
   function handleVoteSubmit(newVote: Vote) {
     fetchProposal('POST', '/addVote', JSON.stringify({ newVote }))
     fetchProposal('GET', '/')
     setView('')
   }
-
+  // votes.filter((vote: Vote) => vote.type === category).length
   return (
     <ProposalViewContainer>
       <ReturnButton to="..">
@@ -56,11 +63,20 @@ export default function ProposalView(): JSX.Element {
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
-      <TabMenu
-        options={menuCategories}
-        selectedOption={voteCategory}
-        onSelect={setVoteCategory}
-      />
+      <TabMenu>
+        {voteTypes.map(type => (
+          <Tab
+            key={type}
+            active={voteCategory === type}
+            onClick={() => setVoteCategory(type)}
+          >
+            {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
+            <span>{`(${
+              votes.filter((vote: Vote) => vote.type === type).length
+            })`}</span>
+          </Tab>
+        ))}
+      </TabMenu>
       {VotesWithComments.length > 0 ? (
         <VotesContainer>
           {VotesWithComments.map((vote: Vote) => (

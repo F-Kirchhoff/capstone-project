@@ -19,6 +19,10 @@ export const Tab = styled.button<{ active?: boolean }>`
   padding: 10px 0;
   flex-grow: 1;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   background-color: transparent;
   transition: 0.1s ease;
   border-bottom: ${({ active }) =>
