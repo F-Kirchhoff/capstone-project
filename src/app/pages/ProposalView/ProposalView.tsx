@@ -12,12 +12,7 @@ import type { Proposal, Vote } from '../../types/types'
 const DEFAULT = {
   id: '0',
   description: '',
-  votes: {
-    pro: [],
-    neutral: [],
-    remarks: [],
-    concerns: [],
-  },
+  votes: [],
 }
 
 export default function ProposalView(): JSX.Element {
@@ -36,18 +31,21 @@ export default function ProposalView(): JSX.Element {
   const { description, votes } = proposal ? proposal : DEFAULT
 
   const [voteCategory, setVoteCategory] = useState<string>('pro')
-  const votesFromCategory: string[] = votes[voteCategory as keyof typeof votes]
 
-  const VotesWithTextAvailable =
-    votesFromCategory.filter((voteText: string) => voteText !== '').length > 0
-
-  const menuCategories = Object.keys(votes).map(category => ({
+  const VotesWithComments = votes.filter(
+    (vote: Vote) => vote.type === voteCategory && vote.text !== ''
+  )
+  const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
+  const menuCategories = voteTypes.map(category => ({
     id: category,
-    text: `${category} (${votes[category as keyof typeof votes].length})`,
+    text: `${category} (${
+      votes.filter((vote: Vote) => vote.type === category).length
+    })`,
   }))
 
   function handleVoteSubmit(newVote: Vote) {
-    console.log(newVote)
+    fetchProposal('POST', '/addVote', JSON.stringify({ newVote }))
+    fetchProposal('GET', '/')
     setView('')
   }
 
@@ -63,13 +61,11 @@ export default function ProposalView(): JSX.Element {
         selectedOption={voteCategory}
         onSelect={setVoteCategory}
       />
-      {VotesWithTextAvailable ? (
+      {VotesWithComments.length > 0 ? (
         <VotesContainer>
-          {votesFromCategory
-            .filter((voteText: string) => voteText !== '')
-            .map((voteText: string) => (
-              <VoteDisplay>{voteText}</VoteDisplay>
-            ))}
+          {VotesWithComments.map((vote: Vote) => (
+            <VoteDisplay key={vote.id}>{vote.text}</VoteDisplay>
+          ))}
         </VotesContainer>
       ) : (
         <Disclaimer> No votes with comments in this category.</Disclaimer>
@@ -96,6 +92,7 @@ const ProposalViewContainer = styled.div`
 const VotesContainer = styled.ul`
   display: grid;
   gap: 1px;
+  padding: 1px 0;
   background-color: var(--c-gray-400);
   border-radius: 3px;
   overflow: hidden;

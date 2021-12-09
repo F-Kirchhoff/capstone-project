@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import DoubleChevronRight from '../../Icons/DoubleChevronRight'
 import type { Proposal as ProposalType } from '../../types/types'
+import Icon from '@mdi/react'
+import {
+  mdiPartyPopper,
+  mdiCheck,
+  mdiHelpRhombusOutline,
+  mdiAlertRhombusOutline,
+} from '@mdi/js'
 
 type ProposalProps = {
   content: ProposalType
@@ -10,21 +17,27 @@ type ProposalProps = {
 
 export default function Proposal({ content }: ProposalProps): JSX.Element {
   const { id, description, votes } = content
+
+  const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
+  const voteTypeSymbols = {
+    pro: mdiPartyPopper,
+    neutral: mdiCheck,
+    remarks: mdiHelpRhombusOutline,
+    concerns: mdiAlertRhombusOutline,
+  }
+
   return (
     <PropsoalContainer>
       <Description>{description}</Description>
-      <VoteCounter>
-        <span>+</span> <span>{votes.pro.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>=</span> <span>{votes.neutral.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>?</span> <span>{votes.remarks.length}</span>
-      </VoteCounter>
-      <VoteCounter>
-        <span>!</span> <span>{votes.concerns.length}</span>
-      </VoteCounter>
+      {voteTypes.map(type => (
+        <VoteCounter>
+          <Icon
+            path={voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
+            size="1em"
+          />
+          <span>{votes.filter(vote => vote.type === type).length}</span>
+        </VoteCounter>
+      ))}
       <DetailViewButton to={`proposals/${id}`}>
         <DoubleChevronRight width={'24'} />
       </DetailViewButton>
@@ -57,6 +70,7 @@ const Description = styled.p`
 const VoteCounter = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 20px;
   padding: 5px;
   flex-grow: 1;
