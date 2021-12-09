@@ -6,8 +6,9 @@ import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import SliderMenu from '../../components/SliderMenu/SliderMenu'
 import VoteForm from '../../components/VoteForm/VoteForm'
 import useFetch from '../../hooks/useFetch'
-import DoubleChevronLeft from '../../Icons/DoubleChevronLeft'
 import type { Proposal, Vote } from '../../types/types'
+import Icon from '@mdi/react'
+import { mdiChevronDoubleLeft } from '@mdi/js'
 
 const DEFAULT = {
   id: '0',
@@ -52,7 +53,7 @@ export default function ProposalView(): JSX.Element {
   return (
     <ProposalViewContainer>
       <ReturnButton to="..">
-        <DoubleChevronLeft width={'24'} />
+        <Icon path={mdiChevronDoubleLeft} size="32px" />
       </ReturnButton>
       <h1>Proposal</h1>
       <p>{description}</p>
@@ -110,5 +111,6 @@ const Disclaimer = styled.p`
 
 const ReturnButton = styled(Link)`
   color: inherit;
+  line-height: 0;
   text-decoration: none;
 `
