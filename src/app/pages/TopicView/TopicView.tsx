@@ -9,7 +9,7 @@ import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
-import { BiCategory, BiChevronsLeft } from 'react-icons/bi'
+import { BiChevronsLeft } from 'react-icons/bi'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
