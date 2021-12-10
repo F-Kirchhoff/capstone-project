@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import OverlayWrapper from '../OverlayWrapper/OverlayWrapper'
-import { FaEllipsisH } from 'react-icons/fa'
+import { FaEllipsisH, FaEllipsisV } from 'react-icons/fa'
+
+type DropDownMenuProps = {
+  children: React.ReactNode
+  vertial?: boolean
+}
 
 export default function DropdownMenu({
   children,
-}: React.PropsWithChildren<React.ReactFragment>): JSX.Element {
+  vertial,
+}: DropDownMenuProps): JSX.Element {
   const [showMenu, setShowMenu] = useState(false)
   return (
     <>
-      <MenuButton onClick={() => setShowMenu(true)} />
+      <MenuButton onClick={() => setShowMenu(true)}>
+        {vertial ? <FaEllipsisV /> : <FaEllipsisH />}
+      </MenuButton>
       {showMenu && (
         <OverlayWrapper onReturn={() => setShowMenu(false)} transparent>
           <FixedWrapper>
@@ -41,7 +49,7 @@ const MenuContainer = styled.ul`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
-const MenuButton = styled(FaEllipsisH)`
+const MenuButton = styled.div`
   color: rgba(0, 0, 0, 0.7);
   margin: 0 0;
   position: absolute;
