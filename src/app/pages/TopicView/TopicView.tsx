@@ -178,6 +178,3 @@ const ProposalList = styled.ul`
   display: grid;
   gap: 10px;
 `
-const Inside = styled.p`
-  color: red;
-`
