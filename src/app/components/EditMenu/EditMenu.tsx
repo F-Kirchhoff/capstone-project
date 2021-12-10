@@ -7,7 +7,10 @@ type EditMenuProps = {
   onDelete: () => void
 }
 
-export default function EditMenu({ onEdit, onDelete }: EditMenuProps) {
+export default function EditMenu({
+  onEdit,
+  onDelete,
+}: EditMenuProps): JSX.Element {
   return (
     <DropdownMenu>
       <MenuItem onClick={onEdit}>

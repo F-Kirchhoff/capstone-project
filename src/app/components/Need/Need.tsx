@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import type { Need as NeedType } from '../../types/types'
 import Counter from '../Counter/Counter'
+import EditMenu from '../EditMenu/EditMenu'
 
 type NeedProps = {
   content: NeedType
@@ -26,15 +27,20 @@ export default function Need({
         onDecrement={handleUpvoteChange(-1)}
       />
       <p>{text}</p>
+      <EditMenu
+        onEdit={() => console.log('Enter Edit')}
+        onDelete={() => console.log('Enter Delete')}
+      />
     </NeedContainer>
   )
 }
 
 const NeedContainer = styled.li`
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
-  gap: 10px;
+  column-gap: 10px;
   padding: 10px 10px;
   background-color: var(--c-gray-50);
   & > p {

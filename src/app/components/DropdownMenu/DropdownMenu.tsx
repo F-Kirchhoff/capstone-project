@@ -12,19 +12,27 @@ export default function DropdownMenu({
       <MenuButton onClick={() => setShowMenu(true)} />
       {showMenu && (
         <OverlayWrapper onReturn={() => setShowMenu(false)} transparent>
-          <MenuContainer onClick={() => setShowMenu(false)}>
-            {children}
-          </MenuContainer>
+          <FixedWrapper>
+            <MenuContainer onClick={() => setShowMenu(false)}>
+              {children}
+            </MenuContainer>
+          </FixedWrapper>
         </OverlayWrapper>
       )}
     </>
   )
 }
 
-const MenuContainer = styled.ul`
+const FixedWrapper = styled.div`
   position: absolute;
+  top: 24px;
   right: 4px;
-  top: 18px;
+`
+
+const MenuContainer = styled.ul`
+  position: fixed;
+  z-index: 1000;
+  transform: translateX(-100%);
   border-radius: 5px;
   background-color: var(--c-gray-200);
   border: solid 1px var(--c-gray-500);
@@ -38,11 +46,12 @@ const MenuContainer = styled.ul`
   }
 `
 const MenuButton = styled(FaEllipsisH)`
+  color: rgba(0, 0, 0, 0.7);
   margin: 0 0;
   position: absolute;
-  top: 0;
+  top: 8px;
   right: 8px;
-  font-size: 18px;
+  font-size: 1rem;
   cursor: pointer;
 `
 export const MenuItem = styled.li`
