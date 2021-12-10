@@ -7,16 +7,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
-import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
-
-const menuTabs = [
-  { id: 'needs', text: 'needs' },
-  { id: 'proposals', text: 'proposals' },
-]
 
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
@@ -95,11 +90,22 @@ function TopicView(): JSX.Element {
               <BiChevronsLeft size="32px" /> <h2> {title}</h2>
             </TitleContainer>
             <Description>{description}</Description>
-            <SliderMenu
-              options={menuTabs}
-              selectedOption={tab}
-              onSelect={option => setCategory(option)}
-            />
+            <TabMenu>
+              <Tab
+                key="needs"
+                active={tab === 'needs'}
+                onClick={() => setCategory('needs')}
+              >
+                needs
+              </Tab>
+              <Tab
+                key="proposals"
+                active={tab === 'proposals'}
+                onClick={() => setCategory('proposals')}
+              >
+                proposals
+              </Tab>
+            </TabMenu>
             {tabContent}
             {tab === 'needs' ? (
               <Button onClick={() => setView('SHOW_NEED_FORM')}>
