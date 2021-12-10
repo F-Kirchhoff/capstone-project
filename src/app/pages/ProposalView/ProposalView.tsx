@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
@@ -14,6 +14,7 @@ import {
   FaRegQuestionCircle,
   FaStar,
 } from 'react-icons/fa'
+import EditMenu from '../../components/EditMenu/EditMenu'
 
 const DEFAULT = {
   id: '0',
@@ -23,6 +24,7 @@ const DEFAULT = {
 
 export default function ProposalView(): JSX.Element {
   const { boardName, topicId, proposalId } = useParams()
+  const nav = useNavigate()
 
   const [proposal, fetchProposal] = useFetch<Proposal>(
     `/api/boards/${boardName}/topics/${topicId}/proposals/${proposalId}`
@@ -58,9 +60,14 @@ export default function ProposalView(): JSX.Element {
   // votes.filter((vote: Vote) => vote.type === category).length
   return (
     <ProposalViewContainer>
-      <ReturnButton to="..">
-        <BiChevronsLeft size="32px" />
-      </ReturnButton>
+      <NavContainer>
+        <BiChevronsLeft size="32px" onClick={() => nav('..')} />
+        <EditMenu
+          onEdit={() => console.log('Enter Edit')}
+          onDelete={() => console.log('Enter Delete')}
+          vertical
+        />
+      </NavContainer>
       <h1>Proposal</h1>
       <p>{description}</p>
       <TabMenu>
@@ -123,9 +130,14 @@ const Disclaimer = styled.p`
   color: var(--c-gray-400);
   text-align: center;
 `
-
-const ReturnButton = styled(Link)`
-  line-height: 0;
-  color: inherit;
+const NavContainer = styled.header`
   text-decoration: none;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  & > h2 {
+    overflow: hidden;
+  }
 `

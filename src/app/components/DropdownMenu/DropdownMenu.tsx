@@ -1,48 +1,63 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import OverlayWrapper from '../OverlayWrapper/OverlayWrapper'
-import { FaEllipsisH } from 'react-icons/fa'
+import { FaEllipsisH, FaEllipsisV } from 'react-icons/fa'
+
+type DropDownMenuProps = {
+  children: React.ReactNode
+  vertical?: boolean
+}
 
 export default function DropdownMenu({
   children,
-}: React.PropsWithChildren<React.ReactFragment>): JSX.Element {
+  vertical,
+}: DropDownMenuProps): JSX.Element {
   const [showMenu, setShowMenu] = useState(false)
   return (
-    <>
-      <MenuButton onClick={() => setShowMenu(true)} />
+    <Container>
+      <MenuButton onClick={() => setShowMenu(true)}>
+        {vertical ? <FaEllipsisV /> : <FaEllipsisH />}
+      </MenuButton>
       {showMenu && (
         <OverlayWrapper onReturn={() => setShowMenu(false)} transparent>
-          <MenuContainer onClick={() => setShowMenu(false)}>
-            {children}
-          </MenuContainer>
+          <FixedWrapper>
+            <MenuContainer onClick={() => setShowMenu(false)}>
+              {children}
+            </MenuContainer>
+          </FixedWrapper>
         </OverlayWrapper>
       )}
-    </>
+    </Container>
   )
 }
 
-const MenuContainer = styled.ul`
+const Container = styled.div`
+  position: relative;
+  display: inline-block;
+`
+
+const FixedWrapper = styled.div`
   position: absolute;
-  right: 4px;
-  top: 18px;
+  top: 20px;
+  right: -4px;
+`
+
+const MenuContainer = styled.ul`
+  position: fixed;
+  z-index: 1000;
+  transform: translateX(-100%);
   border-radius: 5px;
-  background-color: var(--c-gray-200);
+  background-color: var(--c-gray-100);
   border: solid 1px var(--c-gray-500);
   font-size: 0.9rem;
   overflow: hidden;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-
-  & > li:nth-child(n + 2) {
-    border-top: solid 1px var(--c-gray-500);
-  }
 `
-const MenuButton = styled(FaEllipsisH)`
+const MenuButton = styled.div`
+  color: rgba(0, 0, 0, 0.7);
   margin: 0 0;
-  position: absolute;
-  top: 0;
-  right: 8px;
-  font-size: 18px;
+  font-size: 1rem;
   cursor: pointer;
 `
 export const MenuItem = styled.li`
@@ -56,6 +71,6 @@ export const MenuItem = styled.li`
   padding: 7px;
 
   &:hover {
-    background-color: var(--c-gray-100);
+    background-color: var(--c-light);
   }
 `

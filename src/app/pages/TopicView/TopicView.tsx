@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/NeedForm/NeedForm'
 import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import useFetch from '../../hooks/useFetch'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
+import EditMenu from '../../components/EditMenu/EditMenu'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
@@ -86,9 +87,15 @@ function TopicView(): JSX.Element {
       {topic && (
         <>
           <TopicContainer>
-            <TitleContainer to={`../..`}>
-              <BiChevronsLeft size="32px" /> <h2> {title}</h2>
-            </TitleContainer>
+            <NavContainer>
+              <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
+              <EditMenu
+                onEdit={() => console.log('Enter Edit')}
+                onDelete={() => console.log('Enter Delete')}
+                vertical
+              />
+            </NavContainer>
+            <h2> {title}</h2>
             <Description>{description}</Description>
             <TabMenu>
               <Tab
@@ -140,14 +147,12 @@ const TopicContainer = styled.article`
   flex-direction: column;
   gap: 10px;
 `
-const TitleContainer = styled(Link)`
+const NavContainer = styled.header`
   text-decoration: none;
-  color: var(--c-primary);
-  font-family: 'Plairfair';
-  font-weight: bold;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 20px;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   & > h2 {
     overflow: hidden;
