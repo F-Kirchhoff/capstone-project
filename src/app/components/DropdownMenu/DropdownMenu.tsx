@@ -5,18 +5,18 @@ import { FaEllipsisH, FaEllipsisV } from 'react-icons/fa'
 
 type DropDownMenuProps = {
   children: React.ReactNode
-  vertial?: boolean
+  vertical?: boolean
 }
 
 export default function DropdownMenu({
   children,
-  vertial,
+  vertical,
 }: DropDownMenuProps): JSX.Element {
   const [showMenu, setShowMenu] = useState(false)
   return (
-    <>
+    <Container>
       <MenuButton onClick={() => setShowMenu(true)}>
-        {vertial ? <FaEllipsisV /> : <FaEllipsisH />}
+        {vertical ? <FaEllipsisV /> : <FaEllipsisH />}
       </MenuButton>
       {showMenu && (
         <OverlayWrapper onReturn={() => setShowMenu(false)} transparent>
@@ -27,14 +27,19 @@ export default function DropdownMenu({
           </FixedWrapper>
         </OverlayWrapper>
       )}
-    </>
+    </Container>
   )
 }
 
+const Container = styled.div`
+  position: relative;
+  display: inline-block;
+`
+
 const FixedWrapper = styled.div`
   position: absolute;
-  top: 24px;
-  right: 4px;
+  top: 20px;
+  right: -4px;
 `
 
 const MenuContainer = styled.ul`
@@ -52,9 +57,6 @@ const MenuContainer = styled.ul`
 const MenuButton = styled.div`
   color: rgba(0, 0, 0, 0.7);
   margin: 0 0;
-  position: absolute;
-  top: 8px;
-  right: 8px;
   font-size: 1rem;
   cursor: pointer;
 `

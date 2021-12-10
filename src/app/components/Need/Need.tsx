@@ -20,29 +20,42 @@ export default function Need({
   }
 
   return (
-    <NeedContainer>
-      <Counter
-        value={upvotes}
-        onIncrement={handleUpvoteChange(1)}
-        onDecrement={handleUpvoteChange(-1)}
-      />
-      <p>{text}</p>
+    <Container>
       <EditMenu
         onEdit={() => console.log('Enter Edit')}
         onDelete={() => console.log('Enter Delete')}
       />
-    </NeedContainer>
+      <NeedContainer>
+        <Counter
+          value={upvotes}
+          onIncrement={handleUpvoteChange(1)}
+          onDecrement={handleUpvoteChange(-1)}
+        />
+        <p>{text}</p>
+      </NeedContainer>
+    </Container>
   )
 }
 
+const Container = styled.li`
+  background-color: var(--c-gray-50);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  & > *:first-child {
+    height: 4px;
+    align-self: flex-end;
+    top: 5px;
+    right: 5px;
+  }
+`
+
 const NeedContainer = styled.li`
-  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
-  column-gap: 10px;
+  gap: 10px;
   padding: 10px 10px;
-  background-color: var(--c-gray-50);
   & > p {
     align-self: center;
   }

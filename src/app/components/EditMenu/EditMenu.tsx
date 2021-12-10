@@ -5,14 +5,16 @@ import DropdownMenu, { MenuItem } from '../DropdownMenu/DropdownMenu'
 type EditMenuProps = {
   onEdit: () => void
   onDelete: () => void
+  vertical?: boolean
 }
 
 export default function EditMenu({
   onEdit,
   onDelete,
+  vertical,
 }: EditMenuProps): JSX.Element {
   return (
-    <DropdownMenu>
+    <DropdownMenu vertical={vertical}>
       <MenuItem onClick={onEdit}>
         <FaEdit />
         <span>edit</span>
