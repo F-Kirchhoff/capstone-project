@@ -1,13 +1,9 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody, Proposal, Topic } from '../../app/types/types'
+import type { fetchBody } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 
 const votes = express.Router()
-
-votes.get('/', async (_req: Request, _res: Response) => {
-  return
-})
 
 votes.post('/', async (req: Request, res: Response) => {
   const {
@@ -26,10 +22,4 @@ votes.post('/', async (req: Request, res: Response) => {
   res.send(msg)
 })
 
-votes.patch('/', async (_req: Request, _res: Response) => {
-  return
-})
-
-votes.delete('/', async (_req: Request, _res: Response) => {
-  return
-})
+export default votes

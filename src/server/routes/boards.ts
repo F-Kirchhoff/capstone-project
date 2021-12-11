@@ -10,10 +10,12 @@ boards.get('/', async (req: Request, res: Response) => {
 
   const boards = await getBoards()
   const board = await boards.findOne({ name })
+
   if (!board) {
     res.status(404).send(`Error: no board called ${name} found.`)
     return
   }
+
   res.send(board)
 })
 

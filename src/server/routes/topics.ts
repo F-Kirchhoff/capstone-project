@@ -10,6 +10,7 @@ topics.get('/', async (req: Request, res: Response) => {
 
   const boards = await getBoards()
   const board = await boards.findOne({ name })
+
   if (!board) {
     res.status(404).send(`Error: no board called ${name} found.`)
     return
@@ -21,6 +22,7 @@ topics.get('/', async (req: Request, res: Response) => {
     res.status(404).send(`Error: no topic with id ${topicId} found.`)
     return
   }
+
   res.send(topic)
 })
 
@@ -32,23 +34,8 @@ topics.post('/', async (req: Request, res: Response) => {
     { name },
     { $push: { topics: topic } }
   )
+
   res.send(msg)
-})
-
-topics.patch('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, payload: topic }: fetchBody = req.body
-
-  const boards = await getBoards()
-
-  res.send('patched!')
-})
-
-topics.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId }: fetchBody = req.body
-
-  const boards = await getBoards()
-
-  res.send('deleted!')
 })
 
 export default topics

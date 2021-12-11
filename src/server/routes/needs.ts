@@ -38,14 +38,6 @@ needs.patch('/', async (req: Request, res: Response) => {
       break
     }
   }
-
-  res.send('patched!')
 })
 
-needs.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, needId }: fetchBody = req.body
-
-  const boards = await getBoards()
-
-  res.send('deleted!')
-})
+export default needs

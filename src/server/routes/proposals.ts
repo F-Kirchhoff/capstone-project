@@ -43,26 +43,6 @@ proposals.post('/', async (req: Request, res: Response) => {
     { $push: { 'topics.$.proposals': newProposal } }
   )
   res.send(msg)
-  res.send(msg)
 })
 
-proposals.patch('/', async (req: Request, res: Response) => {
-  const {
-    boardName: name,
-    topicId,
-    needId,
-    payload: topic,
-  }: fetchBody = req.body
-
-  const boards = await getBoards()
-
-  res.send('patched!')
-})
-
-proposals.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, needId }: fetchBody = req.body
-
-  const boards = await getBoards()
-
-  res.send('deleted!')
-})
+export default proposals
