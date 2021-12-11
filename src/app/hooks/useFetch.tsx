@@ -30,7 +30,9 @@ function useFetch<Type>(url: string): useFetchReturnType<Type> {
         break
       }
 
-      case 'POST' || 'PATCH' || 'DELETE': {
+      case 'POST':
+      case 'PATCH':
+      case 'DELETE': {
         const res = await fetch(url, {
           method,
           headers: {
