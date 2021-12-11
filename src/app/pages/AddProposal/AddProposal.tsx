@@ -68,7 +68,7 @@ export default function AddProposal(): JSX.Element {
           <NeedsList>
             {needs.map(need => (
               <NeedContainer key={need.id}>
-                <input type="checkbox" />
+                <input type="checkbox" key={need.id} />
                 <p>
                   {need.text}
                   {` (${need.upvotes})`}
@@ -83,7 +83,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Add Topic</Button>
+          <Button highlight>Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>
