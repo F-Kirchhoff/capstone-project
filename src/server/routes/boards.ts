@@ -56,8 +56,8 @@ boards.get('/:name/topics/:topicId', async (req: Request, res: Response) => {
   res.send(topic)
 })
 
-boards.get('/:name', async (req: Request, res: Response) => {
-  const { name } = req.params
+boards.get('/', async (req: Request, res: Response) => {
+  const { name } = req.query
 
   const boards = await getBoards()
   const board = await boards.findOne({ name })

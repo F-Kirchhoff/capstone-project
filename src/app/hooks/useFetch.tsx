@@ -1,19 +1,37 @@
 import { useState } from 'react'
 
-function useFetch<Type>(
-  url: string
-): [Type | null, (method: string, endpoint: string, body?: string) => void] {
+type fetchBody = {
+  name?: string
+  topicId?: string
+  needId?: string
+  proposalId?: string
+  voteId?: string
+  updateMsg?: string
+  payload?: any
+}
+
+type useFetchReturnType<Type> = [
+  Type | null,
+  (method: string, body: fetchBody) => void
+]
+
+function useFetch<Type>(url: string): useFetchReturnType<Type> {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, endpoint: string, body?: string) {
+  async function fetchData(method: string, body: string) {
     switch (method) {
       case 'GET': {
-        const res = await fetch(`${url}${endpoint}`)
+        const query = Object.keys(body)
+          .map(key => `${key}=${body[key as keyof typeof body]}`)
+          .join('&')
+        const res = await fetch(`${url}?${query}`)
         if (res.ok) {
           const fetchedData = await res.json()
           setData(fetchedData)
         } else {
-          console.error(`${res.status}: Something went wrong :/`)
+          console.error(
+            `${res.status}: Fetch failed. Body: ${JSON.stringify(body)}`
+          )
         }
         break
       }
