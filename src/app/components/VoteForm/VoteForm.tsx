@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa'
 
 type VoteFormProps = {
-  onSubmit: (newVote: Vote) => void
+  onSubmit: (payload: { type: VoteTypes; text: string }) => void
   onCancel: () => void
 }
 
@@ -37,7 +37,6 @@ export default function VoteForm({
     }
 
     const newVote = {
-      id: nanoid(),
       text,
       type: voteType,
     }
