@@ -2,6 +2,7 @@ import express from 'express'
 import type { Response, Request } from 'express'
 import type { fetchBody, Proposal, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
+import { nanoid } from 'nanoid'
 
 const proposals = express.Router()
 
@@ -35,7 +36,22 @@ proposals.get('/', async (req: Request, res: Response) => {
 })
 
 proposals.post('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, payload: newProposal }: fetchBody = req.body
+  const {
+    boardName: name,
+    topicId,
+    payload: { description },
+  }: fetchBody = req.body
+
+  if (typeof description !== 'string' || description.length === 0) {
+    res.status(422).send(`Error: Input data invalid.`)
+    return
+  }
+
+  const newProposal = {
+    id: nanoid(),
+    description,
+    votes: [],
+  }
 
   const boards = await getBoards()
   const msg = await boards.updateOne(

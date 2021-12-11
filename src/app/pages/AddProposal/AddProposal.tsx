@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -36,13 +35,11 @@ export default function AddProposal(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const newProposal: Proposal = {
-      id: nanoid(),
+    const payload = {
       description,
-      votes: [],
     }
 
-    await fetchProposal('POST', { payload: newProposal })
+    await fetchProposal('POST', { payload })
     nav('..')
   }
 
