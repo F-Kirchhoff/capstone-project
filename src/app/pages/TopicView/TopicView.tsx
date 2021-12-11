@@ -11,6 +11,7 @@ import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
 import EditMenu from '../../components/EditMenu/EditMenu'
+import Alert from '../../components/Alert/Alert'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
@@ -37,10 +38,16 @@ function TopicView(): JSX.Element {
 
   const [view, setView] = useState<ViewMsgType>('')
   const [tab, setCategory] = useState('needs')
+  const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
+    show: false,
+    id: null,
+  })
 
   const handleDelete = async () => {
-    await fetchTopic('DELETE', { topicId })
-    nav('../..')
+    if (popup.id === 'TOPIC') {
+      await fetchTopic('DELETE', { topicId })
+      nav('../..')
+    }
   }
 
   const handleNeedSubmit = async (payload: { text: string }) => {
@@ -101,7 +108,7 @@ function TopicView(): JSX.Element {
               <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
               <EditMenu
                 onEdit={() => console.log('Enter Edit')}
-                onDelete={handleDelete}
+                onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
                 vertical
               />
             </NavContainer>
@@ -139,6 +146,18 @@ function TopicView(): JSX.Element {
                 onCancel={() => setView('')}
               />
             </OverlayWrapper>
+          )}
+          {popup.show && (
+            <Alert
+              onConfirm={() => {
+                handleDelete()
+                setPopup({ show: false, id: null })
+              }}
+              onCancel={() => setPopup({ show: false, id: null })}
+            >
+              You are going to permantly delete this{' '}
+              {popup.id === 'TOPIC' ? 'topic' : 'need'}. Proceed?
+            </Alert>
           )}
         </>
       )}
