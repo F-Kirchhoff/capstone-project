@@ -13,14 +13,13 @@ const MAX_DESCRIPTION_LENGTH = 144
 export default function AddProposal(): JSX.Element {
   const { boardName, topicId } = useParams()
 
-  const [topic, fetchTopic] = useFetch<Topic>(
-    `/api/boards/${boardName}/topics/${topicId}`
-  )
+  const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`)
+  const [_proposal, fetchProposal] = useFetch<Proposal>(`/api/proposals`)
 
   const needs = topic ? topic.needs : []
 
   useEffect(() => {
-    fetchTopic('GET', '/')
+    fetchTopic('GET', { boardName, topicId })
   }, [])
 
   const [description, setDescription] = useState('')
@@ -37,7 +36,7 @@ export default function AddProposal(): JSX.Element {
       votes: [],
     }
 
-    await fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
+    await fetchProposal('POST', { boardName, topicId, payload: newProposal })
     nav('..')
   }
 
