@@ -38,6 +38,11 @@ function TopicView(): JSX.Element {
   const [view, setView] = useState<ViewMsgType>('')
   const [tab, setCategory] = useState('needs')
 
+  const handleDelete = async () => {
+    await fetchTopic('DELETE', { topicId })
+    nav('../..')
+  }
+
   const handleNeedSubmit = async (payload: { text: string }) => {
     // finds the correct topic and adds a need
     await fetchNeed('POST', { payload })
@@ -96,7 +101,7 @@ function TopicView(): JSX.Element {
               <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
               <EditMenu
                 onEdit={() => console.log('Enter Edit')}
-                onDelete={() => console.log('Enter Delete')}
+                onDelete={handleDelete}
                 vertical
               />
             </NavContainer>

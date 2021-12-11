@@ -1,9 +1,9 @@
 import express from 'express'
-import type { Response, Request } from 'express'
-import type { Board, fetchBody, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 import { nanoid } from 'nanoid'
 
+import type { Response, Request } from 'express'
+import type { Board, fetchBody, Topic } from '../../app/types/types'
 import type { PullOperator, PushOperator } from 'mongodb'
 
 const topics = express.Router()
