@@ -1,14 +1,5 @@
 import { useState } from 'react'
-
-type fetchBody = {
-  name?: string
-  topicId?: string
-  needId?: string
-  proposalId?: string
-  voteId?: string
-  updateMsg?: string
-  payload?: any
-}
+import type { fetchBody } from '../types/types'
 
 type useFetchReturnType<Type> = [
   Type | null,

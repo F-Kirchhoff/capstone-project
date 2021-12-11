@@ -17,7 +17,7 @@ export default function Dashboard(): JSX.Element {
   const [board, fetchBoard] = useFetch<Board>(`/api/boards`)
 
   useEffect(() => {
-    fetchBoard('GET', { name: boardName })
+    fetchBoard('GET', { boardName })
   }, [])
 
   const topics = board ? board.topics : []

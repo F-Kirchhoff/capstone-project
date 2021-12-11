@@ -1,12 +1,12 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { Proposal, Topic } from '../../app/types/types'
+import type { fetchBody, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 
 const topics = express.Router()
 
-topics.get('/:name/topics/:topicId', async (req: Request, res: Response) => {
-  const { name, topicId } = req.params
+topics.get('/', async (req: Request, res: Response) => {
+  const { boardName: name, topicId }: fetchBody = req.query
 
   const boards = await getBoards()
   const board = await boards.findOne({ name })
@@ -25,7 +25,7 @@ topics.get('/:name/topics/:topicId', async (req: Request, res: Response) => {
 })
 
 topics.post('/', async (req: Request, res: Response) => {
-  const { name, payload: topic } = req.body
+  const { boardName: name, payload: topic }: fetchBody = req.body
 
   const boards = await getBoards()
   const msg = await boards.findOneAndUpdate(
@@ -36,7 +36,7 @@ topics.post('/', async (req: Request, res: Response) => {
 })
 
 topics.patch('/', async (req: Request, res: Response) => {
-  const { name, topicId, payload: topic } = req.body
+  const { boardName: name, topicId, payload: topic }: fetchBody = req.body
 
   const boards = await getBoards()
 
@@ -44,7 +44,7 @@ topics.patch('/', async (req: Request, res: Response) => {
 })
 
 topics.delete('/', async (req: Request, res: Response) => {
-  const { name, topicId, payload: topic } = req.body
+  const { boardName: name, topicId }: fetchBody = req.body
 
   const boards = await getBoards()
 

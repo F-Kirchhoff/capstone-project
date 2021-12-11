@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { Proposal, Topic } from '../../app/types/types'
+import type { fetchBody, Proposal, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 
 const boards = express.Router()
@@ -37,27 +37,8 @@ boards.get(
   }
 )
 
-boards.get('/:name/topics/:topicId', async (req: Request, res: Response) => {
-  const { name, topicId } = req.params
-
-  const boards = await getBoards()
-  const board = await boards.findOne({ name })
-  if (!board) {
-    res.status(404).send(`Error: no board called ${name} found.`)
-    return
-  }
-
-  const topic = board.topics.find((topic: Topic) => topic.id === topicId)
-
-  if (!topic) {
-    res.status(404).send(`Error: no topic with id ${topicId} found.`)
-    return
-  }
-  res.send(topic)
-})
-
 boards.get('/', async (req: Request, res: Response) => {
-  const { name } = req.query
+  const { boardName: name }: fetchBody = req.query
 
   const boards = await getBoards()
   const board = await boards.findOne({ name })
@@ -115,7 +96,7 @@ boards.post(
 boards.patch(
   '/:name/topics/:topicId/needs/:needId',
   async (req: Request, res: Response) => {
-    const { name, topicId, needId } = req.params
+    const { boardname: name, topicId, needId } = req.params
     const { patchMsg, payload } = req.body
 
     const boards = await getBoards()
@@ -133,17 +114,5 @@ boards.patch(
     }
   }
 )
-
-boards.post('/:name/addtopic', async (req: Request, res: Response) => {
-  const { name } = req.params
-  const { topic } = req.body
-
-  const boards = await getBoards()
-  const msg = await boards.findOneAndUpdate(
-    { name },
-    { $push: { topics: topic } }
-  )
-  res.send(msg)
-})
 
 export default boards
