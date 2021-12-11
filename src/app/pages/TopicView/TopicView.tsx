@@ -18,15 +18,21 @@ function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
   const nav = useNavigate()
 
-  const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`)
-  const [_need, fetchNeed] = useFetch<NeedType>(`/api/needs`)
+  const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`, {
+    boardName,
+    topicId,
+  })
+  const [_need, fetchNeed] = useFetch<NeedType>(`/api/needs`, {
+    boardName,
+    topicId,
+  })
 
   const { title, description, needs, proposals } = topic
     ? topic
     : { title: '', description: '', needs: [], proposals: [] }
 
   useEffect(() => {
-    fetchTopic('GET', { boardName, topicId })
+    fetchTopic('GET')
   }, [])
 
   const [view, setView] = useState<ViewMsgType>('')
@@ -34,21 +40,19 @@ function TopicView(): JSX.Element {
 
   const handleNeedSubmit = async (newNeed: NeedType) => {
     // finds the correct topic and adds a need
-    await fetchNeed('POST', { boardName, topicId, payload: newNeed })
-    await fetchTopic('GET', { boardName, topicId })
+    await fetchNeed('POST', { payload: newNeed })
+    await fetchTopic('GET')
     setView('')
   }
 
   const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
     // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
     fetchNeed('PATCH', {
-      boardName,
-      topicId,
       needId,
       patchMsg: 'UPVOTES',
       payload: upvotes,
     })
-    fetchTopic('GET', { boardName, topicId })
+    fetchTopic('GET')
   }
 
   let tabContent
