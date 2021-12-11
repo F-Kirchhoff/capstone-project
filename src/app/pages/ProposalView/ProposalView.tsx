@@ -26,14 +26,22 @@ export default function ProposalView(): JSX.Element {
   const { boardName, topicId, proposalId } = useParams()
   const nav = useNavigate()
 
-  const [proposal, fetchProposal] = useFetch<Proposal>(`/api/proposals`)
-  const [_vote, fetchVote] = useFetch<Vote>(`/api/votes`)
+  const [proposal, fetchProposal] = useFetch<Proposal>(`/api/proposals`, {
+    boardName,
+    topicId,
+    proposalId,
+  })
+  const [_vote, fetchVote] = useFetch<Vote>(`/api/votes`, {
+    boardName,
+    topicId,
+    proposalId,
+  })
 
   const [view, setView] = useState<'SHOW_VOTE_FORM' | ''>('')
   const [voteCategory, setVoteCategory] = useState<string>('pro')
 
   useEffect(() => {
-    fetchProposal('GET', { boardName, topicId, proposalId })
+    fetchProposal('GET')
   }, [])
 
   const { description, votes } = proposal ? proposal : DEFAULT
@@ -52,12 +60,9 @@ export default function ProposalView(): JSX.Element {
 
   async function handleVoteSubmit(newVote: Vote) {
     await fetchVote('POST', {
-      boardName,
-      topicId,
-      proposalId,
       payload: newVote,
     })
-    await fetchProposal('GET', { boardName, topicId, proposalId })
+    await fetchProposal('GET')
     setView('')
   }
 
