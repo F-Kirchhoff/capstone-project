@@ -10,12 +10,10 @@ import type { Board, Topic } from '../../types/types'
 export default function AddTopic(): JSX.Element {
   const nav = useNavigate()
   const { boardName } = useParams()
-  const [_board, fetchBoard] = useFetch<Board>(
-    `/api/boards/${boardName}/addTopic`
-  )
+  const [_topic, fetchTopic] = useFetch<Board>(`/api/topics`)
 
-  async function handleTopicSubmit(topic: Topic) {
-    await fetchBoard('POST', '/', JSON.stringify({ topic }))
+  async function handleTopicSubmit(newTopic: Topic) {
+    await fetchTopic('POST', { boardName, payload: newTopic })
     nav('..')
   }
   return (
