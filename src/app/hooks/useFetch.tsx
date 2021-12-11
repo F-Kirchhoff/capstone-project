@@ -12,66 +12,45 @@ type fetchBody = {
 
 type useFetchReturnType<Type> = [
   Type | null,
-  (method: string, body: fetchBody) => void
+  (method: string, body: fetchBody) => Promise<void>
 ]
 
 function useFetch<Type>(url: string): useFetchReturnType<Type> {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, body: string) {
+  async function fetchData(method: string, body: fetchBody) {
     switch (method) {
       case 'GET': {
         const query = Object.keys(body)
           .map(key => `${key}=${body[key as keyof typeof body]}`)
           .join('&')
+
         const res = await fetch(`${url}?${query}`)
-        if (res.ok) {
-          const fetchedData = await res.json()
-          setData(fetchedData)
-        } else {
+
+        if (!res.ok) {
           console.error(
-            `${res.status}: Fetch failed. Body: ${JSON.stringify(body)}`
+            `${res.status}: GET failed. Body: ${JSON.stringify(body)}`
           )
+          return
         }
+
+        const fetchedData = await res.json()
+        setData(fetchedData)
         break
       }
 
-      case 'POST': {
-        const res = await fetch(`${url}${endpoint}`, {
+      case 'POST' || 'PATCH' || 'DELETE': {
+        const res = await fetch(url, {
           method,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: body || '[]',
+          body: JSON.stringify(body),
         })
         if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
-        }
-        break
-      }
-      case 'PATCH': {
-        const res = await fetch(`${url}${endpoint}`, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body || '[]',
-        })
-        if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
-        }
-        break
-      }
-      case 'DELETE': {
-        const res = await fetch(`${url}${endpoint}`, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body || '[]',
-        })
-        if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
+          console.error(
+            `${res.status}: ${method} failed: ${JSON.stringify(body)}`
+          )
         }
         break
       }
