@@ -37,6 +37,6 @@ export type fetchBody = {
   needId?: string
   proposalId?: string
   voteId?: string
-  updateMsg?: string
+  patchMsg?: string
   payload?: any
 }
