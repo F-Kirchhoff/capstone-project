@@ -5,15 +5,15 @@ import styled from 'styled-components'
 import TopicForm from '../../components/TopicForm/TopicForm'
 import useFetch from '../../hooks/useFetch'
 import { BiChevronsLeft } from 'react-icons/bi'
-import type { Board, Topic } from '../../types/types'
+import type { Topic } from '../../types/types'
 
 export default function AddTopic(): JSX.Element {
   const nav = useNavigate()
   const { boardName } = useParams()
-  const [_topic, fetchTopic] = useFetch<Board>(`/api/topics`)
+  const [_topic, fetchTopic] = useFetch<Topic>(`/api/topics`, { boardName })
 
   async function handleTopicSubmit(newTopic: Topic) {
-    await fetchTopic('POST', { boardName, payload: newTopic })
+    await fetchTopic('POST', { payload: newTopic })
     nav('..')
   }
   return (
