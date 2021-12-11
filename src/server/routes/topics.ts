@@ -4,7 +4,7 @@ import type { Board, fetchBody, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 import { nanoid } from 'nanoid'
 
-import type { PushOperator } from 'mongodb'
+import type { PullOperator, PushOperator } from 'mongodb'
 
 const topics = express.Router()
 
@@ -54,6 +54,17 @@ topics.post('/', async (req: Request, res: Response) => {
     { $push: <PushOperator<Board>>{ topics: topic } }
   )
 
+  res.send(msg)
+})
+
+topics.delete('/', async (req: Request, res: Response) => {
+  const { boardName: name, topicId }: fetchBody = req.body
+
+  const boards = await getBoards()
+  const msg = await boards.findOneAndUpdate(
+    { name },
+    { $pull: <PullOperator<Board>>{ topics: { id: topicId } } }
+  )
   res.send(msg)
 })
 
