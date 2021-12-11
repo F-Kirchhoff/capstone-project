@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import type { Topic } from '../../types/types'
 import Button from '../Button/Button'
-import { nanoid } from 'nanoid'
 import FormInput from '../FormInput/FormInput'
 
 type TopicFormProps = {
-  onSubmit: (newTopic: Topic) => void
+  onSubmit: (payload: { title: string; description: string }) => void
   onCancel: () => void
 }
 
@@ -22,14 +20,11 @@ export default function TopicForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const newTopic = {
-      id: nanoid(),
+    const payload = {
       title,
       description,
-      needs: [],
-      proposals: [],
     }
-    onSubmit(newTopic)
+    onSubmit(payload)
   }
 
   function handleCancel() {
