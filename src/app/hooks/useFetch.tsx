@@ -3,13 +3,16 @@ import type { fetchBody } from '../types/types'
 
 type useFetchReturnType<Type> = [
   Type | null,
-  (method: string, body: fetchBody) => Promise<void>
+  (method: string, bodyAdditions?: fetchBody) => Promise<void>
 ]
 
-function useFetch<Type>(url: string): useFetchReturnType<Type> {
+function useFetch<Type>(
+  url: string,
+  body: fetchBody = {}
+): useFetchReturnType<Type> {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, body: fetchBody) {
+  async function fetchData(method: string, bodyAdditions: fetchBody = {}) {
     switch (method) {
       case 'GET': {
         const query = Object.keys(body)
@@ -38,7 +41,7 @@ function useFetch<Type>(url: string): useFetchReturnType<Type> {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(body),
+          body: JSON.stringify({ ...body, ...bodyAdditions }),
         })
         if (!res.ok) {
           console.error(
