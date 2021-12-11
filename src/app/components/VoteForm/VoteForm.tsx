@@ -34,11 +34,11 @@ export default function VoteForm({
       return
     }
 
-    const newVote = {
+    const payload = {
       text,
       type: voteType,
     }
-    onSubmit(newVote)
+    onSubmit(payload)
   }
 
   function handleCancel() {
