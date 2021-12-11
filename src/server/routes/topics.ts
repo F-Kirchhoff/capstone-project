@@ -35,7 +35,7 @@ topics.post('/', async (req: Request, res: Response) => {
     payload: { title, description },
   }: fetchBody = req.body
 
-  if (!title || typeof description !== 'string') {
+  if (typeof title !== 'string' || typeof description !== 'string') {
     res.status(422).send(`Error: Input data invalid.`)
     return
   }

@@ -12,8 +12,11 @@ export default function AddTopic(): JSX.Element {
   const { boardName } = useParams()
   const [_topic, fetchTopic] = useFetch<Topic>(`/api/topics`, { boardName })
 
-  async function handleTopicSubmit(newTopic: Topic) {
-    await fetchTopic('POST', { payload: newTopic })
+  async function handleTopicSubmit(payload: {
+    title: string
+    description: string
+  }) {
+    await fetchTopic('POST', { payload })
     nav('..')
   }
   return (
@@ -23,8 +26,8 @@ export default function AddTopic(): JSX.Element {
       </ReturnButton>
       <Header>Add Topic</Header>
       <TopicForm
-        onSubmit={(newTopic: Topic) => {
-          handleTopicSubmit(newTopic)
+        onSubmit={payload => {
+          handleTopicSubmit(payload)
           nav('..')
         }}
         onCancel={() => nav('..')}
