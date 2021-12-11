@@ -13,14 +13,19 @@ const MAX_DESCRIPTION_LENGTH = 144
 export default function AddProposal(): JSX.Element {
   const { boardName, topicId } = useParams()
 
-  const [topic, fetchTopic] = useFetch<Topic>(
-    `/api/boards/${boardName}/topics/${topicId}`
-  )
+  const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`, {
+    boardName,
+    topicId,
+  })
+  const [_proposal, fetchProposal] = useFetch<Proposal>(`/api/proposals`, {
+    boardName,
+    topicId,
+  })
 
   const needs = topic ? topic.needs : []
 
   useEffect(() => {
-    fetchTopic('GET', '/')
+    fetchTopic('GET')
   }, [])
 
   const [description, setDescription] = useState('')
@@ -37,7 +42,7 @@ export default function AddProposal(): JSX.Element {
       votes: [],
     }
 
-    await fetchTopic('POST', '/addProposal', JSON.stringify({ newProposal }))
+    await fetchProposal('POST', { payload: newProposal })
     nav('..')
   }
 
@@ -69,7 +74,7 @@ export default function AddProposal(): JSX.Element {
           <NeedsList>
             {needs.map(need => (
               <NeedContainer key={need.id}>
-                <input type="checkbox" />
+                <input type="checkbox" key={need.id} />
                 <p>
                   {need.text}
                   {` (${need.upvotes})`}
@@ -84,7 +89,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Add Topic</Button>
+          <Button highlight>Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>

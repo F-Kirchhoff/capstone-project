@@ -28,7 +28,7 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
     <PropsoalContainer>
       <Description>{description}</Description>
       {voteTypes.map(type => (
-        <VoteCounter>
+        <VoteCounter key={type}>
           {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
           <span>{votes.filter(vote => vote.type === type).length}</span>
         </VoteCounter>

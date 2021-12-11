@@ -26,19 +26,25 @@ export default function ProposalView(): JSX.Element {
   const { boardName, topicId, proposalId } = useParams()
   const nav = useNavigate()
 
-  const [proposal, fetchProposal] = useFetch<Proposal>(
-    `/api/boards/${boardName}/topics/${topicId}/proposals/${proposalId}`
-  )
+  const [proposal, fetchProposal] = useFetch<Proposal>(`/api/proposals`, {
+    boardName,
+    topicId,
+    proposalId,
+  })
+  const [_vote, fetchVote] = useFetch<Vote>(`/api/votes`, {
+    boardName,
+    topicId,
+    proposalId,
+  })
 
   const [view, setView] = useState<'SHOW_VOTE_FORM' | ''>('')
+  const [voteCategory, setVoteCategory] = useState<string>('pro')
 
   useEffect(() => {
-    fetchProposal('GET', '/')
+    fetchProposal('GET')
   }, [])
 
   const { description, votes } = proposal ? proposal : DEFAULT
-
-  const [voteCategory, setVoteCategory] = useState<string>('pro')
 
   const VotesWithComments = votes.filter(
     (vote: Vote) => vote.type === voteCategory && vote.text !== ''
@@ -52,12 +58,14 @@ export default function ProposalView(): JSX.Element {
     concerns: <FaExclamationCircle size="1em" />,
   }
 
-  function handleVoteSubmit(newVote: Vote) {
-    fetchProposal('POST', '/addVote', JSON.stringify({ newVote }))
-    fetchProposal('GET', '/')
+  async function handleVoteSubmit(newVote: Vote) {
+    await fetchVote('POST', {
+      payload: newVote,
+    })
+    await fetchProposal('GET')
     setView('')
   }
-  // votes.filter((vote: Vote) => vote.type === category).length
+
   return (
     <ProposalViewContainer>
       <NavContainer>
@@ -78,9 +86,9 @@ export default function ProposalView(): JSX.Element {
             onClick={() => setVoteCategory(type)}
           >
             {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
-            <span>{`(${
-              votes.filter((vote: Vote) => vote.type === type).length
-            })`}</span>
+            <span>
+              {`(${votes.filter((vote: Vote) => vote.type === type).length})`}
+            </span>
           </Tab>
         ))}
       </TabMenu>
