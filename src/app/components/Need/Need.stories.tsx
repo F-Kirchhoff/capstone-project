@@ -20,12 +20,24 @@ const EXAMPLE_LONG = {
 
 export const Short = (): JSX.Element => (
   <Need
+    onDelete={() => {
+      console.log('Delete')
+    }}
+    onEdit={() => {
+      console.log('Edit')
+    }}
     onUpvoteChange={(upvotes: number) => console.log(upvotes)}
     content={EXAMPLE}
   />
 )
 export const Long = (): JSX.Element => (
   <Need
+    onDelete={() => {
+      console.log('Delete')
+    }}
+    onEdit={() => {
+      console.log('Edit')
+    }}
     onUpvoteChange={(upvotes: number) => console.log(upvotes)}
     content={EXAMPLE_LONG}
   />
