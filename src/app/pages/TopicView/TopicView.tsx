@@ -74,7 +74,7 @@ function TopicView(): JSX.Element {
     }
 
     if (editBuffer.id === 'TOPIC') {
-      console.log(content)
+      await fetchTopic('PATCH', { payload: content })
     } else {
       console.log(editBuffer)
     }

@@ -57,6 +57,33 @@ topics.post('/', async (req: Request, res: Response) => {
   res.send(msg)
 })
 
+topics.patch('/', async (req: Request, res: Response) => {
+  const {
+    boardName: name,
+    topicId,
+    payload: { title, description },
+  }: fetchBody = req.body
+
+  if (typeof title !== 'string' || typeof description !== 'string') {
+    res.status(422).send(`Error: Input data invalid.`)
+    return
+  }
+
+  const boards = await getBoards()
+  const msg = await boards.findOneAndUpdate(
+    { name },
+    {
+      $set: {
+        'topics.$[topic].title': title,
+        'topics.$[topic].description': description,
+      },
+    },
+    { arrayFilters: [{ 'topic.id': topicId }] }
+  )
+
+  res.send(msg)
+})
+
 topics.delete('/', async (req: Request, res: Response) => {
   const { boardName: name, topicId }: fetchBody = req.body
 
