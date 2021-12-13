@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from '../Button/Button'
 import FormInput from '../FormInput/FormInput'
 import PopupForm from '../Forms/PopupForm'
 
