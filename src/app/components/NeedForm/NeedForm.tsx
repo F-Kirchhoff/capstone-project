@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import type { Need } from '../../types/types'
 import Button from '../Button/Button'
-import { nanoid } from 'nanoid'
 
 type NeedFormProps = {
-  onSubmit: (newTopic: Need) => void
+  onSubmit: (payload: { text: string }) => void
   onCancel: () => void
 }
 
@@ -19,12 +17,10 @@ export default function NeedForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const newNeed = {
-      id: nanoid(),
+    const payload = {
       text,
-      upvotes: 1,
     }
-    onSubmit(newNeed)
+    onSubmit(payload)
   }
 
   function handleCancel() {

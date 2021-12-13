@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import type { Vote } from '../../types/types'
 import Button from '../Button/Button'
-import { nanoid } from 'nanoid'
 import FormInput from '../FormInput/FormInput'
 import {
   FaStar,
@@ -12,7 +10,7 @@ import {
 } from 'react-icons/fa'
 
 type VoteFormProps = {
-  onSubmit: (newVote: Vote) => void
+  onSubmit: (payload: { type: VoteTypes; text: string }) => void
   onCancel: () => void
 }
 
@@ -36,12 +34,11 @@ export default function VoteForm({
       return
     }
 
-    const newVote = {
-      id: nanoid(),
+    const payload = {
       text,
       type: voteType,
     }
-    onSubmit(newVote)
+    onSubmit(payload)
   }
 
   function handleCancel() {

@@ -38,9 +38,9 @@ function TopicView(): JSX.Element {
   const [view, setView] = useState<ViewMsgType>('')
   const [tab, setCategory] = useState('needs')
 
-  const handleNeedSubmit = async (newNeed: NeedType) => {
+  const handleNeedSubmit = async (payload: { text: string }) => {
     // finds the correct topic and adds a need
-    await fetchNeed('POST', { payload: newNeed })
+    await fetchNeed('POST', { payload })
     await fetchTopic('GET')
     setView('')
   }

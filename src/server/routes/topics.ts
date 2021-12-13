@@ -1,7 +1,10 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody, Topic } from '../../app/types/types'
+import type { Board, fetchBody, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
+import { nanoid } from 'nanoid'
+
+import type { PushOperator } from 'mongodb'
 
 const topics = express.Router()
 
@@ -27,12 +30,28 @@ topics.get('/', async (req: Request, res: Response) => {
 })
 
 topics.post('/', async (req: Request, res: Response) => {
-  const { boardName: name, payload: topic }: fetchBody = req.body
+  const {
+    boardName: name,
+    payload: { title, description },
+  }: fetchBody = req.body
+
+  if (typeof title !== 'string' || typeof description !== 'string') {
+    res.status(422).send(`Error: Input data invalid.`)
+    return
+  }
+
+  const topic: Topic = {
+    id: nanoid(),
+    title,
+    description,
+    needs: [],
+    proposals: [],
+  }
 
   const boards = await getBoards()
   const msg = await boards.findOneAndUpdate(
     { name },
-    { $push: { topics: topic } }
+    { $push: <PushOperator<Board>>{ topics: topic } }
   )
 
   res.send(msg)

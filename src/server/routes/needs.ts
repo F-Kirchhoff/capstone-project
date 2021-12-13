@@ -2,11 +2,27 @@ import express from 'express'
 import type { Response, Request } from 'express'
 import type { fetchBody } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
+import { nanoid } from 'nanoid'
 
 const needs = express.Router()
 
 needs.post('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, payload: newNeed }: fetchBody = req.body
+  const {
+    boardName: name,
+    topicId,
+    payload: { text },
+  }: fetchBody = req.body
+
+  if (typeof text !== 'string' || text.length === 0) {
+    res.status(422).send(`Error: Input data invalid.`)
+    return
+  }
+
+  const newNeed = {
+    id: nanoid(),
+    text,
+    upvotes: 1,
+  }
 
   const boards = await getBoards()
   const msg = await boards.updateOne(

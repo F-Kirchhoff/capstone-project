@@ -58,10 +58,8 @@ export default function ProposalView(): JSX.Element {
     concerns: <FaExclamationCircle size="1em" />,
   }
 
-  async function handleVoteSubmit(newVote: Vote) {
-    await fetchVote('POST', {
-      payload: newVote,
-    })
+  async function handleVoteSubmit(payload: { text: string; type: string }) {
+    await fetchVote('POST', { payload })
     await fetchProposal('GET')
     setView('')
   }
