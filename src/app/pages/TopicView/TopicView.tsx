@@ -4,8 +4,7 @@ import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
 import { useNavigate, useParams } from 'react-router-dom'
-import NeedForm from '../../components/NeedForm/NeedForm'
-import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
+import NeedForm from '../../components/Forms/NeedForm'
 import useFetch from '../../hooks/useFetch'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
@@ -148,12 +147,10 @@ function TopicView(): JSX.Element {
             )}
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
-            <OverlayWrapper onReturn={() => setView('')}>
-              <NeedForm
-                onSubmit={handleNeedSubmit}
-                onCancel={() => setView('')}
-              />
-            </OverlayWrapper>
+            <NeedForm
+              onSubmit={handleNeedSubmit}
+              onCancel={() => setView('')}
+            />
           )}
           {popup.show && (
             <Alert

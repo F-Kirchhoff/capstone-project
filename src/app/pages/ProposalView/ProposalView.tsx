@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
-import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
-import VoteForm from '../../components/VoteForm/VoteForm'
+import VoteForm from '../../components/Forms/VoteForm'
 import useFetch from '../../hooks/useFetch'
 import type { Proposal, Vote } from '../../types/types'
 import { BiChevronsLeft } from 'react-icons/bi'
@@ -113,9 +112,7 @@ export default function ProposalView(): JSX.Element {
         submit your vote
       </Button>
       {view === 'SHOW_VOTE_FORM' && (
-        <OverlayWrapper onReturn={() => setView('')}>
-          <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
-        </OverlayWrapper>
+        <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
       )}
       {popup.show && (
         <Alert
