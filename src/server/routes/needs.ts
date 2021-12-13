@@ -24,7 +24,7 @@ needs.post('/', async (req: Request, res: Response) => {
     upvotes: 1,
   }
 
-  const boards = await getBoards()
+  const boards = getBoards()
   const msg = await boards.updateOne(
     { name, 'topics.id': topicId },
     { $push: { 'topics.$.needs': newNeed } }
@@ -41,7 +41,7 @@ needs.patch('/', async (req: Request, res: Response) => {
     payload,
   }: fetchBody = req.body
 
-  const boards = await getBoards()
+  const boards = getBoards()
 
   switch (patchMsg) {
     case 'UPVOTES': {
@@ -54,6 +54,20 @@ needs.patch('/', async (req: Request, res: Response) => {
       break
     }
   }
+})
+
+needs.delete('/', async (req: Request, res: Response) => {
+  const { boardName: name, topicId, needId }: fetchBody = req.body
+
+  const boards = getBoards()
+
+  const msg = await boards.updateOne(
+    { name },
+    { $pull: { 'topics.$[topic].needs': { id: needId } } },
+    { arrayFilters: [{ 'topic.id': topicId }] }
+  )
+
+  res.send(msg)
 })
 
 export default needs
