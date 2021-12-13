@@ -47,19 +47,7 @@ export default function EditForm({
     onCancel()
   }
 
-  if (!data) return <></>
-
   const ContentKeys = Object.keys(data)
-
-  const contentDiffs: ContentDiffsType = {}
-
-  ContentKeys.forEach(key => {
-    const currentLength = data
-      ? [key as keyof typeof content].length
-      : MAX_LENGTHS[key as keyof typeof content]
-
-    return MAX_LENGTHS[key as keyof typeof content] - currentLength
-  })
 
   return (
     <PopupForm
@@ -69,13 +57,17 @@ export default function EditForm({
     >
       {ContentKeys.map(key => {
         const value = data[key as keyof typeof data]
-        const diff = contentDiffs[key as keyof typeof data]
+        const diff =
+          value !== undefined
+            ? MAX_LENGTHS[key as keyof typeof content] - value.length
+            : Infinity
 
         return (
           <FormInput
+            key={key}
             type={key === 'description' ? 'textArea' : 'text'}
             name={key}
-            value={value ? value : 'Error'}
+            value={typeof value !== 'string' ? '' : value}
             diff={diff}
             onChange={event => {
               event.target.value.length <=
