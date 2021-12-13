@@ -86,10 +86,7 @@ export default function VoteForm({
         name="comment (optional)"
         value={text}
         max={144}
-        onChange={event => {
-          event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
-            setText(event.target.value)
-        }}
+        onChange={event => setText(event.target.value)}
       />
       {submitError && <p>You have to choose a consent level before voting.</p>}
     </PopupForm>

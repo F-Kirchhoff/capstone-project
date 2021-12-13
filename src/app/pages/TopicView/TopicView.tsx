@@ -11,6 +11,7 @@ import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
 import EditMenu from '../../components/EditMenu/EditMenu'
 import Alert from '../../components/Alert/Alert'
+import EditForm from '../../components/Forms/EditForm'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM' | 'SHOW_EDIT_FORM'
 
