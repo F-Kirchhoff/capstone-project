@@ -47,6 +47,9 @@ function TopicView(): JSX.Element {
     if (popup.id === 'TOPIC') {
       await fetchTopic('DELETE', { topicId })
       nav('../..')
+    } else if (popup.id) {
+      await fetchNeed('DELETE', { needId: popup.id })
+      fetchTopic('GET')
     }
   }
 
@@ -66,6 +69,9 @@ function TopicView(): JSX.Element {
     })
     fetchTopic('GET')
   }
+  const handleNeedEdit = (needId: string) => async () => {
+    console.log('Handle Edit ', needId)
+  }
 
   let tabContent
 
@@ -78,6 +84,8 @@ function TopicView(): JSX.Element {
               key={need.id}
               content={need}
               onUpvoteChange={handleNeedUpvote(need.id)}
+              onEdit={handleNeedEdit(need.id)}
+              onDelete={() => setPopup({ show: true, id: need.id })}
             />
           ))}
         </NeedsList>
