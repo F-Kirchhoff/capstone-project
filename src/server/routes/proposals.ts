@@ -61,4 +61,18 @@ proposals.post('/', async (req: Request, res: Response) => {
   res.send(msg)
 })
 
+proposals.delete('/', async (req: Request, res: Response) => {
+  const { boardName: name, topicId, proposalId }: fetchBody = req.body
+
+  const boards = getBoards()
+
+  const msg = await boards.updateOne(
+    { name },
+    { $pull: { 'topics.$[topic].proposals': { id: proposalId } } },
+    { arrayFilters: [{ 'topic.id': topicId }] }
+  )
+
+  res.send(msg)
+})
+
 export default proposals
