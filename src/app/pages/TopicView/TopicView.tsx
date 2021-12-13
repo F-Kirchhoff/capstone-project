@@ -11,6 +11,7 @@ import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
 import EditMenu from '../../components/EditMenu/EditMenu'
+import Alert from '../../components/Alert/Alert'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM'
 
@@ -37,6 +38,20 @@ function TopicView(): JSX.Element {
 
   const [view, setView] = useState<ViewMsgType>('')
   const [tab, setCategory] = useState('needs')
+  const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
+    show: false,
+    id: null,
+  })
+
+  const handleDelete = async () => {
+    if (popup.id === 'TOPIC') {
+      await fetchTopic('DELETE')
+      nav('../..')
+    } else if (popup.id) {
+      await fetchNeed('DELETE', { needId: popup.id })
+      fetchTopic('GET')
+    }
+  }
 
   const handleNeedSubmit = async (payload: { text: string }) => {
     // finds the correct topic and adds a need
@@ -54,6 +69,9 @@ function TopicView(): JSX.Element {
     })
     fetchTopic('GET')
   }
+  const handleNeedEdit = (needId: string) => async () => {
+    console.log('Handle Edit ', needId)
+  }
 
   let tabContent
 
@@ -66,6 +84,8 @@ function TopicView(): JSX.Element {
               key={need.id}
               content={need}
               onUpvoteChange={handleNeedUpvote(need.id)}
+              onEdit={handleNeedEdit(need.id)}
+              onDelete={() => setPopup({ show: true, id: need.id })}
             />
           ))}
         </NeedsList>
@@ -96,7 +116,7 @@ function TopicView(): JSX.Element {
               <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
               <EditMenu
                 onEdit={() => console.log('Enter Edit')}
-                onDelete={() => console.log('Enter Delete')}
+                onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
                 vertical
               />
             </NavContainer>
@@ -134,6 +154,18 @@ function TopicView(): JSX.Element {
                 onCancel={() => setView('')}
               />
             </OverlayWrapper>
+          )}
+          {popup.show && (
+            <Alert
+              onConfirm={() => {
+                handleDelete()
+                setPopup({ show: false, id: null })
+              }}
+              onCancel={() => setPopup({ show: false, id: null })}
+            >
+              You are going to permantly delete this{' '}
+              {popup.id === 'TOPIC' ? 'topic' : 'need'}. Proceed?
+            </Alert>
           )}
         </>
       )}

@@ -42,7 +42,6 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
 
 const PropsoalContainer = styled.li`
   position: relative;
-  max-width: 400px;
   margin-right: 15px;
   background-color: var(--c-gray-200);
   list-style: none;

@@ -7,11 +7,15 @@ import EditMenu from '../EditMenu/EditMenu'
 type NeedProps = {
   content: NeedType
   onUpvoteChange: (updatedVotes: number) => void
+  onEdit: () => void
+  onDelete: () => void
 }
 
 export default function Need({
   content,
   onUpvoteChange,
+  onEdit,
+  onDelete,
 }: NeedProps): JSX.Element {
   const { text, upvotes } = content
 
@@ -21,10 +25,7 @@ export default function Need({
 
   return (
     <Container>
-      <EditMenu
-        onEdit={() => console.log('Enter Edit')}
-        onDelete={() => console.log('Enter Delete')}
-      />
+      <EditMenu onEdit={onEdit} onDelete={onDelete} />
       <NeedContainer>
         <Counter
           value={upvotes}
