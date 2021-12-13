@@ -45,7 +45,7 @@ export default function EditForm({
 
   return (
     <PopupForm
-      SubmitText="Edit"
+      submitText="Edit"
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     >
