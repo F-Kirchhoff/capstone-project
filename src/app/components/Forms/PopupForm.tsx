@@ -10,7 +10,7 @@ type FormProps = {
   children: React.ReactNode
 }
 
-export default function Form({
+export default function PopupForm({
   onCancel,
   onSubmit,
   children,
@@ -50,7 +50,7 @@ const FormContainer = styled.form`
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgb(255 255 255 / 30%);
   background-color: var(--c-gray-200);
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
