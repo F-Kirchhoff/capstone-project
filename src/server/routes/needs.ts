@@ -53,6 +53,15 @@ needs.patch('/', async (req: Request, res: Response) => {
       res.send(msg)
       break
     }
+    case 'TEXT': {
+      const msg = await boards.updateOne(
+        { name },
+        { $set: { 'topics.$[topic].needs.$[need].text': payload } },
+        { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+      )
+      res.send(msg)
+      break
+    }
   }
 })
 

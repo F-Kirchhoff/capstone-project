@@ -76,7 +76,12 @@ function TopicView(): JSX.Element {
     if (editBuffer.id === 'TOPIC') {
       await fetchTopic('PATCH', { payload: content })
     } else {
-      console.log(editBuffer)
+      console.log(content)
+      await fetchNeed('PATCH', {
+        needId: editBuffer.id,
+        patchMsg: 'TEXT',
+        payload: content.description,
+      })
     }
 
     setEditBuffer({ id: null, content: {} })
