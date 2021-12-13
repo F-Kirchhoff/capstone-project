@@ -15,7 +15,7 @@ export default function NeedForm({
 
   return (
     <PopupForm
-      SubmitText="Add Need"
+      submitText="Add Need"
       onSubmit={() => onSubmit({ text })}
       onCancel={() => {
         setText('')

@@ -54,6 +54,7 @@ export default function EditForm({
             key={key}
             type={key === 'description' ? 'textArea' : 'text'}
             name={key}
+            required
             value={typeof value !== 'string' ? '' : value}
             max={MAX_LENGTHS[key as keyof typeof content]}
             onChange={event =>

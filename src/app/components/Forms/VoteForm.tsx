@@ -61,7 +61,7 @@ export default function VoteForm({
 
   return (
     <PopupForm
-      SubmitText="Add Vote"
+      submitText="Add Vote"
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     >

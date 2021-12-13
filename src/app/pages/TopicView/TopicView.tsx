@@ -15,6 +15,14 @@ import EditForm from '../../components/Forms/EditForm'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM' | 'SHOW_EDIT_FORM'
 
+type EditBufferType = {
+  content: {
+    title?: string
+    content?: string
+  }
+  id: string | null
+}
+
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
   const nav = useNavigate()
@@ -42,6 +50,10 @@ function TopicView(): JSX.Element {
     show: false,
     id: null,
   })
+  const [editBuffer, setEditBuffer] = useState<EditBufferType>({
+    content: {},
+    id: null,
+  })
 
   const handleDelete = async () => {
     if (popup.id === 'TOPIC') {
@@ -50,6 +62,12 @@ function TopicView(): JSX.Element {
     } else if (popup.id) {
       await fetchNeed('DELETE', { needId: popup.id })
       fetchTopic('GET')
+    }
+  }
+
+  const handleEdit = async () => {
+    if (editBuffer.id === 'TOPIC') {
+      console.log(editBuffer)
     }
   }
 
@@ -153,6 +171,14 @@ function TopicView(): JSX.Element {
               onCancel={() => setView('')}
             />
           )}
+          {view === 'SHOW_EDIT_FORM' && (
+            <EditForm
+              content={editBuffer.content}
+              onSubmit={handleEdit}
+              onCancel={() => setView('')}
+            />
+          )}
+
           {popup.show && (
             <Alert
               onConfirm={() => {
