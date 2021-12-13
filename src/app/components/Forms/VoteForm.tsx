@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from '../Button/Button'
 import FormInput from '../FormInput/FormInput'
 import {
   FaStar,
@@ -8,7 +6,8 @@ import {
   FaRegQuestionCircle,
   FaExclamationCircle,
 } from 'react-icons/fa'
-import PopupForm from '../Forms/PopupForm'
+import PopupForm from './PopupForm'
+import styled from 'styled-components'
 
 type VoteFormProps = {
   onSubmit: (payload: { type: VoteTypes; text: string }) => void
