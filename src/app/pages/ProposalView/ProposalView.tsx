@@ -113,9 +113,7 @@ export default function ProposalView(): JSX.Element {
         submit your vote
       </Button>
       {view === 'SHOW_VOTE_FORM' && (
-        <OverlayWrapper onReturn={() => setView('')}>
-          <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
-        </OverlayWrapper>
+        <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
       )}
       {popup.show && (
         <Alert
