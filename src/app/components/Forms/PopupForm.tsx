@@ -6,7 +6,7 @@ import OverlayWrapper from '../OverlayWrapper/OverlayWrapper'
 type FormProps = {
   onCancel: () => void
   onSubmit: () => void
-  SubmitText: string
+  submitText: string
   children: React.ReactNode
 }
 
@@ -14,7 +14,7 @@ export default function PopupForm({
   onCancel,
   onSubmit,
   children,
-  SubmitText,
+  submitText,
 }: FormProps): JSX.Element {
   return (
     <OverlayWrapper onReturn={onCancel}>
@@ -24,13 +24,13 @@ export default function PopupForm({
           onSubmit()
         }}
       >
-        <FormTitle>{SubmitText}</FormTitle>
+        <FormTitle>{submitText}</FormTitle>
         {children}
         <ButtonContainer>
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>
-          <Button highlight>{SubmitText}</Button>
+          <Button highlight>{submitText}</Button>
         </ButtonContainer>
       </FormContainer>
     </OverlayWrapper>
