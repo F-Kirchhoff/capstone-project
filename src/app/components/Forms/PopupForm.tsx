@@ -10,7 +10,7 @@ type FormProps = {
   children: React.ReactNode
 }
 
-export default function Form({
+export default function PopupForm({
   onCancel,
   onSubmit,
   children,
