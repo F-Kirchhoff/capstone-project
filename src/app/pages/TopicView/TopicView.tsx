@@ -45,7 +45,7 @@ function TopicView(): JSX.Element {
 
   const handleDelete = async () => {
     if (popup.id === 'TOPIC') {
-      await fetchTopic('DELETE', { topicId })
+      await fetchTopic('DELETE')
       nav('../..')
     } else if (popup.id) {
       await fetchNeed('DELETE', { needId: popup.id })

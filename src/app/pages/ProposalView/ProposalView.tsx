@@ -15,6 +15,7 @@ import {
   FaStar,
 } from 'react-icons/fa'
 import EditMenu from '../../components/EditMenu/EditMenu'
+import Alert from '../../components/Alert/Alert'
 
 const DEFAULT = {
   id: '0',
@@ -39,6 +40,10 @@ export default function ProposalView(): JSX.Element {
 
   const [view, setView] = useState<'SHOW_VOTE_FORM' | ''>('')
   const [voteCategory, setVoteCategory] = useState<string>('pro')
+  const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
+    show: false,
+    id: null,
+  })
 
   useEffect(() => {
     fetchProposal('GET')
@@ -58,10 +63,15 @@ export default function ProposalView(): JSX.Element {
     concerns: <FaExclamationCircle size="1em" />,
   }
 
-  async function handleVoteSubmit(payload: { text: string; type: string }) {
+  const handleVoteSubmit = async (payload: { text: string; type: string }) => {
     await fetchVote('POST', { payload })
     await fetchProposal('GET')
     setView('')
+  }
+
+  const handleDelete = async () => {
+    await fetchProposal('DELETE')
+    nav('..')
   }
 
   return (
@@ -70,7 +80,7 @@ export default function ProposalView(): JSX.Element {
         <BiChevronsLeft size="32px" onClick={() => nav('..')} />
         <EditMenu
           onEdit={() => console.log('Enter Edit')}
-          onDelete={() => console.log('Enter Delete')}
+          onDelete={() => setPopup({ show: true, id: 'PROPOSAL' })}
           vertical
         />
       </NavContainer>
@@ -106,6 +116,17 @@ export default function ProposalView(): JSX.Element {
         <OverlayWrapper onReturn={() => setView('')}>
           <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
         </OverlayWrapper>
+      )}
+      {popup.show && (
+        <Alert
+          onConfirm={() => {
+            handleDelete()
+            setPopup({ show: false, id: null })
+          }}
+          onCancel={() => setPopup({ show: false, id: null })}
+        >
+          You are going to permantly delete this Proposal. Proceed?
+        </Alert>
       )}
     </ProposalViewContainer>
   )
