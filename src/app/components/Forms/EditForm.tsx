@@ -5,12 +5,6 @@ import PopupForm from './PopupForm'
 type ContentType = {
   title?: string
   description?: string
-  need?: string
-}
-type ContentDiffsType = {
-  title?: number
-  description?: number
-  need?: number
 }
 
 type EditFormProps = {

@@ -20,3 +20,10 @@ export const Topic = (): JSX.Element => (
     content={{ title: 'Title for my speech', description: 'I have a dream.' }}
   />
 )
+export const Proposal = (): JSX.Element => (
+  <EditForm
+    onSubmit={console.log}
+    onCancel={() => console.log('Cancel Button Clicked!')}
+    content={{ description: 'I have a dream.' }}
+  />
+)
