@@ -15,11 +15,13 @@ import EditForm from '../../components/Forms/EditForm'
 
 type ViewMsgType = '' | 'SHOW_NEED_FORM' | 'SHOW_EDIT_FORM'
 
+type editContentType = {
+  title?: string
+  description?: string
+}
+
 type EditBufferType = {
-  content: {
-    title?: string
-    content?: string
-  }
+  content: editContentType
   id: string | null
 }
 
@@ -51,8 +53,8 @@ function TopicView(): JSX.Element {
     id: null,
   })
   const [editBuffer, setEditBuffer] = useState<EditBufferType>({
-    content: {},
     id: null,
+    content: {},
   })
 
   const handleDelete = async () => {
@@ -65,10 +67,21 @@ function TopicView(): JSX.Element {
     }
   }
 
-  const handleEdit = async () => {
+  const handleEdit = async (content: editContentType) => {
+    if (!editBuffer.id) {
+      console.error('Error: Edit failed.')
+      return
+    }
+
     if (editBuffer.id === 'TOPIC') {
+      console.log(content)
+    } else {
       console.log(editBuffer)
     }
+
+    setEditBuffer({ id: null, content: {} })
+    await fetchTopic('GET')
+    setView('')
   }
 
   const handleNeedSubmit = async (payload: { text: string }) => {
@@ -87,9 +100,6 @@ function TopicView(): JSX.Element {
     })
     fetchTopic('GET')
   }
-  const handleNeedEdit = (needId: string) => async () => {
-    console.log('Handle Edit ', needId)
-  }
 
   let tabContent
 
@@ -102,7 +112,13 @@ function TopicView(): JSX.Element {
               key={need.id}
               content={need}
               onUpvoteChange={handleNeedUpvote(need.id)}
-              onEdit={handleNeedEdit(need.id)}
+              onEdit={() => {
+                setEditBuffer({
+                  id: need.id,
+                  content: { description: need.text },
+                })
+                setView('SHOW_EDIT_FORM')
+              }}
               onDelete={() => setPopup({ show: true, id: need.id })}
             />
           ))}
@@ -133,7 +149,13 @@ function TopicView(): JSX.Element {
             <NavContainer>
               <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
               <EditMenu
-                onEdit={() => console.log('Enter Edit')}
+                onEdit={() => {
+                  setEditBuffer({
+                    id: 'TOPIC',
+                    content: { title, description },
+                  })
+                  setView('SHOW_EDIT_FORM')
+                }}
                 onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
                 vertical
               />
@@ -175,7 +197,10 @@ function TopicView(): JSX.Element {
             <EditForm
               content={editBuffer.content}
               onSubmit={handleEdit}
-              onCancel={() => setView('')}
+              onCancel={() => {
+                setView('')
+                setEditBuffer({ id: null, content: {} })
+              }}
             />
           )}
 
