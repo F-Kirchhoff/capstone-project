@@ -5,7 +5,7 @@ import OverlayWrapper from '../OverlayWrapper/OverlayWrapper'
 
 type FormProps = {
   onCancel: () => void
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onSubmit: () => void
   SubmitText: string
   children: React.ReactNode
 }
@@ -18,7 +18,12 @@ export default function Form({
 }: FormProps): JSX.Element {
   return (
     <OverlayWrapper onReturn={onCancel}>
-      <FormContainer onSubmit={onSubmit}>
+      <FormContainer
+        onSubmit={event => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
         <FormTitle>{SubmitText}</FormTitle>
         {children}
         <ButtonContainer>

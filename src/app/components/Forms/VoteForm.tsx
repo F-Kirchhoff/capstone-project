@@ -16,8 +16,6 @@ type VoteFormProps = {
 
 type VoteTypes = 'pro' | 'neutral' | 'remarks' | 'concerns' | 'none'
 
-const MAX_DESCRIPTION_LENGTH = 40
-
 export default function VoteForm({
   onSubmit,
   onCancel,
@@ -26,9 +24,7 @@ export default function VoteForm({
   const [voteType, setVoteType] = useState<VoteTypes>('none')
   const [submitError, setSubmitError] = useState(false)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleSubmit() {
     if (voteType === 'none') {
       setSubmitError(true)
       return
@@ -48,7 +44,6 @@ export default function VoteForm({
     onCancel()
   }
 
-  const textDiff = MAX_DESCRIPTION_LENGTH - text.length
   const voteTypes: VoteTypes[] = ['pro', 'neutral', 'remarks', 'concerns']
   const voteTypeSymbols = {
     pro: <FaStar size="1em" />,
@@ -90,7 +85,7 @@ export default function VoteForm({
         type="text"
         name="comment (optional)"
         value={text}
-        diff={textDiff}
+        max={144}
         onChange={event => {
           event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
             setText(event.target.value)

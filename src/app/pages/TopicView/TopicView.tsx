@@ -12,7 +12,7 @@ import { BiChevronsLeft } from 'react-icons/bi'
 import EditMenu from '../../components/EditMenu/EditMenu'
 import Alert from '../../components/Alert/Alert'
 
-type ViewMsgType = '' | 'SHOW_NEED_FORM'
+type ViewMsgType = '' | 'SHOW_NEED_FORM' | 'SHOW_EDIT_FORM'
 
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
