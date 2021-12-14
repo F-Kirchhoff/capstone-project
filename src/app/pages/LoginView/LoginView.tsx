@@ -38,10 +38,16 @@ export default function LoginView({
           </Tab>
         </TabMenu>
         {tab === 'login' && (
-          <LoginForm onSubmit={console.log} onCancel={() => nav('/')} />
+          <LoginForm
+            onSubmit={payload => console.log(payload)}
+            onCancel={() => nav('/')}
+          />
         )}
         {tab === 'register' && (
-          <RegisterForm onSubmit={console.log} onCancel={() => nav('/')} />
+          <RegisterForm
+            onSubmit={payload => console.log(payload)}
+            onCancel={() => nav('/')}
+          />
         )}
       </Card>
     </PageContainer>
