@@ -7,43 +7,28 @@ type NeedFormProps = {
   onCancel: () => void
 }
 
-const MAX_DESCRIPTION_LENGTH = 80
-
 export default function NeedForm({
   onSubmit,
   onCancel,
 }: NeedFormProps): JSX.Element {
   const [text, setText] = useState('')
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const payload = {
-      text,
-    }
-    onSubmit(payload)
-  }
-
-  function handleCancel() {
-    setText('')
-    onCancel()
-  }
-
-  const textDiff = MAX_DESCRIPTION_LENGTH - text.length
-
   return (
     <PopupForm
-      SubmitText="Add Need"
-      onSubmit={handleSubmit}
-      onCancel={handleCancel}
+      submitText="Add Need"
+      onSubmit={() => onSubmit({ text })}
+      onCancel={() => {
+        setText('')
+        onCancel()
+      }}
     >
       <FormInput
         type="textArea"
         name="need"
         value={text}
-        diff={textDiff}
+        max={144}
         onChange={event => {
-          event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
-            setText(event.target.value)
+          setText(event.target.value)
         }}
       />
     </PopupForm>

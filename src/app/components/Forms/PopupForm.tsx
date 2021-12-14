@@ -5,8 +5,8 @@ import OverlayWrapper from '../OverlayWrapper/OverlayWrapper'
 
 type FormProps = {
   onCancel: () => void
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
-  SubmitText: string
+  onSubmit: () => void
+  submitText: string
   children: React.ReactNode
 }
 
@@ -14,18 +14,23 @@ export default function PopupForm({
   onCancel,
   onSubmit,
   children,
-  SubmitText,
+  submitText,
 }: FormProps): JSX.Element {
   return (
     <OverlayWrapper onReturn={onCancel}>
-      <FormContainer onSubmit={onSubmit}>
-        <FormTitle>{SubmitText}</FormTitle>
+      <FormContainer
+        onSubmit={event => {
+          event.preventDefault()
+          onSubmit()
+        }}
+      >
+        <FormTitle>{submitText}</FormTitle>
         {children}
         <ButtonContainer>
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>
-          <Button highlight>{SubmitText}</Button>
+          <Button highlight>{submitText}</Button>
         </ButtonContainer>
       </FormContainer>
     </OverlayWrapper>

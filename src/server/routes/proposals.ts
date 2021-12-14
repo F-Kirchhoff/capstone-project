@@ -61,6 +61,24 @@ proposals.post('/', async (req: Request, res: Response) => {
   res.send(msg)
 })
 
+proposals.patch('/', async (req: Request, res: Response) => {
+  const { boardName: name, topicId, proposalId, payload }: fetchBody = req.body
+
+  if (typeof payload !== 'string') {
+    res.status(422).send(`Error: Input data invalid.`)
+    return
+  }
+
+  const boards = await getBoards()
+  const msg = await boards.updateOne(
+    { name },
+    { $set: { 'topics.$[topic].proposals.$[proposal].description': payload } },
+    { arrayFilters: [{ 'topic.id': topicId }, { 'proposal.id': proposalId }] }
+  )
+
+  res.send(msg)
+})
+
 proposals.delete('/', async (req: Request, res: Response) => {
   const { boardName: name, topicId, proposalId }: fetchBody = req.body
 

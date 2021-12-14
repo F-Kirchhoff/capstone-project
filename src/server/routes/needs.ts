@@ -45,9 +45,26 @@ needs.patch('/', async (req: Request, res: Response) => {
 
   switch (patchMsg) {
     case 'UPVOTES': {
+      if (typeof payload !== 'number') {
+        res.status(422).send(`Error: Input data invalid.`)
+        return
+      }
       const msg = await boards.updateOne(
         { name },
         { $set: { 'topics.$[topic].needs.$[need].upvotes': payload } },
+        { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+      )
+      res.send(msg)
+      break
+    }
+    case 'TEXT': {
+      if (typeof payload !== 'string') {
+        res.status(422).send(`Error: Input data invalid.`)
+        return
+      }
+      const msg = await boards.updateOne(
+        { name },
+        { $set: { 'topics.$[topic].needs.$[need].text': payload } },
         { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
       )
       res.send(msg)

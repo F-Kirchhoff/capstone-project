@@ -14,7 +14,6 @@ type EditFormProps = {
 }
 
 const MAX_LENGTHS = {
-  need: 80,
   title: 40,
   description: 144,
 }
@@ -30,10 +29,8 @@ export default function EditForm({
 }: EditFormProps): JSX.Element {
   const [data, setData] = useState<ContentType | DEFAULT>(content)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    data && onSubmit(data)
+  function handleSubmit() {
+    if (data) onSubmit(data)
   }
 
   function handleCancel() {
@@ -51,23 +48,18 @@ export default function EditForm({
     >
       {ContentKeys.map(key => {
         const value = data[key as keyof typeof data]
-        const diff =
-          value !== undefined
-            ? MAX_LENGTHS[key as keyof typeof content] - value.length
-            : Infinity
 
         return (
           <FormInput
             key={key}
             type={key === 'description' ? 'textArea' : 'text'}
             name={key}
+            required
             value={typeof value !== 'string' ? '' : value}
-            diff={diff}
-            onChange={event => {
-              event.target.value.length <=
-                MAX_LENGTHS[key as keyof typeof data] &&
-                setData(prev => ({ ...prev, [key]: event.target.value }))
-            }}
+            max={MAX_LENGTHS[key as keyof typeof content]}
+            onChange={event =>
+              setData(prev => ({ ...prev, [key]: event.target.value }))
+            }
           />
         )
       })}

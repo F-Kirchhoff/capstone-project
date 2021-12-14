@@ -15,11 +15,18 @@ import {
 } from 'react-icons/fa'
 import EditMenu from '../../components/EditMenu/EditMenu'
 import Alert from '../../components/Alert/Alert'
+import EditForm from '../../components/Forms/EditForm'
 
 const DEFAULT = {
   id: '0',
   description: '',
   votes: [],
+}
+
+type ViewStates = 'SHOW_VOTE_FORM' | 'SHOW_EDIT_FORM' | ''
+
+type editContentType = {
+  description?: string
 }
 
 export default function ProposalView(): JSX.Element {
@@ -37,7 +44,7 @@ export default function ProposalView(): JSX.Element {
     proposalId,
   })
 
-  const [view, setView] = useState<'SHOW_VOTE_FORM' | ''>('')
+  const [view, setView] = useState<ViewStates>('')
   const [voteCategory, setVoteCategory] = useState<string>('pro')
   const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
     show: false,
@@ -68,6 +75,12 @@ export default function ProposalView(): JSX.Element {
     setView('')
   }
 
+  const handleEdit = async (content: editContentType) => {
+    await fetchProposal('PATCH', { payload: content.description })
+    await fetchProposal('GET')
+    setView('')
+  }
+
   const handleDelete = async () => {
     await fetchProposal('DELETE')
     nav('..')
@@ -78,7 +91,7 @@ export default function ProposalView(): JSX.Element {
       <NavContainer>
         <BiChevronsLeft size="32px" onClick={() => nav('..')} />
         <EditMenu
-          onEdit={() => console.log('Enter Edit')}
+          onEdit={() => setView('SHOW_EDIT_FORM')}
           onDelete={() => setPopup({ show: true, id: 'PROPOSAL' })}
           vertical
         />
@@ -113,6 +126,15 @@ export default function ProposalView(): JSX.Element {
       </Button>
       {view === 'SHOW_VOTE_FORM' && (
         <VoteForm onSubmit={handleVoteSubmit} onCancel={() => setView('')} />
+      )}
+      {view === 'SHOW_EDIT_FORM' && (
+        <EditForm
+          content={{ description }}
+          onSubmit={handleEdit}
+          onCancel={() => {
+            setView('')
+          }}
+        />
       )}
       {popup.show && (
         <Alert
