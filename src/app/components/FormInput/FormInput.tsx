@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 type FormInputProps = {
-  type: 'text' | 'textArea'
+  type: 'text' | 'textArea' | 'email' | 'password'
   value: string
   name: string
   max?: number
@@ -24,9 +24,9 @@ export default function FormInput({
   return (
     <InputWrapper>
       <FormLabel htmlFor={name}>{name}</FormLabel>
-      {type === 'text' ? (
+      {type !== 'textArea' ? (
         <Input
-          type="text"
+          type={type}
           name={name}
           required={required}
           value={value}

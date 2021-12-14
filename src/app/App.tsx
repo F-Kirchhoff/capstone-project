@@ -6,11 +6,14 @@ import AddTopic from './pages/AddTopic/AddTopic'
 import AddProposal from './pages/AddProposal/AddProposal'
 import TopicView from './pages/TopicView/TopicView'
 import ProposalView from './pages/ProposalView/ProposalView'
+import LoginView from './pages/LoginView/LoginView'
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<LoginView tab="login" />} />
+        <Route path="/register" element={<LoginView tab="register" />} />
         <Route path="/boards/:boardName">
           <Route path="" element={<Dashboard />} />
           <Route path="topics/:topicId">
