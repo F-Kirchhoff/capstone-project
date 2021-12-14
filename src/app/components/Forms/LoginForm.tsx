@@ -4,24 +4,30 @@ import Button from '../Button/Button'
 import FormInput from '../FormInput/FormInput'
 import { BiHide, BiShow } from 'react-icons/bi'
 
-type NeedFormProps = {
+type LoginFormProps = {
   onSubmit: (payload: { username: string; password: string }) => void
   onCancel: () => void
 }
 
-export default function NeedForm({
+export default function LoginForm({
   onSubmit,
   onCancel,
-}: NeedFormProps): JSX.Element {
+}: LoginFormProps): JSX.Element {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   return (
-    <Form onSubmit={() => onSubmit({ username, password })}>
+    <Form
+      onSubmit={event => {
+        event.preventDefault()
+        onSubmit({ username, password })
+      }}
+    >
       <FormInput
         type="email"
-        name="username"
+        name="E-Mail"
         value={username}
+        required
         onChange={event => {
           setUsername(event.target.value)
         }}
@@ -31,6 +37,7 @@ export default function NeedForm({
           type={showPassword ? 'text' : 'password'}
           name="password"
           value={password}
+          required
           onChange={event => {
             setPassword(event.target.value)
           }}
@@ -55,7 +62,7 @@ export default function NeedForm({
 
 const Form = styled.form`
   position: relative;
-  margin-top: 20px;
+  margin: 20px;
   display: grid;
   gap: 20px;
 `

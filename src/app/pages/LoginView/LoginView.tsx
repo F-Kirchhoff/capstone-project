@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import LoginForm from '../../components/Forms/LoginForm'
+import RegisterForm from '../../components/Forms/RegisterForm'
+import Logo from '../../components/Logo/Logo'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 
 type LoginViewProps = {
@@ -17,7 +19,7 @@ export default function LoginView({
 
   return (
     <PageContainer>
-      <Header>{tab}</Header>
+      <Logo />
       <Card>
         <TabMenu>
           <Tab
@@ -36,36 +38,29 @@ export default function LoginView({
           </Tab>
         </TabMenu>
         {tab === 'login' && (
-          <LoginForm onSubmit={console.log} onCancel={() => nav(-1)} />
+          <LoginForm onSubmit={console.log} onCancel={() => nav('/')} />
         )}
-        {tab === 'register' && <RegisterContent>register</RegisterContent>}
+        {tab === 'register' && (
+          <RegisterForm onSubmit={console.log} onCancel={() => nav('/')} />
+        )}
       </Card>
     </PageContainer>
   )
 }
 
 const PageContainer = styled.main`
+  padding-top: 100px;
   width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  justify-items: center;
+  gap: 100px;
 `
 
 const Card = styled.div`
   background-color: var(--c-gray-50);
-  padding: 20px;
+  padding-top: 5px;
   border-radius: 15px;
   min-width: 300px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
     rgba(0, 0, 0, 0.05) 0px 5px 10px;
 `
-const Header = styled.h2`
-  text-align: center;
-  text-transform: capitalize;
-  margin: 20px 0;
-`
-const LoginContent = styled.div``
-
-const RegisterContent = styled.div``
