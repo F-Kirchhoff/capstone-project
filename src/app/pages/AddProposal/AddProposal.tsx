@@ -28,7 +28,6 @@ export default function AddProposal(): JSX.Element {
   }, [])
 
   const [description, setDescription] = useState('')
-  const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
 
   const nav = useNavigate()
 
@@ -59,7 +58,7 @@ export default function AddProposal(): JSX.Element {
         <FormInput
           type="textArea"
           name="description"
-          diff={descriptionDiff}
+          max={MAX_DESCRIPTION_LENGTH}
           value={description}
           onChange={event =>
             event.target.value.length <= MAX_DESCRIPTION_LENGTH &&

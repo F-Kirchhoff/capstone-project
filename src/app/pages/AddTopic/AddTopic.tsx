@@ -34,8 +34,6 @@ export default function AddTopic(): JSX.Element {
     nav('..')
   }
 
-  const titleDiff = MAX_TITLE_LENGTH - title.length
-  const descriptionDiff = MAX_DESCRIPTION_LENGTH - description.length
   return (
     <AddTopicContainer>
       <ReturnButton to="..">
@@ -47,7 +45,7 @@ export default function AddTopic(): JSX.Element {
           type="text"
           name="title"
           required
-          diff={titleDiff}
+          max={MAX_TITLE_LENGTH}
           value={title}
           onChange={event =>
             event.target.value.length <= MAX_TITLE_LENGTH &&
@@ -57,7 +55,7 @@ export default function AddTopic(): JSX.Element {
         <FormInput
           type="textArea"
           name="description"
-          diff={descriptionDiff}
+          max={MAX_DESCRIPTION_LENGTH}
           value={description}
           onChange={event =>
             event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
