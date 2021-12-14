@@ -3,55 +3,106 @@ import styled from 'styled-components'
 import Need from '../../components/Need/Need'
 import type { Topic, Need as NeedType } from '../../types/types'
 import Button from '../../components/Button/Button'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import NeedForm from '../../components/NeedForm/NeedForm'
-import OverlayWrapper from '../../components/OverlayWrapper/OverlayWrapper'
+import { useNavigate, useParams } from 'react-router-dom'
+import NeedForm from '../../components/Forms/NeedForm'
 import useFetch from '../../hooks/useFetch'
-import SliderMenu from '../../components/SliderMenu/SliderMenu'
+import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
 import Proposal from '../../components/Proposal/Proposal'
 import { BiChevronsLeft } from 'react-icons/bi'
+import EditMenu from '../../components/EditMenu/EditMenu'
+import Alert from '../../components/Alert/Alert'
+import EditForm from '../../components/Forms/EditForm'
 
-type ViewMsgType = '' | 'SHOW_NEED_FORM'
+type ViewMsgType = '' | 'SHOW_NEED_FORM' | 'SHOW_EDIT_FORM'
 
-const menuTabs = [
-  { id: 'needs', text: 'needs' },
-  { id: 'proposals', text: 'proposals' },
-]
+type editContentType = {
+  title?: string
+  description?: string
+}
+
+type EditBufferType = {
+  content: editContentType
+  id: string | null
+}
 
 function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
   const nav = useNavigate()
 
-  const [topic, fetchTopic] = useFetch<Topic>(
-    `/api/boards/${boardName}/topics/${topicId}`
-  )
+  const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`, {
+    boardName,
+    topicId,
+  })
+  const [_need, fetchNeed] = useFetch<NeedType>(`/api/needs`, {
+    boardName,
+    topicId,
+  })
 
   const { title, description, needs, proposals } = topic
     ? topic
     : { title: '', description: '', needs: [], proposals: [] }
 
   useEffect(() => {
-    fetchTopic('GET', '/')
+    fetchTopic('GET')
   }, [])
 
   const [view, setView] = useState<ViewMsgType>('')
   const [tab, setCategory] = useState('needs')
+  const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
+    show: false,
+    id: null,
+  })
+  const [editBuffer, setEditBuffer] = useState<EditBufferType>({
+    id: null,
+    content: {},
+  })
 
-  const handleNeedSubmit = async (newNeed: NeedType) => {
-    // finds the correct topic and adds a need
-    await fetchTopic('POST', `/addNeed`, JSON.stringify({ newNeed }))
+  const handleDelete = async () => {
+    if (popup.id === 'TOPIC') {
+      await fetchTopic('DELETE')
+      nav('../..')
+    } else if (popup.id) {
+      await fetchNeed('DELETE', { needId: popup.id })
+      fetchTopic('GET')
+    }
+  }
+
+  const handleEdit = async (content: editContentType) => {
+    if (!editBuffer.id) {
+      console.error('Error: Edit failed.')
+      return
+    }
+
+    if (editBuffer.id === 'TOPIC') {
+      await fetchTopic('PATCH', { payload: content })
+    } else {
+      await fetchNeed('PATCH', {
+        needId: editBuffer.id,
+        patchMsg: 'TEXT',
+        payload: content.description,
+      })
+    }
+
+    setEditBuffer({ id: null, content: {} })
+    await fetchTopic('GET')
     setView('')
-    fetchTopic('GET', '/')
+  }
+
+  const handleNeedSubmit = async (payload: { text: string }) => {
+    // finds the correct topic and adds a need
+    await fetchNeed('POST', { payload })
+    await fetchTopic('GET')
+    setView('')
   }
 
   const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
     // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
-    await fetchTopic(
-      'PATCH',
-      `/needs/${needId}`,
-      JSON.stringify({ patchMsg: 'UPVOTES', payload: upvotes })
-    )
-    fetchTopic('GET', '/')
+    fetchNeed('PATCH', {
+      needId,
+      patchMsg: 'UPVOTES',
+      payload: upvotes,
+    })
+    fetchTopic('GET')
   }
 
   let tabContent
@@ -65,6 +116,14 @@ function TopicView(): JSX.Element {
               key={need.id}
               content={need}
               onUpvoteChange={handleNeedUpvote(need.id)}
+              onEdit={() => {
+                setEditBuffer({
+                  id: need.id,
+                  content: { description: need.text },
+                })
+                setView('SHOW_EDIT_FORM')
+              }}
+              onDelete={() => setPopup({ show: true, id: need.id })}
             />
           ))}
         </NeedsList>
@@ -91,15 +150,38 @@ function TopicView(): JSX.Element {
       {topic && (
         <>
           <TopicContainer>
-            <TitleContainer to={`../..`}>
-              <BiChevronsLeft size="32px" /> <h2> {title}</h2>
-            </TitleContainer>
+            <NavContainer>
+              <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
+              <EditMenu
+                onEdit={() => {
+                  setEditBuffer({
+                    id: 'TOPIC',
+                    content: { title, description },
+                  })
+                  setView('SHOW_EDIT_FORM')
+                }}
+                onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
+                vertical
+              />
+            </NavContainer>
+            <h2> {title}</h2>
             <Description>{description}</Description>
-            <SliderMenu
-              options={menuTabs}
-              selectedOption={tab}
-              onSelect={option => setCategory(option)}
-            />
+            <TabMenu>
+              <Tab
+                key="needs"
+                active={tab === 'needs'}
+                onClick={() => setCategory('needs')}
+              >
+                needs
+              </Tab>
+              <Tab
+                key="proposals"
+                active={tab === 'proposals'}
+                onClick={() => setCategory('proposals')}
+              >
+                proposals
+              </Tab>
+            </TabMenu>
             {tabContent}
             {tab === 'needs' ? (
               <Button onClick={() => setView('SHOW_NEED_FORM')}>
@@ -110,12 +192,33 @@ function TopicView(): JSX.Element {
             )}
           </TopicContainer>
           {view === 'SHOW_NEED_FORM' && (
-            <OverlayWrapper onReturn={() => setView('')}>
-              <NeedForm
-                onSubmit={handleNeedSubmit}
-                onCancel={() => setView('')}
-              />
-            </OverlayWrapper>
+            <NeedForm
+              onSubmit={handleNeedSubmit}
+              onCancel={() => setView('')}
+            />
+          )}
+          {view === 'SHOW_EDIT_FORM' && (
+            <EditForm
+              content={editBuffer.content}
+              onSubmit={handleEdit}
+              onCancel={() => {
+                setView('')
+                setEditBuffer({ id: null, content: {} })
+              }}
+            />
+          )}
+
+          {popup.show && (
+            <Alert
+              onConfirm={() => {
+                handleDelete()
+                setPopup({ show: false, id: null })
+              }}
+              onCancel={() => setPopup({ show: false, id: null })}
+            >
+              You are going to permantly delete this{' '}
+              {popup.id === 'TOPIC' ? 'topic' : 'need'}. Proceed?
+            </Alert>
           )}
         </>
       )}
@@ -134,14 +237,12 @@ const TopicContainer = styled.article`
   flex-direction: column;
   gap: 10px;
 `
-const TitleContainer = styled(Link)`
+const NavContainer = styled.header`
   text-decoration: none;
-  color: var(--c-primary);
-  font-family: 'Plairfair';
-  font-weight: bold;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 20px;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   & > h2 {
     overflow: hidden;

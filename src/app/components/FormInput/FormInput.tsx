@@ -5,7 +5,7 @@ type FormInputProps = {
   type: 'text' | 'textArea'
   value: string
   name: string
-  diff?: number
+  max?: number
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
@@ -17,9 +17,10 @@ export default function FormInput({
   value,
   onChange,
   name,
-  diff,
+  max,
   required,
 }: FormInputProps): JSX.Element {
+  const diff = max ? max - value.length : Infinity
   return (
     <InputWrapper>
       <FormLabel htmlFor={name}>{name}</FormLabel>
@@ -29,6 +30,7 @@ export default function FormInput({
           name={name}
           required={required}
           value={value}
+          maxLength={max}
           onChange={onChange}
         />
       ) : (
@@ -36,11 +38,12 @@ export default function FormInput({
           name={name}
           rows={10}
           value={value}
+          maxLength={max}
           onChange={onChange}
           required={required}
         />
       )}
-      {diff !== undefined && (
+      {max !== undefined && (
         <TextLimitDisplay diff={diff}>{`${diff}`}</TextLimitDisplay>
       )}
     </InputWrapper>

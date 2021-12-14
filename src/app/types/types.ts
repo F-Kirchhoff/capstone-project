@@ -31,3 +31,12 @@ export type Vote = {
   text: string
   type: string
 }
+export type fetchBody = {
+  boardName?: string
+  topicId?: string
+  needId?: string
+  proposalId?: string
+  voteId?: string
+  patchMsg?: string
+  payload?: any
+}

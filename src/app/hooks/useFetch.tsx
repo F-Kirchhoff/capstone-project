@@ -1,59 +1,52 @@
 import { useState } from 'react'
+import type { fetchBody } from '../types/types'
+
+type useFetchReturnType<Type> = [
+  Type | null,
+  (method: string, bodyAdditions?: fetchBody) => Promise<void>
+]
 
 function useFetch<Type>(
-  url: string
-): [Type | null, (method: string, endpoint: string, body?: string) => void] {
+  url: string,
+  body: fetchBody = {}
+): useFetchReturnType<Type> {
   const [data, setData] = useState(null)
 
-  async function fetchData(method: string, endpoint: string, body?: string) {
+  async function fetchData(method: string, bodyAdditions: fetchBody = {}) {
     switch (method) {
       case 'GET': {
-        const res = await fetch(`${url}${endpoint}`)
-        if (res.ok) {
-          const fetchedData = await res.json()
-          setData(fetchedData)
-        } else {
-          console.error(`${res.status}: Something went wrong :/`)
+        const query = Object.keys(body)
+          .map(key => `${key}=${body[key as keyof typeof body]}`)
+          .join('&')
+
+        const res = await fetch(`${url}?${query}`)
+
+        if (!res.ok) {
+          console.error(
+            `${res.status}: GET failed. Body: ${JSON.stringify(body)}`
+          )
+          return
         }
+
+        const fetchedData = await res.json()
+        setData(fetchedData)
         break
       }
 
-      case 'POST': {
-        const res = await fetch(`${url}${endpoint}`, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body || '[]',
-        })
-        if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
-        }
-        break
-      }
-      case 'PATCH': {
-        const res = await fetch(`${url}${endpoint}`, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body || '[]',
-        })
-        if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
-        }
-        break
-      }
+      case 'POST':
+      case 'PATCH':
       case 'DELETE': {
-        const res = await fetch(`${url}${endpoint}`, {
+        const res = await fetch(url, {
           method,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: body || '[]',
+          body: JSON.stringify({ ...body, ...bodyAdditions }),
         })
         if (!res.ok) {
-          console.error(`${res.status}: Something went wrong :/`)
+          console.error(
+            `${res.status}: ${method} failed: ${JSON.stringify(body)}`
+          )
         }
         break
       }

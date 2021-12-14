@@ -1,8 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import type { Vote } from '../../types/types'
-import Button from '../Button/Button'
-import { nanoid } from 'nanoid'
 import FormInput from '../FormInput/FormInput'
 import {
   FaStar,
@@ -10,15 +6,15 @@ import {
   FaRegQuestionCircle,
   FaExclamationCircle,
 } from 'react-icons/fa'
+import PopupForm from './PopupForm'
+import styled from 'styled-components'
 
 type VoteFormProps = {
-  onSubmit: (newVote: Vote) => void
+  onSubmit: (payload: { type: VoteTypes; text: string }) => void
   onCancel: () => void
 }
 
 type VoteTypes = 'pro' | 'neutral' | 'remarks' | 'concerns' | 'none'
-
-const MAX_DESCRIPTION_LENGTH = 40
 
 export default function VoteForm({
   onSubmit,
@@ -28,20 +24,17 @@ export default function VoteForm({
   const [voteType, setVoteType] = useState<VoteTypes>('none')
   const [submitError, setSubmitError] = useState(false)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleSubmit() {
     if (voteType === 'none') {
       setSubmitError(true)
       return
     }
 
-    const newVote = {
-      id: nanoid(),
+    const payload = {
       text,
       type: voteType,
     }
-    onSubmit(newVote)
+    onSubmit(payload)
   }
 
   function handleCancel() {
@@ -51,7 +44,6 @@ export default function VoteForm({
     onCancel()
   }
 
-  const textDiff = MAX_DESCRIPTION_LENGTH - text.length
   const voteTypes: VoteTypes[] = ['pro', 'neutral', 'remarks', 'concerns']
   const voteTypeSymbols = {
     pro: <FaStar size="1em" />,
@@ -68,11 +60,11 @@ export default function VoteForm({
   }
 
   return (
-    <FormContainer
+    <PopupForm
+      submitText="Add Vote"
       onSubmit={handleSubmit}
-      color={voteTypeColors[voteType as keyof typeof voteTypeColors]}
+      onCancel={handleCancel}
     >
-      <FormTitle>Add Vote</FormTitle>
       <div>
         <h4>Consent Level</h4>
         <VoteTypePicker>
@@ -93,52 +85,13 @@ export default function VoteForm({
         type="text"
         name="comment (optional)"
         value={text}
-        diff={textDiff}
-        onChange={event => {
-          event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
-            setText(event.target.value)
-        }}
+        max={144}
+        onChange={event => setText(event.target.value)}
       />
       {submitError && <p>You have to choose a consent level before voting.</p>}
-      <ButtonContainer>
-        <Button type="button" onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button>Vote</Button>
-      </ButtonContainer>
-    </FormContainer>
+    </PopupForm>
   )
 }
-
-const FormTitle = styled.h2`
-  font-size: 2.8rem;
-  text-transform: uppercase;
-`
-
-const FormContainer = styled.form<{ color: string }>`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  color: rgba(0, 0, 0, 0.4);
-  background-color: ${({ color }) => color};
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  transition: 0.2s;
-`
-
-const ButtonContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-`
 
 const VoteTypePicker = styled.fieldset`
   display: flex;
