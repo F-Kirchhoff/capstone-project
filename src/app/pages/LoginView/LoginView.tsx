@@ -58,7 +58,6 @@ const PageContainer = styled.main`
 
 const Card = styled.div`
   background-color: var(--c-gray-50);
-  padding-top: 5px;
   border-radius: 15px;
   min-width: 300px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
