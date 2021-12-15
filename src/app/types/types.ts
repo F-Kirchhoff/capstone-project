@@ -32,6 +32,7 @@ export type Vote = {
   type: string
 }
 export type fetchBody = {
+  username?: string
   boardName?: string
   topicId?: string
   needId?: string
