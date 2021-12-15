@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
 import useFetch from '../../hooks/useFetch'
+import type { User } from '../../types/types'
 
 export default function ProfileView(): JSX.Element {
   const { username } = useParams()
 
-  const [user, fetchUser] = useFetch('/api/users', { username })
+  const [user, fetchUser] = useFetch<User>('/api/users', { username })
 
   useEffect(() => {
     fetchUser('GET')
@@ -20,11 +21,14 @@ export default function ProfileView(): JSX.Element {
         <Logo />
         <Button onClick={() => console.log('logout')}>logout</Button>
       </Navbar>
-      <h2>Your Boards</h2>
-      <BoardContainer>
-        <BoardList>boards</BoardList>
-        <Button>Create new Board</Button>
-      </BoardContainer>
+      {user && (
+        <Content>
+          <h1>Welcome back {user.username}</h1>
+          <h2>Your Boards</h2>
+          <BoardList>boards</BoardList>
+          <Button>Create new Board</Button>
+        </Content>
+      )}
     </ProfileContainer>
   )
 }
@@ -48,7 +52,7 @@ const Card = styled.li`
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;
 `
-const BoardContainer = styled.div`
+const Content = styled.main`
   background-color: var(--c-gray-100);
   overflow-y: auto;
 `

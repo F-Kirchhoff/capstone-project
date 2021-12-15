@@ -41,3 +41,8 @@ export type fetchBody = {
   patchMsg?: string
   payload?: any
 }
+
+export type User = {
+  username: string
+  boards: Board[]
+}
