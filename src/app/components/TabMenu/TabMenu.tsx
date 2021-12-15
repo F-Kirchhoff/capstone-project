@@ -11,13 +11,18 @@ export default function TabMenu({ children }: TabMenuProps): JSX.Element {
 
 const MenuContainer = styled.div`
   display: flex;
+
+  border-bottom: solid 1px rgb(0 0 0 / 30%);
 `
 
 export const Tab = styled.button<{ active?: boolean }>`
   text-align: center;
+  font-weight: bold;
+  text-transform: capitalize;
   border: none;
-  padding: 10px 0;
   flex-grow: 1;
+  flex: 1 1 0px;
+  padding: 13px 0 10px;
   cursor: pointer;
   display: flex;
   justify-content: center;

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 type FormInputProps = {
-  type: 'text' | 'textArea'
+  type: 'text' | 'textArea' | 'email' | 'password'
   value: string
   name: string
   max?: number
@@ -24,9 +24,9 @@ export default function FormInput({
   return (
     <InputWrapper>
       <FormLabel htmlFor={name}>{name}</FormLabel>
-      {type === 'text' ? (
+      {type !== 'textArea' ? (
         <Input
-          type="text"
+          type={type}
           name={name}
           required={required}
           value={value}
@@ -68,8 +68,9 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
 `
 const TextArea = styled.textarea`
@@ -85,8 +86,9 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
 `
 const InputWrapper = styled.div`
