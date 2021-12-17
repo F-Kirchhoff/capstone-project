@@ -16,15 +16,19 @@ type LoginProps = {
   email: string
   password: string
 }
+type RegisterProps = {
+  email: string
+  password: string
+  username: string
+}
 
 export default function LoginView({
   tab: initialTab,
 }: LoginViewProps): JSX.Element {
   const [tab, setTab] = useState(initialTab)
   const [loginFailed, setLoginFailed] = useState(false)
+  const [registerFailed, setRegisterFailed] = useState(false)
   const nav = useNavigate()
-
-  const [user, fetchUser] = useFetch('/api/users')
 
   async function handleLogin({ email, password }: LoginProps) {
     const res = await fetch('/api/auth/login', {
@@ -41,6 +45,26 @@ export default function LoginView({
       nav(`/users/${user.username}`)
     } else {
       setLoginFailed(true)
+    }
+  }
+
+  async function handleRegister({ username, email, password }: RegisterProps) {
+    if (!username || !email || !password) {
+      console.error('Error: Bad Input.')
+      return
+    }
+
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ payload: { email, password, username } }),
+    })
+    if (res.ok) {
+      nav(`/users/${username}`)
+    } else {
+      setRegisterFailed(true)
     }
   }
 
@@ -73,7 +97,12 @@ export default function LoginView({
           </>
         )}
         {tab === 'register' && (
-          <RegisterForm onSubmit={console.log} onCancel={() => nav('/')} />
+          <>
+            {registerFailed && (
+              <ErrorMessage>Username or email already in use.</ErrorMessage>
+            )}
+            <RegisterForm onSubmit={handleRegister} onCancel={() => nav('/')} />
+          </>
         )}
       </Card>
     </PageContainer>

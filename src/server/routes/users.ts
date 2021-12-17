@@ -22,7 +22,7 @@ users.get('/', async (req: Request, res: Response) => {
 users.post('/', async (req: Request, res: Response) => {
   const {
     payload: { username, email, password },
-  }: fetchBody = req.query
+  }: fetchBody = req.body
 
   const users = await getUsers()
   const user = await users.findOne({
@@ -30,7 +30,7 @@ users.post('/', async (req: Request, res: Response) => {
   })
 
   if (user) {
-    res.status(422).send(`Error: email or username already in use.`)
+    res.status(422).send()
     return
   }
 
@@ -47,7 +47,7 @@ users.post('/', async (req: Request, res: Response) => {
 
   users.insertOne(newUser)
 
-  res.send(`Success: User ${username} added`)
+  res.send()
 })
 
 export default users
