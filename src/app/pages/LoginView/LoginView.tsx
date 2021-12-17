@@ -5,8 +5,6 @@ import LoginForm from '../../components/Forms/LoginForm'
 import RegisterForm from '../../components/Forms/RegisterForm'
 import Logo from '../../components/Logo/Logo'
 import TabMenu, { Tab } from '../../components/TabMenu/TabMenu'
-import useFetch from '../../hooks/useFetch'
-import type { User } from '../../types/types'
 
 type LoginViewProps = {
   tab: 'login' | 'register'
