@@ -5,7 +5,7 @@ import FormInput from '../FormInput/FormInput'
 import { BiHide, BiShow } from 'react-icons/bi'
 
 type LoginFormProps = {
-  onSubmit: (payload: { username: string; password: string }) => void
+  onSubmit: (payload: { email: string; password: string }) => void
   onCancel: () => void
 }
 
@@ -13,23 +13,23 @@ export default function LoginForm({
   onSubmit,
   onCancel,
 }: LoginFormProps): JSX.Element {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   return (
     <Form
       onSubmit={event => {
         event.preventDefault()
-        onSubmit({ username, password })
+        onSubmit({ email, password })
       }}
     >
       <FormInput
         type="email"
         name="E-Mail"
-        value={username}
+        value={email}
         required
         onChange={event => {
-          setUsername(event.target.value)
+          setEmail(event.target.value)
         }}
       />
       <PasswordWrapper>
