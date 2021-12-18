@@ -1,20 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiChevronsRight } from 'react-icons/bi'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
-import useFetch from '../../hooks/useFetch'
 import type { User } from '../../types/types'
 
 export default function ProfileView(): JSX.Element {
-  const { username } = useParams()
   const nav = useNavigate()
 
-  const [user, fetchUser] = useFetch<User>('/api/users', { username })
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    fetchUser('GET')
+    async function fetchUser() {
+      const res = await fetch('/api/users')
+
+      if (!res.ok) {
+        nav('/login')
+      } else {
+        const user = await res.json()
+        setUser(user)
+      }
+    }
+
+    fetchUser()
   }, [])
 
   return (

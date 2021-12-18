@@ -13,7 +13,7 @@ function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="users/:username" element={<ProfileView />} />
+        <Route path="/me" element={<ProfileView />} />
         <Route path="/login" element={<LoginView tab="login" />} />
         <Route path="/register" element={<LoginView tab="register" />} />
         <Route path="/boards/:boardName">

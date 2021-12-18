@@ -40,7 +40,7 @@ export default function LoginView({
       const session = await res.json()
       console.log(session)
 
-      nav(`/users/${session.user}`)
+      nav(`/me`)
     } else {
       setLoginFailed(true)
     }
@@ -60,7 +60,7 @@ export default function LoginView({
       body: JSON.stringify({ payload: { email, password, username } }),
     })
     if (res.ok) {
-      nav(`/users/${username}`)
+      nav(`/me`)
     } else {
       setRegisterFailed(true)
     }
