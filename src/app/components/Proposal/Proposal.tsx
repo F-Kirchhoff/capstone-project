@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import type { Proposal as ProposalType, User } from '../../types/types'
 import {
