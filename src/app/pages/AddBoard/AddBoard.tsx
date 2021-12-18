@@ -15,6 +15,7 @@ export default function AddBoard(): JSX.Element {
       name,
       users,
     }
+
     await fetchBoard('POST', { payload })
     nav('/me')
   }

@@ -1,7 +1,7 @@
 import express from 'express'
 import type { Response, Request } from 'express'
 import type { fetchBody } from '../../app/types/types'
-import { getBoards } from '../../utils/db'
+import { getBoards, getUsers } from '../../utils/db'
 
 const boards = express.Router()
 
@@ -43,11 +43,22 @@ boards.post('/', async (req: Request, res: Response) => {
   const newBoard = {
     name,
     topics: [],
-    users: [user, users],
+    users: [user, ...users],
   }
 
   const msg = await boards.insertOne(newBoard)
 
+  console.log(newBoard.users)
+
+  newBoard.users.forEach(async user => {
+    const users = await getUsers()
+    await users.updateOne(
+      {
+        'public.username': user,
+      },
+      { $push: { 'public.boards': name } }
+    )
+  })
   res.send(msg)
 })
 

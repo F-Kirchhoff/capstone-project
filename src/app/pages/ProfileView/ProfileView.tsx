@@ -47,7 +47,7 @@ export default function ProfileView(): JSX.Element {
             <h2>Your Boards</h2>
             <BoardList>
               {user.boards.map(board => (
-                <Card onClick={() => nav(`/boards/${board}`)}>
+                <Card key={board} onClick={() => nav(`/boards/${board}`)}>
                   <BoardName>{board}</BoardName>
                   <BiChevronsRight size="32px" />
                 </Card>
