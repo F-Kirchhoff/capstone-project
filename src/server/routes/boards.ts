@@ -20,7 +20,9 @@ boards.get('/', async (req: Request, res: Response) => {
 })
 
 boards.post('/', async (req: Request, res: Response) => {
-  const { boardName: name }: fetchBody = req.body
+  const {
+    payload: { name, users },
+  } = req.body
 
   const user = req.session?.user
 
@@ -41,7 +43,7 @@ boards.post('/', async (req: Request, res: Response) => {
   const newBoard = {
     name,
     topics: [],
-    users: [user],
+    users: [user, users],
   }
 
   const msg = await boards.insertOne(newBoard)

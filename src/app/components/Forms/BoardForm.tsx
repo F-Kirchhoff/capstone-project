@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import useFetch from '../../hooks/useFetch'
 import { BiChevronsLeft } from 'react-icons/bi'
 import { TiDelete } from 'react-icons/ti'
-import type { Board } from '../../types/types'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
 
