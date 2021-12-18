@@ -31,3 +31,8 @@ auth.post('/login', async (req: Request, res: Response) => {
   req.session.user = user.public.username
   res.send(req.session)
 })
+
+auth.post('/logout', async (req: Request, res: Response) => {
+  req.session = null
+  res.send()
+})
