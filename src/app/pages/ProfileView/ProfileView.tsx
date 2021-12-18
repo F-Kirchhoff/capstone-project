@@ -1,27 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiChevronsRight } from 'react-icons/bi'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
-import useFetch from '../../hooks/useFetch'
 import type { User } from '../../types/types'
 
 export default function ProfileView(): JSX.Element {
-  const { username } = useParams()
   const nav = useNavigate()
 
-  const [user, fetchUser] = useFetch<User>('/api/users', { username })
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-    fetchUser('GET')
+    async function fetchUser() {
+      const res = await fetch('/api/users')
+
+      if (!res.ok) {
+        console.error('Not logged in!')
+        nav('/login')
+      } else {
+        const user = await res.json()
+        setUser(user)
+      }
+    }
+
+    fetchUser()
   }, [])
+
+  async function handleLogout() {
+    await fetch('api/auth/logout', {
+      method: 'POST',
+    })
+    nav('/login')
+  }
 
   return (
     <ProfileContainer>
       <Navbar>
         <Logo />
-        <Button onClick={() => console.log('logout')}>logout</Button>
+        <Button onClick={handleLogout}>logout</Button>
       </Navbar>
       {user && (
         <Content>
