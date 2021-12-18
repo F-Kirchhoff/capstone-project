@@ -4,21 +4,22 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import useFetch from '../../hooks/useFetch'
 import { BiChevronsLeft } from 'react-icons/bi'
-import type { Board, Topic, User } from '../../types/types'
+import { TiDelete } from 'react-icons/ti'
+import type { Board } from '../../types/types'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
 
 const MAX_TITLE_LENGTH = 40
-const MAX_DESCRIPTION_LENGTH = 144
+const MAX_USERNAME_LENGTH = 40
 
 export default function AddBoard(): JSX.Element {
   const nav = useNavigate()
-  const [_board, fetchBoard] = useFetch<Board>(`/api/topics`)
+  const [_board, fetchBoard] = useFetch<Board>(`/api/boards`)
   const [name, setName] = useState('')
   const [users, setUsers] = useState<string[]>([])
+  const [newUser, setNewUser] = useState('')
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  async function handleSubmit() {
     const payload = {
       name,
       users,
@@ -33,13 +34,17 @@ export default function AddBoard(): JSX.Element {
     nav('/me')
   }
 
+  const deleteUser = (username: string) => () => {
+    setUsers(prev => prev.filter(user => user !== username))
+  }
+
   return (
     <AddBoardContainer>
       <ReturnButton to="..">
         <BiChevronsLeft size="32px" />
       </ReturnButton>
       <Header>Create Board</Header>
-      <BoardFormContainer onSubmit={handleSubmit}>
+      <BoardFormContainer>
         <FormInput
           type="text"
           name="title"
@@ -48,11 +53,43 @@ export default function AddBoard(): JSX.Element {
           value={name}
           onChange={event => setName(event.target.value)}
         />
+        <div>
+          <h3>Add users to the board</h3>
+          <UsersList>
+            {users.map(user => (
+              <User key={user}>
+                <TiDelete size="1.5em" onClick={deleteUser(user)} />
+                <span>{user}</span>
+              </User>
+            ))}
+          </UsersList>
+          <UsersForm>
+            <FormInput
+              type="text"
+              name="new user"
+              max={MAX_USERNAME_LENGTH}
+              value={newUser}
+              onChange={event => setNewUser(event.target.value)}
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                setUsers(prev => [...prev, newUser])
+                setNewUser('')
+              }}
+            >
+              +
+            </Button>
+          </UsersForm>
+        </div>
+
         <ButtonContainer>
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Create Board</Button>
+          <Button type="button" onClick={handleSubmit} highlight>
+            Create Board
+          </Button>
         </ButtonContainer>
       </BoardFormContainer>
     </AddBoardContainer>
@@ -107,4 +144,28 @@ const ButtonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+`
+
+const UsersForm = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 10px;
+`
+const UsersList = styled.ul`
+  max-height: 30vh;
+  overflow-y: auto;
+  list-style: none;
+  display: grid;
+  & > li:nth-child(n + 2) {
+    border-top: 1px solid rgb(0 0 0 / 30%);
+  }
+`
+const User = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
 `
