@@ -16,6 +16,7 @@ export default function ProfileView(): JSX.Element {
       const res = await fetch('/api/users')
 
       if (!res.ok) {
+        alert('Not Logged In!')
         nav('/login')
       } else {
         const user = await res.json()
@@ -26,11 +27,18 @@ export default function ProfileView(): JSX.Element {
     fetchUser()
   }, [])
 
+  async function handleLogout() {
+    const _res = await fetch('api/auth/logout', {
+      method: 'POST',
+    })
+    nav('/login')
+  }
+
   return (
     <ProfileContainer>
       <Navbar>
         <Logo />
-        <Button onClick={() => console.log('logout')}>logout</Button>
+        <Button onClick={handleLogout}>logout</Button>
       </Navbar>
       {user && (
         <Content>
