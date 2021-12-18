@@ -32,6 +32,7 @@ export type Vote = {
   type: string
 }
 export type fetchBody = {
+  username?: string
   boardName?: string
   topicId?: string
   needId?: string
@@ -39,4 +40,9 @@ export type fetchBody = {
   voteId?: string
   patchMsg?: string
   payload?: any
+}
+
+export type User = {
+  username: string
+  boards: Board[]
 }

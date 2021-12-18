@@ -7,3 +7,15 @@ Content-Type: application/json
   "61a8cae7f548b2f101257e07",
   "61a8cae7f548b2f101257e08"
 ]
+
+###
+POST http://localhost:3001/api/sessions
+Content-Type: application/json
+
+{
+  "username": "ph1",
+  "password": "1244"
+}
+
+###
+GET http://localhost:3001/api/login
