@@ -8,6 +8,7 @@ import TopicView from './pages/TopicView/TopicView'
 import ProposalView from './pages/ProposalView/ProposalView'
 import LoginView from './pages/LoginView/LoginView'
 import ProfileView from './pages/ProfileView/ProfileView'
+import AddBoard from './pages/AddBoard/AddBoard'
 
 function App(): JSX.Element {
   return (
@@ -15,7 +16,8 @@ function App(): JSX.Element {
       <Routes>
         <Route path="/me" element={<ProfileView />} />
         <Route path="/login" element={<LoginView tab="login" />} />
-        <Route path="/register" element={<LoginView tab="register" />} />
+        <Route path="/register" element={<LoginView tab="register" />} />t
+        <Route path="/addBoard" element={<AddBoard />} />
         <Route path="/boards/:boardName">
           <Route path="" element={<Dashboard />} />
           <Route path="topics/:topicId">
