@@ -53,7 +53,7 @@ export default function ProfileView(): JSX.Element {
                 </Card>
               ))}
             </BoardList>
-            <Button>Create new Board</Button>
+            <Button onClick={() => nav('/addBoard')}>Create new Board</Button>
           </BoardsContainer>
         </Content>
       )}
