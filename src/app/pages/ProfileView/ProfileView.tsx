@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BiChevronsRight } from 'react-icons/bi'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from '../../components/Button/Button'
 import Logo from '../../components/Logo/Logo'
@@ -16,7 +16,7 @@ export default function ProfileView(): JSX.Element {
       const res = await fetch('/api/users')
 
       if (!res.ok) {
-        alert('Not Logged In!')
+        console.error('Not logged in!')
         nav('/login')
       } else {
         const user = await res.json()
@@ -28,7 +28,7 @@ export default function ProfileView(): JSX.Element {
   }, [])
 
   async function handleLogout() {
-    const _res = await fetch('api/auth/logout', {
+    await fetch('api/auth/logout', {
       method: 'POST',
     })
     nav('/login')

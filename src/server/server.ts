@@ -3,7 +3,7 @@ dotenv.config()
 
 import express from 'express'
 import type { Request, Response } from 'express'
-import { connectToDB, getUsers } from '../utils/db'
+import { connectToDB } from '../utils/db'
 import api from './routes/api'
 import session from 'cookie-session'
 
