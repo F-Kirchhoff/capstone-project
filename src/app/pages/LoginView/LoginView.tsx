@@ -37,10 +37,10 @@ export default function LoginView({
       body: JSON.stringify({ payload: { email, password } }),
     })
     if (res.ok) {
-      const user = await res.json()
-      console.log(user.username)
+      const session = await res.json()
+      console.log(session)
 
-      nav(`/users/${user.username}`)
+      nav(`/users/${session.user}`)
     } else {
       setLoginFailed(true)
     }

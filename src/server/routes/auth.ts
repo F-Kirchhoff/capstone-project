@@ -5,15 +5,6 @@ import type { fetchBody } from '../../app/types/types'
 
 const auth = express.Router()
 
-auth.get('/', (req: Request, res: Response) => {
-  const session = req.session
-  console.log(session)
-
-  if (session.userid) {
-    res.send(true)
-  } else res.send(false)
-})
-
 export default auth
 
 auth.post('/login', async (req: Request, res: Response) => {
@@ -31,5 +22,12 @@ auth.post('/login', async (req: Request, res: Response) => {
     res.status(401).send(`Error: wrong email or password.`)
     return
   }
-  res.send({ username: user.public.username })
+  if (!req.session) {
+    console.log('Error: No session set.')
+    res.status(500).send()
+    return
+  }
+
+  req.session.user = user.public.username
+  res.send(req.session)
 })
