@@ -7,7 +7,7 @@ const users = express.Router()
 
 users.get('/', async (req: Request, res: Response) => {
   if (!req.session || !req.session.user) {
-    res.status(400).send()
+    res.status(400).send('Error: Not logged in.')
     return
   }
 
@@ -17,7 +17,7 @@ users.get('/', async (req: Request, res: Response) => {
   const user = await users.findOne({ 'public.username': username })
 
   if (!user) {
-    res.status(404).send(`Error: no user called ${username} found.`)
+    res.status(404).send('Error: Bad Request.')
     return
   }
 

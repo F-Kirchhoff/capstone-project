@@ -51,7 +51,7 @@ const Container = styled.li`
   }
 `
 
-const NeedContainer = styled.li`
+const NeedContainer = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
