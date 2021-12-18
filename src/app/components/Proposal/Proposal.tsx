@@ -94,18 +94,3 @@ const VoteCounter = styled.button<{ active: boolean; color: string }>`
   opacity: ${({ active }) => (active ? '1' : '0.4')};
   cursor: pointer;
 `
-
-const DetailViewButton = styled(Link)`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(50%, -50%);
-  color: var(--c-gray-100);
-  background-color: var(--c-primary);
-  text-decoration: none;
-  padding: 5px;
-  line-height: 0;
-  border-radius: 999px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-`
