@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import type { Proposal as ProposalType } from '../../types/types'
+import type { Proposal as ProposalType, User } from '../../types/types'
 import { BiChevronRight } from 'react-icons/bi'
 import {
   FaStar,
@@ -11,9 +11,15 @@ import {
 } from 'react-icons/fa'
 type ProposalProps = {
   content: ProposalType
+  onVote: (type: string) => () => void
+  user: User
 }
 
-export default function Proposal({ content }: ProposalProps): JSX.Element {
+export default function Proposal({
+  content,
+  onVote,
+  user,
+}: ProposalProps): JSX.Element {
   const { id, description, votes } = content
 
   const voteTypes = ['pro', 'neutral', 'remarks', 'concerns']
@@ -24,15 +30,26 @@ export default function Proposal({ content }: ProposalProps): JSX.Element {
     concerns: <FaExclamationCircle size="1em" />,
   }
 
+  const userVote = votes.find(vote => (vote.user = user.username))
+  console.log(userVote)
+
   return (
     <PropsoalContainer>
       <Description>{description}</Description>
-      {voteTypes.map(type => (
-        <VoteCounter key={type}>
-          {voteTypeSymbols[type as keyof typeof voteTypeSymbols]}
-          <span>{votes.filter(vote => vote.type === type).length}</span>
-        </VoteCounter>
-      ))}
+      {voteTypes.map(type => {
+        const count = votes.filter(vote => vote.type === type).length
+        const icon = voteTypeSymbols[type as keyof typeof voteTypeSymbols]
+        return (
+          <VoteCounter
+            key={type}
+            onClick={onVote(type)}
+            active={userVote?.type === type}
+          >
+            {icon}
+            <span>{count}</span>
+          </VoteCounter>
+        )
+      })}
       <DetailViewButton to={`proposals/${id}`}>
         <BiChevronRight size="24px" />
       </DetailViewButton>
@@ -61,9 +78,10 @@ const Description = styled.p`
   grid-column: 1/-1;
 `
 
-const VoteCounter = styled.div`
+const VoteCounter = styled.button<{ active: boolean }>`
   display: flex;
   justify-content: center;
+  background-color: ${({ active }) => (active ? 'red' : 'transparent')}
   align-items: center;
   gap: 20px;
   padding: 5px;

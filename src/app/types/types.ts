@@ -28,7 +28,7 @@ export type Board = {
 
 export type Vote = {
   id: string
-  text: string
+  user?: string
   type: string
 }
 export type fetchBody = {
