@@ -58,12 +58,10 @@ export default function LoginView({
     })
 
     if (res.ok) {
-      nav(`/me`)
+      handleLogin({ email, password })
     } else {
       setRegisterFailed(true)
     }
-
-    handleLogin({ email, password })
   }
 
   return (
