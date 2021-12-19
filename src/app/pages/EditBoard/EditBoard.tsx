@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useParams } from 'react-router-dom'
 import BoardForm from '../../components/Forms/BoardForm'
@@ -13,6 +13,7 @@ export default function EditBoard(): JSX.Element {
   const { boardName } = useParams()
 
   const [board, fetchBoard] = useFetch<Board>(`/api/boards`, { boardName })
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     fetchBoard('GET')
@@ -26,9 +27,18 @@ export default function EditBoard(): JSX.Element {
       users,
     }
 
-    await fetchBoard('PATCH', { payload })
-
-    nav(`/boards/${newName}`)
+    const res = await fetch('api/boards', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ payload }),
+    })
+    if (res.ok) {
+      nav(`/boards/${newName}`)
+    } else {
+      setError(true)
+    }
   }
 
   function handleCancel() {
@@ -45,6 +55,7 @@ export default function EditBoard(): JSX.Element {
       board={{ name: board.name, users: board.users || [] }}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
+      errorMsg={error ? 'Something went wrong.' : ''}
     />
   )
 }

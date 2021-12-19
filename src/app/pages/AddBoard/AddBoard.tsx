@@ -2,10 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import BoardForm from '../../components/Forms/BoardForm'
 
-import useFetch from '../../hooks/useFetch'
-
-import type { Board } from '../../types/types'
-
 export default function AddBoard(): JSX.Element {
   const nav = useNavigate()
   const [error, setError] = useState(false)
@@ -15,8 +11,6 @@ export default function AddBoard(): JSX.Element {
       name,
       users,
     }
-
-    console.log(payload)
 
     const res = await fetch('api/boards', {
       method: 'POST',
