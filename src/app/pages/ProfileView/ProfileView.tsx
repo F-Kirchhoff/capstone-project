@@ -37,7 +37,7 @@ export default function ProfileView(): JSX.Element {
   return (
     <ProfileContainer>
       <Navbar>
-        <Logo />
+        <Logo short onClick={() => nav('/')} />
         <Button onClick={handleLogout}>logout</Button>
       </Navbar>
       {user && (
