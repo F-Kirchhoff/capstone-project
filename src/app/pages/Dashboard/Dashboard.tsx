@@ -30,7 +30,7 @@ export default function Dashboard(): JSX.Element {
           onEdit={() => {
             nav('edit')
           }}
-          onDelete={() => console.log('Nnonononoo')}
+          onDelete={() => console.log('Delete')}
           vertical
         />
       </Navbar>
