@@ -44,5 +44,5 @@ export type fetchBody = {
 
 export type User = {
   username: string
-  boards: Board[]
+  boards: string[]
 }
