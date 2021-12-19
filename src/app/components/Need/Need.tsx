@@ -6,7 +6,7 @@ import EditMenu from '../EditMenu/EditMenu'
 
 type NeedProps = {
   content: NeedType
-  toggleUpvote: (id: string) => () => void
+  toggleUpvote: (id: string, isUpvoted: boolean) => () => void
   onEdit: () => void
   onDelete: () => void
   user: string
@@ -27,7 +27,10 @@ export default function Need({
     <Container>
       <EditMenu onEdit={onEdit} onDelete={onDelete} />
       <NeedContainer>
-        <UpvoteButton onClick={toggleUpvote(id)} isUpvoted={isUpvoted}>
+        <UpvoteButton
+          onClick={toggleUpvote(id, isUpvoted)}
+          isUpvoted={isUpvoted}
+        >
           {isUpvoted ? (
             <FaHeart size="18px" color="inherit" />
           ) : (

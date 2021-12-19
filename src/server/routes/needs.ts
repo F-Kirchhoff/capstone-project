@@ -41,20 +41,35 @@ needs.patch('/', async (req: Request, res: Response) => {
     payload,
   }: fetchBody = req.body
 
+  const user = req.session?.user
+
+  if (!user) {
+    res.status(401).send('Unauthorized Request')
+    return
+  }
+
   const boards = getBoards()
 
   switch (patchMsg) {
     case 'UPVOTES': {
-      if (typeof payload !== 'number') {
-        res.status(422).send(`Error: Input data invalid.`)
+      const { isUpvoted } = payload
+
+      if (isUpvoted) {
+        const msg = await boards.updateOne(
+          { name },
+          { $pull: { 'topics.$[topic].needs.$[need].upvotes': user } },
+          { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+        )
+        res.send(msg)
         return
+      } else {
+        const msg = await boards.updateOne(
+          { name },
+          { $push: { 'topics.$[topic].needs.$[need].upvotes': user } },
+          { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+        )
+        res.send(msg)
       }
-      const msg = await boards.updateOne(
-        { name },
-        { $set: { 'topics.$[topic].needs.$[need].upvotes': payload } },
-        { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
-      )
-      res.send(msg)
       break
     }
     case 'TEXT': {
