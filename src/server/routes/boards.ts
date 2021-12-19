@@ -21,8 +21,10 @@ boards.get('/', async (req: Request, res: Response) => {
 
 boards.post('/', async (req: Request, res: Response) => {
   const {
-    payload: { name, users },
+    payload: { name: rawName, users },
   } = req.body
+
+  const name = rawName.split(' ').join('-')
 
   const user = req.session?.user
 
@@ -31,11 +33,14 @@ boards.post('/', async (req: Request, res: Response) => {
     return
   }
 
-  const boards = await getBoards()
+  const boards = getBoards()
+  const usersCollection = getUsers()
 
   const board = await boards.findOne({ name })
 
   if (board) {
+    console.log('Error: Board already exists.')
+
     res.status(422).send('Error: Board already exists.')
     return
   }
@@ -48,9 +53,9 @@ boards.post('/', async (req: Request, res: Response) => {
 
   await boards.insertOne(newBoard)
 
-  await users.updateMany(
+  await usersCollection.updateMany(
     {
-      'public.username': { $in: newBoard.users },
+      'public.username': { $in: [user, ...users] },
     },
     { $push: { 'public.boards': name } }
   )
