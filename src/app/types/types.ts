@@ -24,6 +24,7 @@ export type Board = {
   _id: ObjectId
   name: string
   topics: Topic[]
+  users: string[]
 }
 
 export type Vote = {
