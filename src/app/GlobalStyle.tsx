@@ -22,11 +22,13 @@ const GlobalStyle = createGlobalStyle`
     --c-gray-700:#3d3c3a;
     --c-gray-800:#252524;
     --c-gray-900:#141414;
-    --c-primary: #13142c;
-    --c-secondary: #1C7271;
+    --c-primary: #211641;
+    --c-secondary: #af3e77;
     --c-light: #f1ede8;
-    --c-dark:#17171d;
-    --c-alert: #8a0029;
+    --c-dark:#130c18;
+    --c-alert: #c41c4f;
+    --c-success: #12bb66;
+    --c-warning: #cf9924;
   }
 
   body {

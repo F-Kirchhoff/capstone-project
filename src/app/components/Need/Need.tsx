@@ -66,18 +66,16 @@ const NeedContainer = styled.div`
 `
 const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
   color: ${({ isUpvoted }) =>
-    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
+    isUpvoted ? 'var(--c-primary)' : 'rgb(0 0 0 / 70%)'};
   background-color: transparent;
   font-size: 0.9rem;
   font-weight: bold;
   padding: 3px 8px;
-  border: 3px solid;
-  border-color: ${({ isUpvoted }) =>
-    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
-  border-radius: 999px;
+  border: none;
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
-  min-width: 4rem;
 `
