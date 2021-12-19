@@ -102,12 +102,12 @@ function TopicView(): JSX.Element {
     setView('')
   }
 
-  const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
+  const handleNeedUpvote = (needId: string) => async () => {
     // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
     fetchNeed('PATCH', {
       needId,
       patchMsg: 'UPVOTES',
-      payload: upvotes,
+      payload: { user },
     })
     fetchTopic('GET')
   }
@@ -131,7 +131,8 @@ function TopicView(): JSX.Element {
             <Need
               key={need.id}
               content={need}
-              onUpvoteChange={handleNeedUpvote(need.id)}
+              user={user.username}
+              toggleUpvote={handleNeedUpvote}
               onEdit={() => {
                 setEditBuffer({
                   id: need.id,
