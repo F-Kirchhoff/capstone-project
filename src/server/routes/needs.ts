@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody } from '../../app/types/types'
+import type { fetchBody, Need, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 import { nanoid } from 'nanoid'
 
@@ -13,15 +13,21 @@ needs.post('/', async (req: Request, res: Response) => {
     payload: { text },
   }: fetchBody = req.body
 
+  const user = req.session?.user
+
+  if (!user) {
+    res.status(401).send('Unauthorized Request')
+    return
+  }
+
   if (typeof text !== 'string' || text.length === 0) {
     res.status(422).send(`Error: Input data invalid.`)
     return
   }
-
   const newNeed = {
     id: nanoid(),
     text,
-    upvotes: 1,
+    upvotes: [user],
   }
 
   const boards = getBoards()
@@ -41,21 +47,53 @@ needs.patch('/', async (req: Request, res: Response) => {
     payload,
   }: fetchBody = req.body
 
+  const user = req.session?.user
+
+  if (!user) {
+    res.status(401).send('Unauthorized Request')
+    return
+  }
+
   const boards = getBoards()
 
   switch (patchMsg) {
     case 'UPVOTES': {
-      if (typeof payload !== 'number') {
-        res.status(422).send(`Error: Input data invalid.`)
+      const board = await boards.findOne({ name })
+      if (!board) {
+        res.status(400).send('Bad request')
         return
       }
-      const msg = await boards.updateOne(
-        { name },
-        { $set: { 'topics.$[topic].needs.$[need].upvotes': payload } },
-        { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
-      )
-      res.send(msg)
-      break
+      const topic = board.topics.find((topic: Topic) => topic.id === topicId)
+      if (!topic) {
+        res.status(400).send('Bad request')
+        return
+      }
+      const need = topic.needs.find((need: Need) => need.id === needId)
+      if (!topic) {
+        res.status(400).send('Bad request')
+        return
+      }
+      const isUpvoted = need.upvotes.includes(user)
+
+      console.log({ isUpvoted, user })
+
+      if (isUpvoted) {
+        const msg = await boards.updateOne(
+          { name },
+          { $pull: { 'topics.$[topic].needs.$[need].upvotes': user } },
+          { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+        )
+        res.send(msg)
+        break
+      } else {
+        const msg = await boards.updateOne(
+          { name },
+          { $push: { 'topics.$[topic].needs.$[need].upvotes': user } },
+          { arrayFilters: [{ 'topic.id': topicId }, { 'need.id': needId }] }
+        )
+        res.send(msg)
+        break
+      }
     }
     case 'TEXT': {
       if (typeof payload !== 'string') {

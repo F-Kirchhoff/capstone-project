@@ -5,23 +5,27 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import AddTopic from './pages/AddTopic/AddTopic'
 import AddProposal from './pages/AddProposal/AddProposal'
 import TopicView from './pages/TopicView/TopicView'
-import ProposalView from './pages/ProposalView/ProposalView'
 import LoginView from './pages/LoginView/LoginView'
 import ProfileView from './pages/ProfileView/ProfileView'
+import AddBoard from './pages/AddBoard/AddBoard'
+import EditBoard from './pages/EditBoard/EditBoard'
+import LandingPage from './pages/LandingPage/LandingPage'
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="users/:username" element={<ProfileView />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/me" element={<ProfileView />} />
         <Route path="/login" element={<LoginView tab="login" />} />
-        <Route path="/register" element={<LoginView tab="register" />} />
+        <Route path="/register" element={<LoginView tab="register" />} />t
+        <Route path="/addBoard" element={<AddBoard />} />
         <Route path="/boards/:boardName">
           <Route path="" element={<Dashboard />} />
+          <Route path="edit" element={<EditBoard />}></Route>
           <Route path="topics/:topicId">
             <Route path="" element={<TopicView />} />
             <Route path="addproposal" element={<AddProposal />} />
-            <Route path="proposals/:proposalId" element={<ProposalView />} />
           </Route>
           <Route path="addTopic" element={<AddTopic />} />
         </Route>

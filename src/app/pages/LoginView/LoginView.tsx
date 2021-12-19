@@ -37,10 +37,7 @@ export default function LoginView({
       body: JSON.stringify({ payload: { email, password } }),
     })
     if (res.ok) {
-      const user = await res.json()
-      console.log(user.username)
-
-      nav(`/users/${user.username}`)
+      nav(`/me`)
     } else {
       setLoginFailed(true)
     }
@@ -59,8 +56,9 @@ export default function LoginView({
       },
       body: JSON.stringify({ payload: { email, password, username } }),
     })
+
     if (res.ok) {
-      nav(`/users/${username}`)
+      handleLogin({ email, password })
     } else {
       setRegisterFailed(true)
     }

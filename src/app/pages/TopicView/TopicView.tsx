@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
-import type { Topic, Need as NeedType } from '../../types/types'
+import type { Topic, Need as NeedType, Vote, User } from '../../types/types'
 import Button from '../../components/Button/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/Forms/NeedForm'
@@ -29,11 +29,17 @@ function TopicView(): JSX.Element {
   const { boardName, topicId } = useParams()
   const nav = useNavigate()
 
+  const [user, fetchUser] = useFetch<User>('/api/users')
+
   const [topic, fetchTopic] = useFetch<Topic>(`/api/topics`, {
     boardName,
     topicId,
   })
   const [_need, fetchNeed] = useFetch<NeedType>(`/api/needs`, {
+    boardName,
+    topicId,
+  })
+  const [_vote, fetchVote] = useFetch<Vote>(`/api/votes`, {
     boardName,
     topicId,
   })
@@ -43,6 +49,7 @@ function TopicView(): JSX.Element {
     : { title: '', description: '', needs: [], proposals: [] }
 
   useEffect(() => {
+    fetchUser('GET')
     fetchTopic('GET')
   }, [])
 
@@ -95,18 +102,25 @@ function TopicView(): JSX.Element {
     setView('')
   }
 
-  const handleNeedUpvote = (needId: string) => async (upvotes: number) => {
-    // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
-    fetchNeed('PATCH', {
+  const handleNeedUpvote = (needId: string) => async () => {
+    await fetchNeed('PATCH', {
       needId,
       patchMsg: 'UPVOTES',
-      payload: upvotes,
     })
-    fetchTopic('GET')
+    await fetchTopic('GET')
+  }
+
+  const handleProposalVote =
+    (proposalId: string) => (type: string) => async () => {
+      await fetchVote('POST', { proposalId, payload: { type } })
+      fetchTopic('GET')
+    }
+
+  if (!user || !topic) {
+    return <></>
   }
 
   let tabContent
-
   if (tab === 'needs') {
     if (needs.length > 0) {
       tabContent = (
@@ -115,7 +129,8 @@ function TopicView(): JSX.Element {
             <Need
               key={need.id}
               content={need}
-              onUpvoteChange={handleNeedUpvote(need.id)}
+              user={user.username}
+              toggleUpvote={handleNeedUpvote}
               onEdit={() => {
                 setEditBuffer({
                   id: need.id,
@@ -136,7 +151,12 @@ function TopicView(): JSX.Element {
       tabContent = (
         <ProposalList>
           {proposals.map(proposal => (
-            <Proposal content={proposal} key={proposal.id} />
+            <Proposal
+              key={proposal.id}
+              content={proposal}
+              user={user}
+              onVote={handleProposalVote(proposal.id)}
+            />
           ))}
         </ProposalList>
       )
@@ -147,80 +167,71 @@ function TopicView(): JSX.Element {
 
   return (
     <>
-      {topic && (
-        <>
-          <TopicContainer>
-            <NavContainer>
-              <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
-              <EditMenu
-                onEdit={() => {
-                  setEditBuffer({
-                    id: 'TOPIC',
-                    content: { title, description },
-                  })
-                  setView('SHOW_EDIT_FORM')
-                }}
-                onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
-                vertical
-              />
-            </NavContainer>
-            <h2> {title}</h2>
-            <Description>{description}</Description>
-            <TabMenu>
-              <Tab
-                key="needs"
-                active={tab === 'needs'}
-                onClick={() => setCategory('needs')}
-              >
-                needs
-              </Tab>
-              <Tab
-                key="proposals"
-                active={tab === 'proposals'}
-                onClick={() => setCategory('proposals')}
-              >
-                proposals
-              </Tab>
-            </TabMenu>
-            {tabContent}
-            {tab === 'needs' ? (
-              <Button onClick={() => setView('SHOW_NEED_FORM')}>
-                Add Need
-              </Button>
-            ) : (
-              <Button onClick={() => nav('addProposal')}>Add Proposal</Button>
-            )}
-          </TopicContainer>
-          {view === 'SHOW_NEED_FORM' && (
-            <NeedForm
-              onSubmit={handleNeedSubmit}
-              onCancel={() => setView('')}
-            />
-          )}
-          {view === 'SHOW_EDIT_FORM' && (
-            <EditForm
-              content={editBuffer.content}
-              onSubmit={handleEdit}
-              onCancel={() => {
-                setView('')
-                setEditBuffer({ id: null, content: {} })
-              }}
-            />
-          )}
+      <TopicContainer>
+        <NavContainer>
+          <BiChevronsLeft size="32px" onClick={() => nav('../..')} />
+          <EditMenu
+            onEdit={() => {
+              setEditBuffer({
+                id: 'TOPIC',
+                content: { title, description },
+              })
+              setView('SHOW_EDIT_FORM')
+            }}
+            onDelete={() => setPopup({ show: true, id: 'TOPIC' })}
+            vertical
+          />
+        </NavContainer>
+        <h2> {title}</h2>
+        <Description>{description}</Description>
+        <TabMenu>
+          <Tab
+            key="needs"
+            active={tab === 'needs'}
+            onClick={() => setCategory('needs')}
+          >
+            needs
+          </Tab>
+          <Tab
+            key="proposals"
+            active={tab === 'proposals'}
+            onClick={() => setCategory('proposals')}
+          >
+            proposals
+          </Tab>
+        </TabMenu>
+        {tabContent}
+        {tab === 'needs' ? (
+          <Button onClick={() => setView('SHOW_NEED_FORM')}>Add Need</Button>
+        ) : (
+          <Button onClick={() => nav('addProposal')}>Add Proposal</Button>
+        )}
+      </TopicContainer>
+      {view === 'SHOW_NEED_FORM' && (
+        <NeedForm onSubmit={handleNeedSubmit} onCancel={() => setView('')} />
+      )}
+      {view === 'SHOW_EDIT_FORM' && (
+        <EditForm
+          content={editBuffer.content}
+          onSubmit={handleEdit}
+          onCancel={() => {
+            setView('')
+            setEditBuffer({ id: null, content: {} })
+          }}
+        />
+      )}
 
-          {popup.show && (
-            <Alert
-              onConfirm={() => {
-                handleDelete()
-                setPopup({ show: false, id: null })
-              }}
-              onCancel={() => setPopup({ show: false, id: null })}
-            >
-              You are going to permantly delete this{' '}
-              {popup.id === 'TOPIC' ? 'topic' : 'need'}. Proceed?
-            </Alert>
-          )}
-        </>
+      {popup.show && (
+        <Alert
+          onConfirm={() => {
+            handleDelete()
+            setPopup({ show: false, id: null })
+          }}
+          onCancel={() => setPopup({ show: false, id: null })}
+        >
+          You are going to permantly delete this{' '}
+          {popup.id === 'TOPIC' ? 'topic' : 'need'}. Proceed?
+        </Alert>
       )}
     </>
   )

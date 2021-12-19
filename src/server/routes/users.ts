@@ -6,13 +6,18 @@ import { getUsers } from '../../utils/db'
 const users = express.Router()
 
 users.get('/', async (req: Request, res: Response) => {
-  const { username }: fetchBody = req.query
+  if (!req.session || !req.session.user) {
+    res.status(400).send('Error: Not logged in.')
+    return
+  }
+
+  const username = req.session.user
 
   const users = await getUsers()
   const user = await users.findOne({ 'public.username': username })
 
   if (!user) {
-    res.status(404).send(`Error: no user called ${username} found.`)
+    res.status(404).send('Error: Bad Request.')
     return
   }
 

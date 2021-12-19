@@ -5,16 +5,17 @@ import type { fetchBody } from '../../app/types/types'
 
 const auth = express.Router()
 
-auth.get('/', (req: Request, res: Response) => {
-  const session = req.session
-  console.log(session)
-
-  if (session.userid) {
-    res.send(true)
-  } else res.send(false)
-})
-
 export default auth
+
+auth.get('/', async (req: Request, res: Response) => {
+  const isLoggedIn = req.session?.user
+
+  if (isLoggedIn) {
+    res.send(true)
+  } else {
+    res.status(401).send(false)
+  }
+})
 
 auth.post('/login', async (req: Request, res: Response) => {
   const {
@@ -31,5 +32,17 @@ auth.post('/login', async (req: Request, res: Response) => {
     res.status(401).send(`Error: wrong email or password.`)
     return
   }
-  res.send({ username: user.public.username })
+  if (!req.session) {
+    console.log('Error: No session set.')
+    res.status(500).send()
+    return
+  }
+
+  req.session.user = user.public.username
+  res.send(req.session)
+})
+
+auth.post('/logout', async (req: Request, res: Response) => {
+  req.session = null
+  res.send()
 })

@@ -1,37 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
 import type { Need as NeedType } from '../../types/types'
-import Counter from '../Counter/Counter'
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import EditMenu from '../EditMenu/EditMenu'
 
 type NeedProps = {
   content: NeedType
-  onUpvoteChange: (updatedVotes: number) => void
+  toggleUpvote: (id: string) => () => void
   onEdit: () => void
   onDelete: () => void
+  user: string
 }
 
 export default function Need({
   content,
-  onUpvoteChange,
   onEdit,
   onDelete,
+  toggleUpvote,
+  user,
 }: NeedProps): JSX.Element {
-  const { text, upvotes } = content
+  const { id, text, upvotes } = content
 
-  const handleUpvoteChange = (delta: number) => () => {
-    upvotes + delta >= 1 && onUpvoteChange(upvotes + delta)
-  }
+  const isUpvoted = upvotes.includes(user)
 
   return (
     <Container>
       <EditMenu onEdit={onEdit} onDelete={onDelete} />
       <NeedContainer>
-        <Counter
-          value={upvotes}
-          onIncrement={handleUpvoteChange(1)}
-          onDecrement={handleUpvoteChange(-1)}
-        />
+        <UpvoteButton onClick={toggleUpvote(id)} isUpvoted={isUpvoted}>
+          {isUpvoted ? (
+            <FaHeart size="18px" color="inherit" />
+          ) : (
+            <FaRegHeart size="18px" color="inherit" />
+          )}
+          <span>{upvotes.length}</span>
+        </UpvoteButton>
         <p>{text}</p>
       </NeedContainer>
     </Container>
@@ -51,7 +54,7 @@ const Container = styled.li`
   }
 `
 
-const NeedContainer = styled.li`
+const NeedContainer = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
@@ -60,4 +63,21 @@ const NeedContainer = styled.li`
   & > p {
     align-self: center;
   }
+`
+const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
+  color: ${({ isUpvoted }) =>
+    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
+  background-color: transparent;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border: 3px solid;
+  border-color: ${({ isUpvoted }) =>
+    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 4rem;
 `

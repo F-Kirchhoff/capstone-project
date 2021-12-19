@@ -3,7 +3,7 @@ import type { ObjectId } from 'mongodb'
 export type Need = {
   id: string
   text: string
-  upvotes: number
+  upvotes: string[]
 }
 
 export type Topic = {
@@ -24,11 +24,12 @@ export type Board = {
   _id: ObjectId
   name: string
   topics: Topic[]
+  users: string[]
 }
 
 export type Vote = {
   id: string
-  text: string
+  user?: string
   type: string
 }
 export type fetchBody = {
@@ -44,5 +45,5 @@ export type fetchBody = {
 
 export type User = {
   username: string
-  boards: Board[]
+  boards: string[]
 }
