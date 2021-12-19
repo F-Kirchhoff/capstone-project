@@ -7,6 +7,16 @@ const auth = express.Router()
 
 export default auth
 
+auth.get('/', async (req: Request, res: Response) => {
+  const isLoggedIn = req.session?.user
+
+  if (isLoggedIn) {
+    res.send(true)
+  } else {
+    res.status(401).send(false)
+  }
+})
+
 auth.post('/login', async (req: Request, res: Response) => {
   const {
     payload: { email, password },
