@@ -5,7 +5,6 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import AddTopic from './pages/AddTopic/AddTopic'
 import AddProposal from './pages/AddProposal/AddProposal'
 import TopicView from './pages/TopicView/TopicView'
-import ProposalView from './pages/ProposalView/ProposalView'
 import LoginView from './pages/LoginView/LoginView'
 import ProfileView from './pages/ProfileView/ProfileView'
 import AddBoard from './pages/AddBoard/AddBoard'
@@ -25,7 +24,6 @@ function App(): JSX.Element {
           <Route path="topics/:topicId">
             <Route path="" element={<TopicView />} />
             <Route path="addproposal" element={<AddProposal />} />
-            <Route path="proposals/:proposalId" element={<ProposalView />} />
           </Route>
           <Route path="addTopic" element={<AddTopic />} />
         </Route>
