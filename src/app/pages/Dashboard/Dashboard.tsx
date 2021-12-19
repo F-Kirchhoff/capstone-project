@@ -27,7 +27,6 @@ export default function Dashboard(): JSX.Element {
     <DashboardContainer>
       <Navbar>
         <Logo short onClick={() => nav('/')} />
-        <h2>{boardName}</h2>
         <EditMenu
           onEdit={() => {
             nav('edit')
@@ -37,6 +36,7 @@ export default function Dashboard(): JSX.Element {
         />
       </Navbar>
       <TopicContainer>
+        <h2>{'// ' + boardName}</h2>
         <h2>Topics</h2>
         <TopicList>
           {topics.map(topic => (
@@ -45,7 +45,7 @@ export default function Dashboard(): JSX.Element {
             </Card>
           ))}
         </TopicList>
-        <Button highlight onClick={() => nav('addtopic')}>
+        <Button variant="primary" onClick={() => nav('addtopic')}>
           + Topic
         </Button>
       </TopicContainer>
@@ -64,6 +64,7 @@ const TopicContainer = styled.div`
   overflow-y: auto;
   padding: 15px;
   display: grid;
+  gap: 15px;
   align-content: start;
 `
 
@@ -78,7 +79,7 @@ const Navbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 5px 15px;
   background-color: var(--c-gray-100);
   z-index: 10;
 `

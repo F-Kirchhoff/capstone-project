@@ -85,7 +85,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Add Proposal</Button>
+          <Button variant="success">Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>
@@ -102,7 +102,7 @@ const Background = styled.div`
   left: 0;
   right: 0;
   height: 100vh;
-  background-color: var(--c-secondary);
+  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`

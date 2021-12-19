@@ -65,7 +65,7 @@ export default function LoginForm({
         <Button type="button" onClick={onCancel}>
           Cancel
         </Button>
-        <Button highlight>Register</Button>
+        <Button variant="secondary">Register</Button>
       </ButtonContainer>
     </Form>
   )

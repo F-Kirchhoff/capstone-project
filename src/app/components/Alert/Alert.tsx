@@ -23,7 +23,7 @@ export default function Alert({
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="button" onClick={onConfirm}>
+          <Button type="button" variant="alert" onClick={onConfirm}>
             Continue
           </Button>
         </ButtonContainer>

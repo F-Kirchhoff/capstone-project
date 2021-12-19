@@ -30,7 +30,7 @@ export default function PopupForm({
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>
-          <Button highlight>{submitText}</Button>
+          <Button variant="success">{submitText}</Button>
         </ButtonContainer>
       </FormContainer>
     </OverlayWrapper>

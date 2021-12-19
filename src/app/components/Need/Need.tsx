@@ -66,7 +66,7 @@ const NeedContainer = styled.div`
 `
 const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
   color: ${({ isUpvoted }) =>
-    isUpvoted ? 'var(--c-primary)' : 'rgb(0 0 0 / 70%)'};
+    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
   background-color: transparent;
   font-size: 0.7rem;
   font-weight: bold;
