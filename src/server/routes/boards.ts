@@ -60,8 +60,10 @@ boards.post('/', async (req: Request, res: Response) => {
 
 boards.patch('/', async (req: Request, res: Response) => {
   const {
-    payload: { oldName, newName, users },
+    payload: { oldName, newName: rawNewName, users },
   } = req.body
+
+  const newName = rawNewName.split(' ').join('-')
 
   const user = req.session?.user
 
