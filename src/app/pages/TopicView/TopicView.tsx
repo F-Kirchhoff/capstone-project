@@ -102,14 +102,12 @@ function TopicView(): JSX.Element {
     setView('')
   }
 
-  const handleNeedUpvote = (needId: string, isUpvoted: boolean) => async () => {
-    // finds the relevant Topic, inside it finds the relevant need and updates it upvote count
-    fetchNeed('PATCH', {
+  const handleNeedUpvote = (needId: string) => async () => {
+    await fetchNeed('PATCH', {
       needId,
       patchMsg: 'UPVOTES',
-      payload: { isUpvoted },
     })
-    fetchTopic('GET')
+    await fetchTopic('GET')
   }
 
   const handleProposalVote =
