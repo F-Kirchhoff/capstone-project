@@ -37,9 +37,6 @@ export default function LoginView({
       body: JSON.stringify({ payload: { email, password } }),
     })
     if (res.ok) {
-      const session = await res.json()
-      console.log(session)
-
       nav(`/me`)
     } else {
       setLoginFailed(true)
@@ -59,11 +56,14 @@ export default function LoginView({
       },
       body: JSON.stringify({ payload: { email, password, username } }),
     })
+
     if (res.ok) {
       nav(`/me`)
     } else {
       setRegisterFailed(true)
     }
+
+    handleLogin({ email, password })
   }
 
   return (
