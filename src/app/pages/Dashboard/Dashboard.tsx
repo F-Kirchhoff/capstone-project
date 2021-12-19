@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import Button from '../../components/Button/Button'
-import Logo from '../../components/Logo/Logo'
 import TopicCompactView from '../../components/TopicCompactView/TopicCompactView'
 
 import type { Board } from '../../types/types'
 import { useNavigate, useParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
+import EditMenu from '../../components/EditMenu/EditMenu'
 
 export default function Dashboard(): JSX.Element {
   const nav = useNavigate()
@@ -25,12 +25,17 @@ export default function Dashboard(): JSX.Element {
   return (
     <DashboardContainer>
       <Navbar>
-        <Logo />
-        <Button highlight onClick={() => nav('addtopic')}>
-          + Topic
-        </Button>
+        <h2>{boardName}</h2>
+        <EditMenu
+          onEdit={() => {
+            nav('edit')
+          }}
+          onDelete={() => console.log('Nnonononoo')}
+          vertical
+        />
       </Navbar>
       <TopicContainer>
+        <h2>Topics</h2>
         <TopicList>
           {topics.map(topic => (
             <Card key={topic.id}>
@@ -38,6 +43,9 @@ export default function Dashboard(): JSX.Element {
             </Card>
           ))}
         </TopicList>
+        <Button highlight onClick={() => nav('addtopic')}>
+          + Topic
+        </Button>
       </TopicContainer>
     </DashboardContainer>
   )
@@ -52,13 +60,16 @@ const DashboardContainer = styled.div`
 const TopicContainer = styled.div`
   background-color: var(--c-gray-100);
   overflow-y: auto;
+  padding: 15px;
+  display: grid;
+  align-content: start;
 `
 
 const TopicList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 15px;
+  padding: 15px 0;
 `
 
 const Navbar = styled.nav`
@@ -66,10 +77,8 @@ const Navbar = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: var(--c-gray-50);
+  background-color: var(--c-gray-100);
   z-index: 10;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `
 const Card = styled.li`
   padding: 20px;

@@ -38,7 +38,8 @@ export default function EditBoard(): JSX.Element {
 
   return (
     <BoardForm
-      board={{ name: board.name, users: board.users }}
+      edit
+      board={{ name: board.name, users: board.users || [] }}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />
