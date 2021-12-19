@@ -69,6 +69,7 @@ boards.patch('/', async (req: Request, res: Response) => {
   } = req.body
 
   const newName = rawNewName.split(' ').join('-')
+  console.log(oldName, newName)
 
   const user = req.session?.user
 

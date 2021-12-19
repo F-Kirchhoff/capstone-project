@@ -27,7 +27,7 @@ export default function EditBoard(): JSX.Element {
       users,
     }
 
-    const res = await fetch('api/boards', {
+    const res = await fetch('/api/boards', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
