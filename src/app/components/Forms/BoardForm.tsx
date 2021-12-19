@@ -16,7 +16,7 @@ type BoardFormProps = {
   }
   onSubmit: (name: string, users: string[]) => void
   onCancel: () => void
-  edit: boolean
+  edit?: boolean
 }
 
 export default function BoardForm({

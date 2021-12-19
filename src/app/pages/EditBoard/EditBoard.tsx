@@ -20,12 +20,14 @@ export default function EditBoard(): JSX.Element {
 
   async function handleSubmit(name: string, users: string[]) {
     const payload = {
-      name,
+      oldName: boardName,
+      newName: name,
       users,
     }
 
     await fetchBoard('PATCH', { payload })
-    nav(-1)
+
+    nav(`/boards/${name}`)
   }
 
   function handleCancel() {
