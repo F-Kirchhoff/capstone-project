@@ -16,12 +16,14 @@ type BoardFormProps = {
   }
   onSubmit: (name: string, users: string[]) => void
   onCancel: () => void
+  edit: boolean
 }
 
 export default function BoardForm({
   board,
   onSubmit,
   onCancel,
+  edit,
 }: BoardFormProps): JSX.Element {
   const [name, setName] = useState(board.name)
   const [users, setUsers] = useState<string[]>(board.users)
@@ -45,7 +47,7 @@ export default function BoardForm({
       <ReturnButton to="..">
         <BiChevronsLeft size="32px" />
       </ReturnButton>
-      <Header>Create Board</Header>
+      {edit ? <Header>Edit Board</Header> : <Header>Create Board</Header>}
       <BoardFormContainer>
         <FormInput
           type="text"
@@ -90,7 +92,7 @@ export default function BoardForm({
             Cancel
           </Button>
           <Button type="button" onClick={handleSubmit} highlight>
-            Create Board
+            {edit ? 'Edit Board' : 'Create Board'}
           </Button>
         </ButtonContainer>
       </BoardFormContainer>
