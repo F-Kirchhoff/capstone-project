@@ -1,14 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
 
-export default function Logo(): JSX.Element {
-  return <LogoText>D'Artagnan</LogoText>
+export default function Logo({
+  short,
+  onClick,
+}: {
+  short?: boolean
+  onClick?: () => void
+}): JSX.Element {
+  return short ? (
+    <img src="/src/app/assets/LogoShort.png" onClick={onClick} />
+  ) : (
+    <img src="/src/app/assets/LogoFull.png" onClick={onClick} />
+  )
 }
-
-const LogoText = styled.h1`
-  display: inline-block;
-  color: var(--c-primary);
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: 'Playfair';
-`

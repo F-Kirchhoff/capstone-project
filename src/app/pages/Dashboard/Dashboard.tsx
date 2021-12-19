@@ -8,6 +8,7 @@ import type { Board } from '../../types/types'
 import { useNavigate, useParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import EditMenu from '../../components/EditMenu/EditMenu'
+import Logo from '../../components/Logo/Logo'
 
 export default function Dashboard(): JSX.Element {
   const nav = useNavigate()
@@ -25,6 +26,7 @@ export default function Dashboard(): JSX.Element {
   return (
     <DashboardContainer>
       <Navbar>
+        <Logo short onClick={() => nav('/')} />
         <h2>{boardName}</h2>
         <EditMenu
           onEdit={() => {
