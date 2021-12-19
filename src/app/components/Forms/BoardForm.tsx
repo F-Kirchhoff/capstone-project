@@ -17,6 +17,7 @@ type BoardFormProps = {
   onSubmit: (name: string, users: string[]) => void
   onCancel: () => void
   edit?: boolean
+  errorMsg?: string
 }
 
 export default function BoardForm({
@@ -24,6 +25,7 @@ export default function BoardForm({
   onSubmit,
   onCancel,
   edit,
+  errorMsg,
 }: BoardFormProps): JSX.Element {
   const [name, setName] = useState(board.name)
   const [users, setUsers] = useState<string[]>(board.users)
@@ -39,7 +41,9 @@ export default function BoardForm({
   }
 
   const deleteUser = (username: string) => () => {
-    setUsers(prev => prev.filter(user => user !== username))
+    setUsers(prev =>
+      prev.length > 1 ? prev.filter(user => user !== username) : prev
+    )
   }
 
   return (
@@ -49,14 +53,17 @@ export default function BoardForm({
       </ReturnButton>
       {edit ? <Header>Edit Board</Header> : <Header>Create Board</Header>}
       <BoardFormContainer>
-        <FormInput
-          type="text"
-          name="title"
-          required
-          max={MAX_TITLE_LENGTH}
-          value={name}
-          onChange={event => setName(event.target.value)}
-        />
+        <div>
+          <FormInput
+            type="text"
+            name="title"
+            required
+            max={MAX_TITLE_LENGTH}
+            value={name}
+            onChange={event => setName(event.target.value)}
+          />
+          {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
+        </div>
         <div>
           <h3>Add users to the board</h3>
           <UsersList>
@@ -172,4 +179,12 @@ const User = styled.li`
   padding: 5px 0;
   font-size: 1.2rem;
   font-weight: bold;
+`
+const ErrorMessage = styled.p`
+  --rgb: 255 0 0;
+  padding: 10px;
+  margin: 20px;
+  background-color: rgb(var(--rgb) / 0.3);
+  color: var(--c-alert);
+  border-radius: 5px;
 `
