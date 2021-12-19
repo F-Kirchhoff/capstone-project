@@ -3,7 +3,7 @@ import type { ObjectId } from 'mongodb'
 export type Need = {
   id: string
   text: string
-  upvotes: number
+  upvotes: string[]
 }
 
 export type Topic = {
