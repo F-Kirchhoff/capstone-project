@@ -71,7 +71,7 @@ const Navbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 5px 15px;
   z-index: 10;
 `
 const Card = styled.li`

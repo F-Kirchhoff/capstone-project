@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
     --c-gray-800:#252524;
     --c-gray-900:#141414;
     --c-primary: #211641;
-    --c-secondary: #af3e77;
+    --c-secondary: #2ca883;
     --c-light: #f1ede8;
     --c-dark:#130c18;
     --c-alert: #a12824;

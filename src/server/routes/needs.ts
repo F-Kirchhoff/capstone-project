@@ -75,8 +75,6 @@ needs.patch('/', async (req: Request, res: Response) => {
       }
       const isUpvoted = need.upvotes.includes(user)
 
-      console.log({ isUpvoted, user })
-
       if (isUpvoted) {
         const msg = await boards.updateOne(
           { name },
