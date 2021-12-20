@@ -8,7 +8,7 @@ export default {
 
 export const Regular = (): JSX.Element => <Button>A test button</Button>
 export const Highlight = (): JSX.Element => (
-  <Button highlight>Highlight!</Button>
+  <Button variant="primary">Highlight!</Button>
 )
 export const With_Action = (): JSX.Element => (
   <Button onClick={() => alert('Test Passed!')}>A test button</Button>
