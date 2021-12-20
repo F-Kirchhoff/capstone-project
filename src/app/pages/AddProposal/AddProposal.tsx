@@ -6,8 +6,7 @@ import FormInput from '../../components/FormInput/FormInput'
 import useFetch from '../../hooks/useFetch'
 import { BiChevronsLeft } from 'react-icons/bi'
 import type { Proposal, Topic } from '../../types/types'
-
-const MAX_DESCRIPTION_LENGTH = 144
+import FormPageBackground from '../../components/FormpageBackground/FormPageBackground'
 
 export default function AddProposal(): JSX.Element {
   const { boardName, topicId } = useParams()
@@ -48,22 +47,18 @@ export default function AddProposal(): JSX.Element {
   }
   return (
     <PageContainer>
-      <Background>
+      <FormPageBackground>
         <ReturnButton to="..">
           <BiChevronsLeft size="32px" />
         </ReturnButton>
         <Header>Add Proposal</Header>
-      </Background>
+      </FormPageBackground>
       <FormContainer onSubmit={handleSubmit}>
         <FormInput
           type="textArea"
           name="description"
-          max={MAX_DESCRIPTION_LENGTH}
           value={description}
-          onChange={event =>
-            event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
-            setDescription(event.target.value)
-          }
+          onChange={event => setDescription(event.target.value)}
         />
         <h3>Needs</h3>
         {needs.length > 0 ? (
@@ -85,7 +80,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="secondary">Add Proposal</Button>
+          <Button variant="gradient-highlight">Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>
@@ -94,15 +89,6 @@ export default function AddProposal(): JSX.Element {
 
 const PageContainer = styled.div`
   position: relative;
-`
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`

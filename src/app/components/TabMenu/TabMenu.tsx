@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type TabMenuProps = {
   children: React.ReactNode
@@ -17,11 +17,13 @@ const MenuContainer = styled.div`
 `
 
 export const Tab = styled.button<{ active?: boolean }>`
+  position: relative;
   text-align: center;
   font-weight: bold;
+  font-size: 1rem;
   text-transform: capitalize;
   border: none;
-  padding: 13px 10px 10px;
+  padding: 10px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -29,6 +31,21 @@ export const Tab = styled.button<{ active?: boolean }>`
   gap: 10px;
   background-color: transparent;
   transition: 0.1s ease;
-  border-bottom: ${({ active }) =>
-    active ? 'solid 3px var(--c-primary)' : 'solid 3px transparent'};
+  color: var(--c-gray-700);
+  ${({ active }) =>
+    active &&
+    css`
+      color: var(--c-primary);
+
+      &::after {
+        content: '';
+        width: 100%;
+        height: 3px;
+        background: var(--c-primary);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 999px;
+      }
+    `};
 `

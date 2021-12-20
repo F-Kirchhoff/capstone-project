@@ -79,8 +79,11 @@ const Card = styled.li`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  font-weight: bold;
   background-color: var(--c-gray-50);
-  border-radius: 15px;
+  border-radius: 999px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;
@@ -105,11 +108,10 @@ const BoardList = styled.ul`
   gap: 15px;
   align-self: center;
 `
-const BoardName = styled.h3`
-  text-transform: capitalize;
-  font-size: 1.3rem;
-`
+const BoardName = styled.h3``
 const Greeting = styled.h1`
+  font-family: 'Avia';
+  font-size: 1.3rem;
   margin: 50px 0;
   font-size: 3rem;
   line-height: 1.6;

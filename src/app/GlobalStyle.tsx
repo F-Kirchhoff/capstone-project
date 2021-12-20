@@ -29,6 +29,11 @@ const GlobalStyle = createGlobalStyle`
     --c-alert: #e41a4c;
     --c-success: #2da86b;
     --c-warning: #cf9924;
+    --g-hl-start:#eca945;
+    --g-hl-mid:#e041a1;
+    --g-hl-end:#39267e;
+    --c-gradient-highlight: linear-gradient(230deg, var(--g-hl-start) 0%, var(--g-hl-mid)  33%, var(--g-hl-end)  100%);
+    --c-gradient-primary: linear-gradient(230deg,#6d0e55 0%, var(--c-primary), #0f0c22 100%);
   }
 
   body {

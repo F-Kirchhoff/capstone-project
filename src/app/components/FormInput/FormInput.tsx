@@ -68,8 +68,8 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    box-shadow: rgba(80, 8, 83, 0.63) 0px 2px 4px,
+      rgba(38, 10, 104, 0.596) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
 `
@@ -86,8 +86,8 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    box-shadow: rgba(80, 8, 83, 0.63) 0px 2px 4px,
+      rgba(38, 10, 104, 0.596) 0px 7px 13px -3px,
       rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
 `

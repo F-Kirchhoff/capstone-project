@@ -27,13 +27,28 @@ export default function Need({
     <Container>
       <EditMenu onEdit={onEdit} onDelete={onDelete} />
       <NeedContainer>
-        <UpvoteButton onClick={toggleUpvote(id)} isUpvoted={isUpvoted}>
-          {isUpvoted ? (
-            <FaHeart size="18px" color="inherit" />
-          ) : (
-            <FaRegHeart size="18px" color="inherit" />
-          )}
-          <span>{upvotes.length}</span>
+        <UpvoteButton onClick={toggleUpvote(id)}>
+          <>
+            <svg width="0" height="0">
+              <linearGradient
+                id="mygradient"
+                x1="100%"
+                y1="100%"
+                x2="0%"
+                y2="0%"
+              >
+                <stop stopColor="var(--g-hl-start)" offset="0%" />
+                <stop stopColor="var(--g-hl-mid)" offset="50%" />
+                <stop stopColor="var(--g-hl-end)" offset="100%" />
+              </linearGradient>
+            </svg>
+            {isUpvoted ? (
+              <FaHeart size="18px" color="inherit" fill="url(#mygradient)" />
+            ) : (
+              <FaRegHeart size="18px" color="inherit" />
+            )}
+          </>
+          <Counter>{upvotes.length}</Counter>
         </UpvoteButton>
         <p>{text}</p>
       </NeedContainer>
@@ -64,9 +79,8 @@ const NeedContainer = styled.div`
     align-self: center;
   }
 `
-const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
-  color: ${({ isUpvoted }) =>
-    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
+const UpvoteButton = styled.button`
+  color: rgb(0 0 0 / 70%);
   background-color: transparent;
   font-size: 0.7rem;
   font-weight: bold;
@@ -76,11 +90,11 @@ const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
   gap: 2px;
   justify-items: center;
   align-content: center;
+`
 
-  & > span {
-    background-color: var(--c-gray-100);
-    min-width: 30px;
-    padding: 1px 2px;
-    border-radius: 5px;
-  }
+const Counter = styled.span`
+  background-color: var(--c-gray-100);
+  min-width: 30px;
+  padding: 1px 2px;
+  border-radius: 5px;
 `

@@ -31,10 +31,10 @@ export default function Proposal({
   const userVote = votes.find(vote => vote.user === user.username)
 
   const voteTypeColors = {
-    pro: '#d3b52e',
-    neutral: 'var(--c-gray-100)',
-    remarks: '#3c6c99',
-    concerns: '#b95730',
+    pro: 'var(--c-gradient-highlight)',
+    neutral: 'var(--c-success)',
+    remarks: 'var(--c-warning)',
+    concerns: 'var(--c-alert)',
   }
 
   return (
@@ -84,12 +84,11 @@ const VoteCounter = styled.button<{ active: boolean; color: string }>`
   justify-content: space-between;
   gap: 10px;
   font-weight: bold;
-  background-color: ${({ color }) => color};
-  color: rgb(0 0 0 / 50%);
+  background: ${({ color, active }) => (active ? color : 'var(--c-gray-100)')};
+  color: ${({ active }) => (active ? 'rgb(0 0 0 / 50%)' : 'rgb(0 0 0 / 70%)')};
   border: none;
   border-radius: 999px;
   align-items: center;
   padding: 5px 12px;
-  opacity: ${({ active }) => (active ? '1' : '0.4')};
   cursor: pointer;
 `
