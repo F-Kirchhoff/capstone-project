@@ -59,12 +59,8 @@ export default function AddProposal(): JSX.Element {
         <FormInput
           type="textArea"
           name="description"
-          max={MAX_DESCRIPTION_LENGTH}
           value={description}
-          onChange={event =>
-            event.target.value.length <= MAX_DESCRIPTION_LENGTH &&
-            setDescription(event.target.value)
-          }
+          onChange={event => setDescription(event.target.value)}
         />
         <h3>Needs</h3>
         {needs.length > 0 ? (
@@ -86,7 +82,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="secondary">Add Proposal</Button>
+          <Button variant="gradient-highlight">Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>

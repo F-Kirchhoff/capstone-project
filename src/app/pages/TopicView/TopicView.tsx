@@ -125,22 +125,24 @@ function TopicView(): JSX.Element {
     if (needs.length > 0) {
       tabContent = (
         <NeedsList>
-          {needs.map(need => (
-            <Need
-              key={need.id}
-              content={need}
-              user={user.username}
-              toggleUpvote={handleNeedUpvote}
-              onEdit={() => {
-                setEditBuffer({
-                  id: need.id,
-                  content: { description: need.text },
-                })
-                setView('SHOW_EDIT_FORM')
-              }}
-              onDelete={() => setPopup({ show: true, id: need.id })}
-            />
-          ))}
+          {needs
+            .sort((a, b) => b.upvotes.length - a.upvotes.length)
+            .map(need => (
+              <Need
+                key={need.id}
+                content={need}
+                user={user.username}
+                toggleUpvote={handleNeedUpvote}
+                onEdit={() => {
+                  setEditBuffer({
+                    id: need.id,
+                    content: { description: need.text },
+                  })
+                  setView('SHOW_EDIT_FORM')
+                }}
+                onDelete={() => setPopup({ show: true, id: need.id })}
+              />
+            ))}
         </NeedsList>
       )
     } else {

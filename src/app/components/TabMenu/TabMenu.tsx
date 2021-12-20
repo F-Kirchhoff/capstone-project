@@ -20,6 +20,7 @@ export const Tab = styled.button<{ active?: boolean }>`
   position: relative;
   text-align: center;
   font-weight: bold;
+  font-size: 1rem;
   text-transform: capitalize;
   border: none;
   padding: 10px;

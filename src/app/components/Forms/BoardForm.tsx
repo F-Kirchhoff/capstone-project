@@ -100,7 +100,11 @@ export default function BoardForm({
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="button" onClick={handleSubmit} variant="secondary">
+          <Button
+            type="button"
+            onClick={handleSubmit}
+            variant="gradient-highlight"
+          >
             {edit ? 'Edit Board' : 'Create Board'}
           </Button>
         </ButtonContainer>
