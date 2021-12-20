@@ -57,7 +57,7 @@ export default function LoginForm({
           type="button"
           onClick={() => setShowPassword(prev => !prev)}
         >
-          {showPassword ? <BiHide size="24px" /> : <BiShow size="24px" />}
+          {showPassword ? <BiShow size="24px" /> : <BiHide size="24px" />}
         </PasswordButton>
       </PasswordWrapper>
 
