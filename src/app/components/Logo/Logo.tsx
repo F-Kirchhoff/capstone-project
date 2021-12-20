@@ -26,6 +26,7 @@ const LogoContainer = styled.h1<{ light?: boolean }>`
   transform-origin: top left;
   display: flex;
   font-family: 'Avia', Arial;
+  font-size: 3rem;
   letter-spacing: 1px;
   color: ${({ light }) => (light ? 'var(--c-light)' : 'var(--c-primary)')};
   & > span {

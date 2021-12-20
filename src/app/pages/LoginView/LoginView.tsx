@@ -66,7 +66,7 @@ export default function LoginView({
 
   return (
     <PageContainer>
-      <Logo />
+      <Logo light />
       <Card>
         <TabMenu>
           <Tab
@@ -108,13 +108,16 @@ export default function LoginView({
 const PageContainer = styled.main`
   padding-top: 100px;
   width: 100vw;
+  min-height: 100vh;
   display: grid;
   justify-items: center;
+  align-content: start;
   gap: 100px;
+  background: var(--c-gradient-primary);
 `
 
 const Card = styled.div`
-  background-color: var(--c-gray-50);
+  background: var(--c-gray-50);
   border-radius: 15px;
   min-width: 300px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
