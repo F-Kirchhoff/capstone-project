@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Need from '../../components/Need/Need'
-import type { Topic, Need as NeedType, Vote, User } from '../../types/types'
+import type {
+  Topic,
+  Need as NeedType,
+  Vote,
+  User,
+  Proposal as ProposalType,
+} from '../../types/types'
 import Button from '../../components/Button/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import NeedForm from '../../components/Forms/NeedForm'
@@ -152,14 +158,16 @@ function TopicView(): JSX.Element {
     if (proposals.length > 0) {
       tabContent = (
         <ProposalList>
-          {proposals.map(proposal => (
-            <Proposal
-              key={proposal.id}
-              content={proposal}
-              user={user}
-              onVote={handleProposalVote(proposal.id)}
-            />
-          ))}
+          {proposals
+            .sort((a, b) => rankProposal(b) - rankProposal(a))
+            .map(proposal => (
+              <Proposal
+                key={proposal.id}
+                content={proposal}
+                user={user}
+                onVote={handleProposalVote(proposal.id)}
+              />
+            ))}
         </ProposalList>
       )
     } else {
@@ -290,3 +298,19 @@ const ProposalList = styled.ul`
   display: grid;
   gap: 10px;
 `
+function rankProposal({ votes }: ProposalType) {
+  return votes.reduce((acc, vote) => {
+    switch (vote.type) {
+      case 'pro':
+        return acc + 3
+      case 'neutral':
+        return acc + 1
+      case 'question':
+        return acc - 1
+      case 'concerns':
+        return acc - 1000
+      default:
+        return acc
+    }
+  }, 0)
+}
