@@ -296,7 +296,15 @@ const NeedsList = styled.ul`
 `
 const ProposalList = styled.ul`
   display: grid;
+  height: 100%;
   gap: 10px;
+
+  & li:first-child {
+    position: relative;
+    background: var(--c-gradient-primary);
+    font-weight: bold;
+    color: var(--c-gray-100);
+  }
 `
 function rankProposal({ votes }: ProposalType) {
   return votes.reduce((acc, vote) => {
