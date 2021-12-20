@@ -29,6 +29,7 @@ const LogoContainer = styled.h1<{ light?: boolean }>`
   font-size: 3rem;
   letter-spacing: 1px;
   color: ${({ light }) => (light ? 'var(--c-light)' : 'var(--c-primary)')};
+  cursor: pointer;
   & > span {
     display: block;
     padding: 0 3px;

@@ -30,7 +30,7 @@ export default function PopupForm({
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>
-          <Button variant="secondary">{submitText}</Button>
+          <Button variant="gradient-highlight">{submitText}</Button>
         </ButtonContainer>
       </FormContainer>
     </OverlayWrapper>
@@ -50,7 +50,7 @@ const FormContainer = styled.form`
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  color: rgb(255 255 255 / 30%);
+  color: rgb(255 255 255 / 70%);
   background-color: var(--c-gray-200);
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;

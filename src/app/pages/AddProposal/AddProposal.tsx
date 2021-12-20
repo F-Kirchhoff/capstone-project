@@ -6,6 +6,7 @@ import FormInput from '../../components/FormInput/FormInput'
 import useFetch from '../../hooks/useFetch'
 import { BiChevronsLeft } from 'react-icons/bi'
 import type { Proposal, Topic } from '../../types/types'
+import FormPageBackground from '../../components/FormpageBackground/FormPageBackground'
 
 const MAX_DESCRIPTION_LENGTH = 144
 
@@ -48,12 +49,12 @@ export default function AddProposal(): JSX.Element {
   }
   return (
     <PageContainer>
-      <Background>
+      <FormPageBackground>
         <ReturnButton to="..">
           <BiChevronsLeft size="32px" />
         </ReturnButton>
         <Header>Add Proposal</Header>
-      </Background>
+      </FormPageBackground>
       <FormContainer onSubmit={handleSubmit}>
         <FormInput
           type="textArea"

@@ -5,6 +5,7 @@ import { BiChevronsLeft } from 'react-icons/bi'
 import { TiDelete } from 'react-icons/ti'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
+import FormPageBackground from '../FormpageBackground/FormPageBackground'
 
 const MAX_TITLE_LENGTH = 40
 const MAX_USERNAME_LENGTH = 40
@@ -47,7 +48,7 @@ export default function BoardForm({
   }
 
   return (
-    <AddBoardContainer>
+    <FormPageBackground>
       <ReturnButton to="..">
         <BiChevronsLeft size="32px" />
       </ReturnButton>
@@ -104,16 +105,9 @@ export default function BoardForm({
           </Button>
         </ButtonContainer>
       </BoardFormContainer>
-    </AddBoardContainer>
+    </FormPageBackground>
   )
 }
-
-const AddBoardContainer = styled.div`
-  display: grid;
-  height: 100vh;
-  grid-template-rows: 1fr 1fr;
-  background-color: var(--c-primary);
-`
 
 const ReturnButton = styled(Link)`
   position: absolute;
@@ -129,7 +123,7 @@ const Header = styled.h1`
   align-items: center;
   color: var(--c-gray-50);
   margin: 30px;
-  align-self: stretch;
+  margin-top: 100px;
   font-size: 4rem;
 `
 

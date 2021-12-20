@@ -21,7 +21,8 @@ export default function TopicCompactView({
 
 const TopicCompact = styled(Link)`
   color: var(--c-primary);
-  font-family: 'Plairfair';
+  font-family: 'Avia';
+  font-size: 1.3rem;
   font-weight: bold;
   text-decoration: none;
   display: grid;

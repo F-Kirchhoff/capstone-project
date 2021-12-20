@@ -77,7 +77,7 @@ const AddTopicContainer = styled.div`
   display: grid;
   height: 100vh;
   grid-template-rows: 1fr 1fr;
-  background-color: var(--c-primary);
+  background: var(--c-gradient-primary);
 `
 
 const ReturnButton = styled(Link)`
