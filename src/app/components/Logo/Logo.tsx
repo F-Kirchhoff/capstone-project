@@ -21,7 +21,7 @@ export default function Logo({
 const LogoContainer = styled.h1<{ light?: boolean }>`
   @font-face {
     font-family: Avia;
-    src: url('/src/app/assets/localfonts/Avia-Bold Regular.ttf');
+    src: url('/src/app/assets/localfonts/Avia-Bold-Regular.woff');
   }
   transform-origin: top left;
   display: flex;
