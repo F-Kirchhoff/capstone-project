@@ -42,6 +42,7 @@ const LogoContainer = styled.h1<{ light?: boolean }>`
       #7555b9 35%,
       #318ec4 50%
     );
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

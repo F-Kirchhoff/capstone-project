@@ -8,8 +8,6 @@ import { BiChevronsLeft } from 'react-icons/bi'
 import type { Proposal, Topic } from '../../types/types'
 import FormPageBackground from '../../components/FormpageBackground/FormPageBackground'
 
-const MAX_DESCRIPTION_LENGTH = 144
-
 export default function AddProposal(): JSX.Element {
   const { boardName, topicId } = useParams()
 
@@ -91,15 +89,6 @@ export default function AddProposal(): JSX.Element {
 
 const PageContainer = styled.div`
   position: relative;
-`
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
-  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`

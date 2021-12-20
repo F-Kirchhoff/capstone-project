@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import type { Need as NeedType } from '../../types/types'
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import EditMenu from '../EditMenu/EditMenu'
