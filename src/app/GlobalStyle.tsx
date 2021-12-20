@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
     --c-gray-900:#141414;
     --c-primary: #211641;
     --c-secondary: #c25ea4;
+    --c-gradient-highlight: linear-gradient(230deg, #ED9716 0%, #e041a1 25%, #7555b9 75%, #318ec4 100%);
     --c-light: #f1ede8;
     --c-dark:#130c18;
     --c-alert: #e41a4c;

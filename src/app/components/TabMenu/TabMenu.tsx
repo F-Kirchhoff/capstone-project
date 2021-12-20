@@ -40,7 +40,7 @@ export const Tab = styled.button<{ active?: boolean }>`
         content: '';
         width: 100%;
         height: 3px;
-        background-color: var(--c-primary);
+        background: var(--c-primary);
         position: absolute;
         bottom: 0;
         left: 0;
