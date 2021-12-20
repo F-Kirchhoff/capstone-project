@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   :root {
-    --c-gray-50: #E2E0DE;
+    --c-gray-50: #eeeae6;
     --c-gray-100:#bdbbb8;
     --c-gray-200:#999794;
     --c-gray-300:#8f8d8b;
@@ -22,11 +22,13 @@ const GlobalStyle = createGlobalStyle`
     --c-gray-700:#3d3c3a;
     --c-gray-800:#252524;
     --c-gray-900:#141414;
-    --c-primary: #13142c;
-    --c-secondary: #1C7271;
+    --c-primary: #211641;
+    --c-secondary: #c25ea4;
     --c-light: #f1ede8;
-    --c-dark:#17171d;
-    --c-alert: #8a0029;
+    --c-dark:#130c18;
+    --c-alert: #e41a4c;
+    --c-success: #2da86b;
+    --c-warning: #cf9924;
   }
 
   body {

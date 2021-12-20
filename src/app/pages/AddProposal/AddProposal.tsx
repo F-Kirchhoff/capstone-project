@@ -73,7 +73,7 @@ export default function AddProposal(): JSX.Element {
                 <input type="checkbox" key={need.id} />
                 <p>
                   {need.text}
-                  {` (${need.upvotes})`}
+                  {` (${need.upvotes.length})`}
                 </p>
               </NeedContainer>
             ))}
@@ -85,7 +85,7 @@ export default function AddProposal(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Add Proposal</Button>
+          <Button variant="secondary">Add Proposal</Button>
         </ButtonContainer>
       </FormContainer>
     </PageContainer>
@@ -102,7 +102,7 @@ const Background = styled.div`
   left: 0;
   right: 0;
   height: 100vh;
-  background-color: var(--c-secondary);
+  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`
@@ -124,6 +124,7 @@ const FormContainer = styled.form`
   margin-top: 60vh;
   position: relative;
   display: grid;
+  gap: 10px;
   grid-template-rows: auto 1fr auto;
   width: 100%;
   min-height: 40vh;

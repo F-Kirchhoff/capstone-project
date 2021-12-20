@@ -54,7 +54,7 @@ function TopicView(): JSX.Element {
   }, [])
 
   const [view, setView] = useState<ViewMsgType>('')
-  const [tab, setCategory] = useState('needs')
+  const [tab, setCategory] = useState('proposals')
   const [popup, setPopup] = useState<{ show: boolean; id: string | null }>({
     show: false,
     id: null,
@@ -182,16 +182,9 @@ function TopicView(): JSX.Element {
             vertical
           />
         </NavContainer>
-        <h2> {title}</h2>
+        <h2>{`// ${boardName} // ${title}`}</h2>
         <Description>{description}</Description>
         <TabMenu>
-          <Tab
-            key="needs"
-            active={tab === 'needs'}
-            onClick={() => setCategory('needs')}
-          >
-            needs
-          </Tab>
           <Tab
             key="proposals"
             active={tab === 'proposals'}
@@ -199,12 +192,23 @@ function TopicView(): JSX.Element {
           >
             proposals
           </Tab>
+          <Tab
+            key="needs"
+            active={tab === 'needs'}
+            onClick={() => setCategory('needs')}
+          >
+            needs
+          </Tab>
         </TabMenu>
         {tabContent}
         {tab === 'needs' ? (
-          <Button onClick={() => setView('SHOW_NEED_FORM')}>Add Need</Button>
+          <Button variant="primary" onClick={() => setView('SHOW_NEED_FORM')}>
+            Add Need
+          </Button>
         ) : (
-          <Button onClick={() => nav('addProposal')}>Add Proposal</Button>
+          <Button variant="primary" onClick={() => nav('addProposal')}>
+            Add Proposal
+          </Button>
         )}
       </TopicContainer>
       {view === 'SHOW_NEED_FORM' && (
@@ -275,7 +279,7 @@ const NeedsList = styled.ul`
   flex-direction: column;
   background-color: var(--c-gray-200);
   gap: 2px;
-  border-radius: 15px;
+  border-radius: 5px;
   overflow: hidden;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;

@@ -1,6 +1,6 @@
 {
-  "name": "vite-boilerplate",
-  "version": "0.0.0",
+  "name": "capstone-project",
+  "version": "8.0.0",
   "scripts": {
     "client:dev": "vite",
     "client:build": "tsc && vite build",

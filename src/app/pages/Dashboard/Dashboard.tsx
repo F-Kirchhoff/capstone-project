@@ -8,6 +8,7 @@ import type { Board } from '../../types/types'
 import { useNavigate, useParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import EditMenu from '../../components/EditMenu/EditMenu'
+import Logo from '../../components/Logo/Logo'
 
 export default function Dashboard(): JSX.Element {
   const nav = useNavigate()
@@ -25,7 +26,7 @@ export default function Dashboard(): JSX.Element {
   return (
     <DashboardContainer>
       <Navbar>
-        <h2>{boardName}</h2>
+        <Logo short onClick={() => nav('/')} />
         <EditMenu
           onEdit={() => {
             nav('edit')
@@ -35,7 +36,8 @@ export default function Dashboard(): JSX.Element {
         />
       </Navbar>
       <TopicContainer>
-        <h2>Topics</h2>
+        <h2>{'// ' + boardName}</h2>
+        <h3>Topics</h3>
         <TopicList>
           {topics.map(topic => (
             <Card key={topic.id}>
@@ -43,7 +45,7 @@ export default function Dashboard(): JSX.Element {
             </Card>
           ))}
         </TopicList>
-        <Button highlight onClick={() => nav('addtopic')}>
+        <Button variant="primary" onClick={() => nav('addtopic')}>
           + Topic
         </Button>
       </TopicContainer>
@@ -62,6 +64,7 @@ const TopicContainer = styled.div`
   overflow-y: auto;
   padding: 15px;
   display: grid;
+  gap: 15px;
   align-content: start;
 `
 
@@ -69,21 +72,20 @@ const TopicList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 15px 0;
 `
 
 const Navbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 5px 15px;
   background-color: var(--c-gray-100);
   z-index: 10;
 `
 const Card = styled.li`
-  padding: 20px;
+  padding: 17px;
   background-color: var(--c-gray-50);
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;

@@ -84,6 +84,7 @@ export default function BoardForm({
             />
             <Button
               type="button"
+              variant="primary"
               onClick={() => {
                 setUsers(prev => [...prev, newUser])
                 setNewUser('')
@@ -98,7 +99,7 @@ export default function BoardForm({
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="button" onClick={handleSubmit} highlight>
+          <Button type="button" onClick={handleSubmit} variant="secondary">
             {edit ? 'Edit Board' : 'Create Board'}
           </Button>
         </ButtonContainer>
@@ -111,7 +112,7 @@ const AddBoardContainer = styled.div`
   display: grid;
   height: 100vh;
   grid-template-rows: 1fr 1fr;
-  background-color: var(--c-secondary);
+  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`

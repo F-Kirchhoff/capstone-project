@@ -66,7 +66,7 @@ export default function AddTopic(): JSX.Element {
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button highlight>Add Topic</Button>
+          <Button variant="secondary">Add Topic</Button>
         </ButtonContainer>
       </TopicFormContainer>
     </AddTopicContainer>
@@ -77,7 +77,7 @@ const AddTopicContainer = styled.div`
   display: grid;
   height: 100vh;
   grid-template-rows: 1fr 1fr;
-  background-color: var(--c-secondary);
+  background-color: var(--c-primary);
 `
 
 const ReturnButton = styled(Link)`

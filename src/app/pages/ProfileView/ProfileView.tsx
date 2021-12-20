@@ -37,7 +37,7 @@ export default function ProfileView(): JSX.Element {
   return (
     <ProfileContainer>
       <Navbar>
-        <Logo />
+        <Logo short onClick={() => nav('/')} />
         <Button onClick={handleLogout}>logout</Button>
       </Navbar>
       {user && (
@@ -53,7 +53,9 @@ export default function ProfileView(): JSX.Element {
                 </Card>
               ))}
             </BoardList>
-            <Button onClick={() => nav('/addBoard')}>Create new Board</Button>
+            <Button variant="primary" onClick={() => nav('/addBoard')}>
+              Create new Board
+            </Button>
           </BoardsContainer>
         </Content>
       )}
@@ -69,7 +71,7 @@ const Navbar = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 5px 15px;
   z-index: 10;
 `
 const Card = styled.li`

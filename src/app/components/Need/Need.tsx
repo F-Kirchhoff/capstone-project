@@ -68,16 +68,19 @@ const UpvoteButton = styled.button<{ isUpvoted: boolean }>`
   color: ${({ isUpvoted }) =>
     isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
   background-color: transparent;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  padding: 3px 8px;
-  border: 3px solid;
-  border-color: ${({ isUpvoted }) =>
-    isUpvoted ? 'var(--c-secondary)' : 'rgb(0 0 0 / 70%)'};
-  border-radius: 999px;
+  border: none;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 4rem;
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  align-content: center;
+
+  & > span {
+    background-color: var(--c-gray-100);
+    min-width: 30px;
+    padding: 1px 2px;
+    border-radius: 5px;
+  }
 `
