@@ -37,7 +37,7 @@ export default function Dashboard(): JSX.Element {
       </Navbar>
       <TopicContainer>
         <h2>{'// ' + boardName}</h2>
-        <h2>Topics</h2>
+        <h3>Topics</h3>
         <TopicList>
           {topics.map(topic => (
             <Card key={topic.id}>
@@ -72,7 +72,6 @@ const TopicList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding: 15px 0;
 `
 
 const Navbar = styled.nav`
@@ -84,9 +83,9 @@ const Navbar = styled.nav`
   z-index: 10;
 `
 const Card = styled.li`
-  padding: 20px;
+  padding: 17px;
   background-color: var(--c-gray-50);
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   word-wrap: break-word;

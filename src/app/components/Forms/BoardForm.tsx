@@ -99,7 +99,7 @@ export default function BoardForm({
           <Button type="button" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="button" onClick={handleSubmit} variant="success">
+          <Button type="button" onClick={handleSubmit} variant="secondary">
             {edit ? 'Edit Board' : 'Create Board'}
           </Button>
         </ButtonContainer>
