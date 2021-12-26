@@ -10,13 +10,16 @@ import ProfileView from './pages/ProfileView/ProfileView'
 import AddBoard from './pages/AddBoard/AddBoard'
 import EditBoard from './pages/EditBoard/EditBoard'
 import LandingPage from './pages/LandingPage/LandingPage'
+import RequireAuth from './components/RequireAuth/RequireAuth'
 
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/me" element={<ProfileView />} />
+        <Route path="/me" element={RequireAuth()}>
+          <Route element={<ProfileView />} />
+        </Route>
         <Route path="/login" element={<LoginView tab="login" />} />
         <Route path="/register" element={<LoginView tab="register" />} />t
         <Route path="/addBoard" element={<AddBoard />} />
