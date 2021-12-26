@@ -7,7 +7,7 @@ const auth = express.Router()
 
 export default auth
 
-auth.get('/', async (req: Request, res: Response) => {
+auth.post('/checkLogin', async (req: Request, res: Response) => {
   const isLoggedIn = req.session?.user
 
   if (isLoggedIn) {

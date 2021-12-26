@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useParams,
-  Outlet,
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard/Dashboard'
 
 import AddTopic from './pages/AddTopic/AddTopic'
@@ -16,7 +10,7 @@ import ProfileView from './pages/ProfileView/ProfileView'
 import AddBoard from './pages/AddBoard/AddBoard'
 import EditBoard from './pages/EditBoard/EditBoard'
 import LandingPage from './pages/LandingPage/LandingPage'
-import CheckBoardAccess from './components/CheckBoardAccess/CheckBoardAccess'
+import Auth from './Auth/Auth'
 import BoardContextWrapper from './components/BoardContextWrapper/BoardContextWrapper'
 
 export const BoardContext = React.createContext<string | null>(null)
@@ -27,11 +21,13 @@ function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginView tab="login" />} />
-        <Route path="/register" element={<LoginView tab="register" />} />t
-        <Route path="/me" element={<ProfileView />} />
+        <Route path="/register" element={<LoginView tab="register" />} />
+        <Route path="/me" element={<Auth method="checkLogin" />}>
+          <Route path="" element={<ProfileView />} />
+        </Route>
         <Route path="/addBoard" element={<AddBoard />} />
         <Route path="/boards/:boardName" element={<BoardContextWrapper />}>
-          <Route path="" element={<CheckBoardAccess />}>
+          <Route path="" element={<Auth method="checkBoardAccess" />}>
             <Route path="" element={<Dashboard />} />
             <Route path="edit" element={<EditBoard />}></Route>
             <Route path="topics/:topicId">
