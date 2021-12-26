@@ -11,9 +11,9 @@ auth.get('/', async (req: Request, res: Response) => {
   const isLoggedIn = req.session?.user
 
   if (isLoggedIn) {
-    res.send(true)
+    res.send('ok')
   } else {
-    res.status(401).send(false)
+    res.status(401).send('Not Logged In.')
   }
 })
 
@@ -64,10 +64,10 @@ auth.post('/login', async (req: Request, res: Response) => {
   }
 
   req.session.user = user.public.username
-  res.send(req.session)
+  res.send('ok')
 })
 
 auth.post('/logout', async (req: Request, res: Response) => {
   req.session = null
-  res.send()
+  res.send('ok')
 })

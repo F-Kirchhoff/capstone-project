@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 
 export default function CheckBoardAccess(): JSX.Element {
-  const [isLoading, hasAccess] = useAuth()
+  const [isLoading, hasAccess] = useAuth('checkBoardAccess')
 
   if (isLoading) {
     return <div>loading...</div>

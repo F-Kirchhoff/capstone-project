@@ -1,17 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
 import { BoardContext } from '../App'
 
-export default function useAuth(): [boolean, boolean | null] {
+export default function useAuth(endpoint: string): [boolean, boolean | null] {
   const boardName = useContext(BoardContext)
 
   const [isLoading, setIsLoading] = useState(true)
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
 
   useEffect(() => {
-    console.log('check Access for ' + boardName)
-
     async function checkAccess() {
-      const res = await fetch('/api/auth/checkBoardAccess', {
+      const res = await fetch(`/api/auth/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
