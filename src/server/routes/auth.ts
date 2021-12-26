@@ -21,8 +21,6 @@ auth.post('/checkBoardAccess', async (req: Request, res: Response) => {
   const { boardName: name } = req.body
   const user = req.session?.user
 
-  console.log('Check Access')
-
   if (!user) {
     res.status(401).send('Access Denied')
     return

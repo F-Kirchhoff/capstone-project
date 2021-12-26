@@ -17,6 +17,7 @@ import AddBoard from './pages/AddBoard/AddBoard'
 import EditBoard from './pages/EditBoard/EditBoard'
 import LandingPage from './pages/LandingPage/LandingPage'
 import CheckBoardAccess from './components/CheckBoardAccess/CheckBoardAccess'
+import BoardContextWrapper from './components/BoardContextWrapper/BoardContextWrapper'
 
 export const BoardContext = React.createContext<string | null>(null)
 
@@ -35,7 +36,7 @@ function App(): JSX.Element {
             <Route path="edit" element={<EditBoard />}></Route>
             <Route path="topics/:topicId">
               <Route path="" element={<TopicView />} />
-              <Route path="addproposal" element={<AddProposal />} />
+              <Route path="addProposal" element={<AddProposal />} />
             </Route>
             <Route path="addTopic" element={<AddTopic />} />
           </Route>
@@ -46,13 +47,3 @@ function App(): JSX.Element {
 }
 
 export default App
-
-function BoardContextWrapper(): JSX.Element {
-  const { boardName } = useParams()
-
-  return (
-    <BoardContext.Provider value={boardName || ''}>
-      <Outlet />
-    </BoardContext.Provider>
-  )
-}
