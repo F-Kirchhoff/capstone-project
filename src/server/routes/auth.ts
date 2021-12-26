@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import { getUsers } from '../../utils/db'
+import { getBoards, getUsers } from '../../utils/db'
 import type { fetchBody } from '../../app/types/types'
 
 const auth = express.Router()
@@ -14,6 +14,33 @@ auth.get('/', async (req: Request, res: Response) => {
     res.send(true)
   } else {
     res.status(401).send(false)
+  }
+})
+
+auth.post('/checkBoardAccess', async (req: Request, res: Response) => {
+  const { boardName: name } = req.body
+  const user = req.session?.user
+
+  console.log('Check Access')
+
+  if (!user) {
+    res.status(401).send('Access Denied')
+    return
+  }
+
+  const board = await getBoards().findOne({ name })
+
+  if (!board) {
+    res.status(404).send('Error: Bad request.')
+    return
+  }
+
+  const hasAccessRights = board.users.includes(user)
+
+  if (hasAccessRights) {
+    res.send('Ok')
+  } else {
+    res.status(401).send('Access Denied!')
   }
 })
 
