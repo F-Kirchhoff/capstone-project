@@ -2,6 +2,7 @@ import express from 'express'
 import type { Response, Request } from 'express'
 import type { fetchBody } from '../../app/types/types'
 import { getBoards, getUsers } from '../../utils/db'
+import validateString from '../../utils/validateString'
 
 const boards = express.Router()
 
@@ -36,12 +37,19 @@ boards.post('/', async (req: Request, res: Response) => {
   const boards = getBoards()
   const usersCollection = getUsers()
 
+  const validation = validateString(name)
+
+  if (!validation.ok) {
+    console.log(validation.msg)
+    res.status(422).send(validation.msg)
+  }
+
   const board = await boards.findOne({ name })
 
   if (board) {
     console.log('Error: Board already exists.')
 
-    res.status(422).send('Error: Board already exists.')
+    res.status(422).send('Board already exists.')
     return
   }
 
@@ -69,7 +77,6 @@ boards.patch('/', async (req: Request, res: Response) => {
   } = req.body
 
   const newName = rawNewName.split(' ').join('-')
-  console.log(oldName, newName)
 
   const user = req.session?.user
 
@@ -86,6 +93,13 @@ boards.patch('/', async (req: Request, res: Response) => {
   if (!board) {
     res.status(422).send('Error: Board does not exist.')
     return
+  }
+
+  const validation = validateString(newName)
+
+  if (!validation.ok) {
+    console.log(validation.msg)
+    res.status(422).send(validation.msg)
   }
 
   if (oldName === newName) {
