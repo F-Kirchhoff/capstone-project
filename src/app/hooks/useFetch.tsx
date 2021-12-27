@@ -8,11 +8,12 @@ type useFetchReturnType<Type> = [
 
 function useFetch<Type>(
   url: string,
-  body: fetchBody = {}
+  baseBody: fetchBody = {}
 ): useFetchReturnType<Type> {
   const [data, setData] = useState(null)
 
   async function fetchData(method: string, bodyAdditions: fetchBody = {}) {
+    const body = { ...baseBody, ...bodyAdditions }
     switch (method) {
       case 'GET': {
         const query = Object.keys(body)
@@ -41,7 +42,7 @@ function useFetch<Type>(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ ...body, ...bodyAdditions }),
+          body: JSON.stringify(body),
         })
         if (!res.ok) {
           console.error(
