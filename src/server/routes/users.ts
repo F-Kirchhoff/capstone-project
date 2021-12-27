@@ -25,6 +25,23 @@ users.get('/', async (req: Request, res: Response) => {
   res.send(user.public)
 })
 
+users.get('/search', async (req: Request, res: Response) => {
+  if (!req.session || !req.session.user) {
+    res.status(400).send('Error: Not logged in.')
+    return
+  }
+
+  const { payload: query } = req.query
+
+  const users = await getUsers()
+  const usersArray = await users
+    .find({ 'public.username': `/${query}/i` })
+    .toArray()
+
+  const usernames = usersArray.map(user => user.public.username)
+  res.send(usernames)
+})
+
 users.post('/', async (req: Request, res: Response) => {
   const {
     payload: { username, email, password },
