@@ -54,11 +54,11 @@ auth.post('/login', async (req: Request, res: Response) => {
   })
 
   if (!user) {
-    res.status(401).send(`Error: wrong email or password.`)
+    res.status(401).send(`Wrong email or password.`)
     return
   }
   if (!req.session) {
-    console.log('Error: No session set.')
+    console.log('Whoops, something went wrong.')
     res.status(500).send()
     return
   }

@@ -84,8 +84,8 @@ const ButtonContainer = styled.div`
   gap: 20px;
 `
 const PasswordWrapper = styled.div`
+  width: 100%;
   position: relative;
-  display: flex;
 `
 
 const PasswordButton = styled.button`
