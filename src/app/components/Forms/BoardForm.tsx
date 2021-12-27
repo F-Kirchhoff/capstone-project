@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BiChevronsLeft } from 'react-icons/bi'
-import { TiDelete } from 'react-icons/ti'
+import { FaTimes, FaPlus } from 'react-icons/fa'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
 import FormPageBackground from '../FormpageBackground/FormPageBackground'
@@ -29,23 +29,50 @@ export default function BoardForm({
   errorMsg,
 }: BoardFormProps): JSX.Element {
   const [name, setName] = useState(board.name)
-  const [users, setUsers] = useState<string[]>(board.users)
-  const [newUser, setNewUser] = useState('')
+  const [members, setMembers] = useState<string[]>(board.users)
+  const [userQuery, setUserQuery] = useState('')
+
+  const [foundUsers, setFoundUsers] = useState<string[]>([])
 
   function handleCancel() {
     setName('')
-    setUsers([])
+    setMembers([])
     onCancel()
   }
   function handleSubmit() {
-    onSubmit(name, users)
+    onSubmit(name, members)
   }
 
+  const addUser = (username: string) => () => {
+    setMembers(prev => [...prev, username])
+  }
   const deleteUser = (username: string) => () => {
-    setUsers(prev =>
+    setMembers(prev =>
       prev.length > 1 ? prev.filter(user => user !== username) : prev
     )
   }
+
+  useEffect(() => {
+    if (userQuery.length < 3) {
+      setFoundUsers([])
+      return
+    }
+
+    async function fetchUsers() {
+      const res = await fetch(`/api/users/search?payload=${userQuery}`)
+      if (!res.ok) {
+        return
+      }
+      const foundUsers = await res.json()
+      const sortedUsers = foundUsers.sort(
+        (a: string, b: string) => a.length - b.length
+      )
+
+      setFoundUsers(sortedUsers)
+    }
+
+    fetchUsers()
+  }, [userQuery])
 
   return (
     <FormPageBackground>
@@ -65,36 +92,36 @@ export default function BoardForm({
           />
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
         </div>
-        <div>
-          <h3>Add users to the board</h3>
+        <MemberSection>
+          <FormInput
+            type="text"
+            max={MAX_USERNAME_LENGTH}
+            name="add members"
+            value={userQuery}
+            onChange={event => setUserQuery(event.target.value)}
+          />
+          {foundUsers.length > 0 && (
+            <UsersList>
+              {foundUsers
+                .filter(user => !members.includes(user))
+                .map(user => (
+                  <User key={user} onClick={addUser(user)}>
+                    <FaPlus size="1em" />
+                    <span>{user}</span>
+                  </User>
+                ))}
+            </UsersList>
+          )}
+          <h4>Members</h4>
           <UsersList>
-            {users.map(user => (
-              <User key={user}>
-                <TiDelete size="1.5em" onClick={deleteUser(user)} />
+            {members.map(user => (
+              <User key={user} onClick={deleteUser(user)}>
+                <FaTimes size="1em" />
                 <span>{user}</span>
               </User>
             ))}
           </UsersList>
-          <UsersForm>
-            <FormInput
-              type="text"
-              name="new user"
-              max={MAX_USERNAME_LENGTH}
-              value={newUser}
-              onChange={event => setNewUser(event.target.value)}
-            />
-            <Button
-              type="button"
-              variant="primary"
-              onClick={() => {
-                setUsers(prev => [...prev, newUser])
-                setNewUser('')
-              }}
-            >
-              +
-            </Button>
-          </UsersForm>
-        </div>
+        </MemberSection>
 
         <ButtonContainer>
           <Button type="button" onClick={handleCancel}>
@@ -156,28 +183,29 @@ const ButtonContainer = styled.div`
   gap: 20px;
 `
 
-const UsersForm = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 10px;
-`
-const UsersList = styled.ul`
-  max-height: 30vh;
+const MemberSection = styled.div`
+  height: 40vh;
   overflow-y: auto;
+  overflow-x: visible;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+`
+
+const UsersList = styled.ul`
   list-style: none;
   display: grid;
-  & > li:nth-child(n + 2) {
-    border-top: 1px solid rgb(0 0 0 / 30%);
-  }
+  border-top: 1px solid rgb(0 0 0 / 30%);
 `
 const User = styled.li`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 0;
+  padding: 15px 10px;
   font-size: 1.2rem;
   font-weight: bold;
+  border-bottom: 1px solid rgb(0 0 0 / 30%);
+  cursor: pointer;
 `
 const ErrorMessage = styled.p`
   --rgb: 255 0 0;
