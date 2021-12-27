@@ -35,10 +35,12 @@ users.get('/search', async (req: Request, res: Response) => {
 
   const users = await getUsers()
   const usersArray = await users
-    .find({ 'public.username': `/${query}/i` })
+    .find({ 'public.username': { $regex: query, $options: 'i' } })
     .toArray()
 
   const usernames = usersArray.map(user => user.public.username)
+  console.log(usernames)
+
   res.send(usernames)
 })
 

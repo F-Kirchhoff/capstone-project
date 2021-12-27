@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BiChevronsLeft } from 'react-icons/bi'
@@ -6,6 +6,7 @@ import { TiDelete } from 'react-icons/ti'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
 import FormPageBackground from '../FormpageBackground/FormPageBackground'
+import useFetch from '../../hooks/useFetch'
 
 const MAX_TITLE_LENGTH = 40
 const MAX_USERNAME_LENGTH = 40
@@ -30,7 +31,9 @@ export default function BoardForm({
 }: BoardFormProps): JSX.Element {
   const [name, setName] = useState(board.name)
   const [users, setUsers] = useState<string[]>(board.users)
-  const [newUser, setNewUser] = useState('')
+  const [userQuery, setUserQuery] = useState('')
+
+  const [foundUsers, setFoundUsers] = useState<string[]>([])
 
   function handleCancel() {
     setName('')
@@ -46,6 +49,26 @@ export default function BoardForm({
       prev.length > 1 ? prev.filter(user => user !== username) : prev
     )
   }
+
+  useEffect(() => {
+    if (userQuery.length < 3) {
+      setFoundUsers([])
+      return
+    }
+
+    async function fetchUsers() {
+      const res = await fetch(`/api/users/search?payload=${userQuery}`)
+      if (!res.ok) {
+        return
+      }
+      const users = await res.json()
+      setFoundUsers(users)
+    }
+
+    fetchUsers()
+  }, [userQuery])
+
+  console.log(foundUsers)
 
   return (
     <FormPageBackground>
@@ -67,6 +90,12 @@ export default function BoardForm({
         </div>
         <div>
           <h3>Add users to the board</h3>
+          <UsersInput
+            type="text"
+            maxLength={MAX_USERNAME_LENGTH}
+            value={userQuery}
+            onChange={event => setUserQuery(event.target.value)}
+          />
           <UsersList>
             {users.map(user => (
               <User key={user}>
@@ -75,25 +104,6 @@ export default function BoardForm({
               </User>
             ))}
           </UsersList>
-          <UsersForm>
-            <FormInput
-              type="text"
-              name="new user"
-              max={MAX_USERNAME_LENGTH}
-              value={newUser}
-              onChange={event => setNewUser(event.target.value)}
-            />
-            <Button
-              type="button"
-              variant="primary"
-              onClick={() => {
-                setUsers(prev => [...prev, newUser])
-                setNewUser('')
-              }}
-            >
-              +
-            </Button>
-          </UsersForm>
         </div>
 
         <ButtonContainer>
@@ -157,6 +167,7 @@ const ButtonContainer = styled.div`
 `
 
 const UsersForm = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: end;
@@ -186,4 +197,13 @@ const ErrorMessage = styled.p`
   background-color: rgb(var(--rgb) / 0.3);
   color: var(--c-alert);
   border-radius: 5px;
+`
+
+const UsersInput = styled.input`
+  width: 100%;
+  background-color: var(--c-gray-300);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
 `
