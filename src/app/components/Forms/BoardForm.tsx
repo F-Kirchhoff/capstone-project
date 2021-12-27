@@ -43,6 +43,9 @@ export default function BoardForm({
     onSubmit(name, members)
   }
 
+  const addUser = (username: string) => () => {
+    setMembers(prev => [...prev, username])
+  }
   const deleteUser = (username: string) => () => {
     setMembers(prev =>
       prev.length > 1 ? prev.filter(user => user !== username) : prev
@@ -61,11 +64,11 @@ export default function BoardForm({
         return
       }
       const foundUsers = await res.json()
-      const processedUsers = foundUsers
-        .filter((user: string) => !members.includes(user))
-        .sort((a: string, b: string) => a.length - b.length)
+      const sortedUsers = foundUsers.sort(
+        (a: string, b: string) => a.length - b.length
+      )
 
-      setFoundUsers(processedUsers)
+      setFoundUsers(sortedUsers)
     }
 
     fetchUsers()
@@ -89,38 +92,36 @@ export default function BoardForm({
           />
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
         </div>
-        <div>
-          <h4>Add members to the board</h4>
-          <UsersInput
+        <MemberSection>
+          <FormInput
             type="text"
-            maxLength={MAX_USERNAME_LENGTH}
+            max={MAX_USERNAME_LENGTH}
+            name="add members"
             value={userQuery}
             onChange={event => setUserQuery(event.target.value)}
           />
-          {foundUsers && (
+          {foundUsers.length > 0 && (
             <UsersList>
-              {foundUsers.map(user => (
-                <User key={user}>
-                  <ActionButton>
-                    <FaPlus size="1em" onClick={deleteUser(user)} />
-                  </ActionButton>
-                  <span>{user}</span>
-                </User>
-              ))}
+              {foundUsers
+                .filter(user => !members.includes(user))
+                .map(user => (
+                  <User key={user} onClick={addUser(user)}>
+                    <FaPlus size="1em" />
+                    <span>{user}</span>
+                  </User>
+                ))}
             </UsersList>
           )}
           <h4>Members</h4>
           <UsersList>
             {members.map(user => (
-              <User key={user}>
-                <ActionButton>
-                  <FaTimes size="1em" onClick={deleteUser(user)} />
-                </ActionButton>
+              <User key={user} onClick={deleteUser(user)}>
+                <FaTimes size="1em" />
                 <span>{user}</span>
               </User>
             ))}
           </UsersList>
-        </div>
+        </MemberSection>
 
         <ButtonContainer>
           <Button type="button" onClick={handleCancel}>
@@ -182,22 +183,29 @@ const ButtonContainer = styled.div`
   gap: 20px;
 `
 
-const UsersList = styled.ul`
-  max-height: 30vh;
+const MemberSection = styled.div`
+  height: 40vh;
   overflow-y: auto;
+  overflow-x: visible;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+`
+
+const UsersList = styled.ul`
   list-style: none;
   display: grid;
-  & > li:nth-child(n + 2) {
-    border-top: 1px solid rgb(0 0 0 / 30%);
-  }
+  border-top: 1px solid rgb(0 0 0 / 30%);
 `
 const User = styled.li`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 0;
+  padding: 15px 10px;
   font-size: 1.2rem;
   font-weight: bold;
+  border-bottom: 1px solid rgb(0 0 0 / 30%);
+  cursor: pointer;
 `
 const ErrorMessage = styled.p`
   --rgb: 255 0 0;
@@ -206,28 +214,4 @@ const ErrorMessage = styled.p`
   background-color: rgb(var(--rgb) / 0.3);
   color: var(--c-alert);
   border-radius: 5px;
-`
-
-const UsersInput = styled.input`
-  width: 100%;
-  background-color: var(--c-gray-300);
-  border: none;
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-`
-const ActionButton = styled.button`
-  border: none;
-  background-color: transparent;
-  font-size: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.3s ease;
-  padding: 5px;
-  border-radius: 999px;
-  &:hover {
-    background-color: var(--c-gray-50);
-  }
 `
