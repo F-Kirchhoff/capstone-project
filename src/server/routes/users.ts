@@ -39,7 +39,6 @@ users.get('/search', async (req: Request, res: Response) => {
     .toArray()
 
   const usernames = usersArray.map(user => user.public.username)
-  console.log(usernames)
 
   res.send(usernames)
 })
