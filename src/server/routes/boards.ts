@@ -42,12 +42,13 @@ boards.post('/', async (req: Request, res: Response) => {
   if (!validation.ok) {
     console.log(validation.msg)
     res.status(422).send(validation.msg)
+    return
   }
 
   const board = await boards.findOne({ name })
 
   if (board) {
-    console.log('Error: Board already exists.')
+    console.log('Board already exists.')
 
     res.status(422).send('Board already exists.')
     return
@@ -100,6 +101,7 @@ boards.patch('/', async (req: Request, res: Response) => {
   if (!validation.ok) {
     console.log(validation.msg)
     res.status(422).send(validation.msg)
+    return
   }
 
   if (oldName === newName) {

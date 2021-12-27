@@ -4,7 +4,7 @@ import BoardForm from '../../components/Forms/BoardForm'
 
 export default function AddBoard(): JSX.Element {
   const nav = useNavigate()
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(name: string, users: string[]) {
     const payload = {
@@ -22,7 +22,8 @@ export default function AddBoard(): JSX.Element {
     if (res.ok) {
       nav('/me')
     } else {
-      setError(true)
+      const msg = await res.text()
+      setError(msg)
     }
   }
 
@@ -35,7 +36,7 @@ export default function AddBoard(): JSX.Element {
       board={{ name: '', users: [] }}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
-      errorMsg={error ? 'Board name alreay in use.' : ''}
+      errorMsg={error ? error : ''}
     />
   )
 }
