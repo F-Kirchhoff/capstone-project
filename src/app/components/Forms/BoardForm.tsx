@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BiChevronsLeft } from 'react-icons/bi'
-import { TiDelete } from 'react-icons/ti'
+import { FaTimes, FaPlus } from 'react-icons/fa'
 import FormInput from '../../components/FormInput/FormInput'
 import Button from '../../components/Button/Button'
 import FormPageBackground from '../FormpageBackground/FormPageBackground'
-import useFetch from '../../hooks/useFetch'
 
 const MAX_TITLE_LENGTH = 40
 const MAX_USERNAME_LENGTH = 40
@@ -30,22 +29,22 @@ export default function BoardForm({
   errorMsg,
 }: BoardFormProps): JSX.Element {
   const [name, setName] = useState(board.name)
-  const [users, setUsers] = useState<string[]>(board.users)
+  const [members, setMembers] = useState<string[]>(board.users)
   const [userQuery, setUserQuery] = useState('')
 
   const [foundUsers, setFoundUsers] = useState<string[]>([])
 
   function handleCancel() {
     setName('')
-    setUsers([])
+    setMembers([])
     onCancel()
   }
   function handleSubmit() {
-    onSubmit(name, users)
+    onSubmit(name, members)
   }
 
   const deleteUser = (username: string) => () => {
-    setUsers(prev =>
+    setMembers(prev =>
       prev.length > 1 ? prev.filter(user => user !== username) : prev
     )
   }
@@ -61,14 +60,16 @@ export default function BoardForm({
       if (!res.ok) {
         return
       }
-      const users = await res.json()
-      setFoundUsers(users)
+      const foundUsers = await res.json()
+      const processedUsers = foundUsers
+        .filter((user: string) => !members.includes(user))
+        .sort((a: string, b: string) => a.length - b.length)
+
+      setFoundUsers(processedUsers)
     }
 
     fetchUsers()
   }, [userQuery])
-
-  console.log(foundUsers)
 
   return (
     <FormPageBackground>
@@ -89,17 +90,32 @@ export default function BoardForm({
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
         </div>
         <div>
-          <h3>Add users to the board</h3>
+          <h4>Add members to the board</h4>
           <UsersInput
             type="text"
             maxLength={MAX_USERNAME_LENGTH}
             value={userQuery}
             onChange={event => setUserQuery(event.target.value)}
           />
+          {foundUsers && (
+            <UsersList>
+              {foundUsers.map(user => (
+                <User key={user}>
+                  <ActionButton>
+                    <FaPlus size="1em" onClick={deleteUser(user)} />
+                  </ActionButton>
+                  <span>{user}</span>
+                </User>
+              ))}
+            </UsersList>
+          )}
+          <h4>Members</h4>
           <UsersList>
-            {users.map(user => (
+            {members.map(user => (
               <User key={user}>
-                <TiDelete size="1.5em" onClick={deleteUser(user)} />
+                <ActionButton>
+                  <FaTimes size="1em" onClick={deleteUser(user)} />
+                </ActionButton>
                 <span>{user}</span>
               </User>
             ))}
@@ -166,13 +182,6 @@ const ButtonContainer = styled.div`
   gap: 20px;
 `
 
-const UsersForm = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: end;
-  gap: 10px;
-`
 const UsersList = styled.ul`
   max-height: 30vh;
   overflow-y: auto;
@@ -186,7 +195,7 @@ const User = styled.li`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 0;
+  padding: 10px 0;
   font-size: 1.2rem;
   font-weight: bold;
 `
@@ -206,4 +215,19 @@ const UsersInput = styled.input`
   border-radius: 999px;
   padding: 10px 20px;
   font-size: 1.1rem;
+`
+const ActionButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  padding: 5px;
+  border-radius: 999px;
+  &:hover {
+    background-color: var(--c-gray-50);
+  }
 `
