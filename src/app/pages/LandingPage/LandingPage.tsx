@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 
 export default function LandingPage(): JSX.Element {
   const nav = useNavigate()
 
-  useEffect(() => {
-    async function checkAuth() {
-      const res = await fetch('/api/auth')
-      if (res.ok) {
-        nav('/me')
-      } else {
-        nav('/login')
-      }
-    }
-    checkAuth()
-  }, [])
+  const [isLoading, hasAccess] = useAuth('checkLogin')
+
+  if (isLoading) {
+    return <></>
+  }
+
+  if (hasAccess) {
+    nav('/me')
+  } else {
+    nav('/login')
+  }
 
   return <></>
 }

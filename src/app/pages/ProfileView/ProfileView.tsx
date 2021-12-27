@@ -15,10 +15,7 @@ export default function ProfileView(): JSX.Element {
     async function fetchUser() {
       const res = await fetch('/api/users')
 
-      if (!res.ok) {
-        console.error('Not logged in!')
-        nav('/login')
-      } else {
+      if (res.ok) {
         const user = await res.json()
         setUser(user)
       }

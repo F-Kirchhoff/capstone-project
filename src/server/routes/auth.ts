@@ -1,19 +1,44 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import { getUsers } from '../../utils/db'
+import { getBoards, getUsers } from '../../utils/db'
 import type { fetchBody } from '../../app/types/types'
 
 const auth = express.Router()
 
 export default auth
 
-auth.get('/', async (req: Request, res: Response) => {
+auth.post('/checkLogin', async (req: Request, res: Response) => {
   const isLoggedIn = req.session?.user
 
   if (isLoggedIn) {
-    res.send(true)
+    res.send('ok')
   } else {
-    res.status(401).send(false)
+    res.status(401).send('Not Logged In.')
+  }
+})
+
+auth.post('/checkBoardAccess', async (req: Request, res: Response) => {
+  const { boardName: name } = req.body
+  const user = req.session?.user
+
+  if (!user) {
+    res.status(401).send('Access Denied')
+    return
+  }
+
+  const board = await getBoards().findOne({ name })
+
+  if (!board) {
+    res.status(404).send('Error: Bad request.')
+    return
+  }
+
+  const hasAccessRights = board.users.includes(user)
+
+  if (hasAccessRights) {
+    res.send('Ok')
+  } else {
+    res.status(401).send('Access Denied!')
   }
 })
 
@@ -39,10 +64,10 @@ auth.post('/login', async (req: Request, res: Response) => {
   }
 
   req.session.user = user.public.username
-  res.send(req.session)
+  res.send('ok')
 })
 
 auth.post('/logout', async (req: Request, res: Response) => {
   req.session = null
-  res.send()
+  res.send('ok')
 })
