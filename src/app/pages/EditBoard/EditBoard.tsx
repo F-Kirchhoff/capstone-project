@@ -13,7 +13,7 @@ export default function EditBoard(): JSX.Element {
   const { boardName } = useParams()
 
   const [board, fetchBoard] = useFetch<Board>(`/api/boards`, { boardName })
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchBoard('GET')
@@ -37,7 +37,8 @@ export default function EditBoard(): JSX.Element {
     if (res.ok) {
       nav(`/boards/${newName}`)
     } else {
-      setError(true)
+      const msg = await res.text()
+      setError(msg)
     }
   }
 
@@ -55,7 +56,7 @@ export default function EditBoard(): JSX.Element {
       board={{ name: board.name, users: board.users || [] }}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
-      errorMsg={error ? 'Something went wrong.' : ''}
+      errorMsg={error ? error : ''}
     />
   )
 }

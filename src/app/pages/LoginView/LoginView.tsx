@@ -24,8 +24,10 @@ export default function LoginView({
   tab: initialTab,
 }: LoginViewProps): JSX.Element {
   const [tab, setTab] = useState(initialTab)
-  const [loginFailed, setLoginFailed] = useState(false)
-  const [registerFailed, setRegisterFailed] = useState(false)
+  const [loginError, setLoginError] = useState<string | null>(null)
+  const [registrationError, setRegistrationError] = useState<string | null>(
+    null
+  )
   const nav = useNavigate()
 
   async function handleLogin({ email, password }: LoginProps) {
@@ -39,7 +41,10 @@ export default function LoginView({
     if (res.ok) {
       nav(`/me`)
     } else {
-      setLoginFailed(true)
+      const msg = await res.text()
+      console.log(msg)
+
+      setLoginError(msg)
     }
   }
 
@@ -60,7 +65,8 @@ export default function LoginView({
     if (res.ok) {
       handleLogin({ email, password })
     } else {
-      setRegisterFailed(true)
+      const msg = await res.text()
+      setRegistrationError(msg)
     }
   }
 
@@ -86,16 +92,14 @@ export default function LoginView({
         </TabMenu>
         {tab === 'login' && (
           <>
-            {loginFailed && (
-              <ErrorMessage>Incorrect email or password.</ErrorMessage>
-            )}
+            {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
             <LoginForm onSubmit={handleLogin} onCancel={() => nav('/')} />
           </>
         )}
         {tab === 'register' && (
           <>
-            {registerFailed && (
-              <ErrorMessage>Username or email already in use.</ErrorMessage>
+            {registrationError && (
+              <ErrorMessage>{registrationError}</ErrorMessage>
             )}
             <RegisterForm onSubmit={handleRegister} onCancel={() => nav('/')} />
           </>
@@ -124,7 +128,7 @@ const Card = styled.div`
     rgba(0, 0, 0, 0.05) 0px 5px 10px;
 `
 const ErrorMessage = styled.p`
-  --rgb: 255 0 0;
+  --rgb: 255 0 30;
   padding: 10px;
   margin: 20px;
   background-color: rgb(var(--rgb) / 0.3);

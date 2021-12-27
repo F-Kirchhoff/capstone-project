@@ -74,7 +74,6 @@ const ButtonContainer = styled.div`
 `
 const PasswordWrapper = styled.div`
   position: relative;
-  display: flex;
 `
 
 const PasswordButton = styled.button`
