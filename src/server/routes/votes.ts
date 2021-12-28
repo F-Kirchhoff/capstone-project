@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody, Proposal, Topic, Vote } from '../../app/types/types'
+import type { Proposal, Topic, Vote } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 
 const votes = express.Router()
@@ -13,25 +13,12 @@ votes.post('/', async (req: Request, res: Response) => {
     topicId,
     proposalId,
     payload: { type },
-  }: fetchBody = req.body
-
-  const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorized Request.')
-    return
-  }
+    board,
+    user,
+  } = req.body
 
   if (!VoteTypes.includes(type)) {
     res.status(422).send(`Error: Input data invalid.`)
-    return
-  }
-
-  const boards = await getBoards()
-
-  const board = await boards.findOne({ name })
-  if (!board) {
-    res.status(400).send('Bad request')
     return
   }
 
@@ -51,10 +38,13 @@ votes.post('/', async (req: Request, res: Response) => {
 
   const userVote = proposal.votes.find((vote: Vote) => vote.user === user)
 
+  const boards = await getBoards()
+
   if (!userVote) {
     // create new Vote
 
     const newVote = { user, type }
+
     const msg = await boards.updateOne(
       { name },
       { $push: { 'topics.$[topic].proposals.$[proposal].votes': newVote } },
