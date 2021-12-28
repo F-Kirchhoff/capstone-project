@@ -2,21 +2,6 @@ import express from 'express'
 import type { Request, Response } from 'express'
 import { getBoards } from '../../utils/db'
 
-export const checkLogin = express.Router()
-
-checkLogin.all('*', (req: Request, res: Response, next) => {
-  const isLoggedIn = req.session?.user
-
-  if (!isLoggedIn) {
-    res.redirect('/login')
-    return
-  }
-
-  req.body.user = req.session?.user
-
-  next()
-})
-
 export const checkBoardAccess = express.Router()
 
 checkBoardAccess.all('*', async (req: Request, res: Response, next) => {
@@ -31,6 +16,8 @@ checkBoardAccess.all('*', async (req: Request, res: Response, next) => {
   }
 
   const hasAccessRights = board.users.includes(user)
+
+  console.log('Check Board Access')
 
   if (!hasAccessRights) {
     res.status(401).send('Access Denied!')
