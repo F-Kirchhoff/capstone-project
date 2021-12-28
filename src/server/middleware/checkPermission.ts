@@ -4,13 +4,15 @@ import { getBoards } from '../../utils/db'
 
 export const checkLogin = express.Router()
 
-checkLogin.all('*', (req, res, next) => {
+checkLogin.all('*', (req: Request, res: Response, next) => {
   const isLoggedIn = req.session?.user
 
   if (!isLoggedIn) {
     res.redirect('/login')
     return
   }
+
+  req.body.user = req.session?.user
 
   next()
 })
