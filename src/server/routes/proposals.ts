@@ -7,14 +7,9 @@ import { nanoid } from 'nanoid'
 const proposals = express.Router()
 
 proposals.get('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, proposalId }: fetchBody = req.query
+  const { topicId, proposalId } = req.query
 
-  const boards = await getBoards()
-  const board = await boards.findOne({ name })
-  if (!board) {
-    res.status(404).send(`Error: no board called ${name} found.`)
-    return
-  }
+  const { board } = req.body
 
   const topic = board.topics.find((topic: Topic) => topic.id === topicId)
 
@@ -40,7 +35,7 @@ proposals.post('/', async (req: Request, res: Response) => {
     boardName: name,
     topicId,
     payload: { description },
-  }: fetchBody = req.body
+  } = req.body
 
   if (typeof description !== 'string' || description.length === 0) {
     res.status(422).send(`Error: Input data invalid.`)
@@ -62,7 +57,7 @@ proposals.post('/', async (req: Request, res: Response) => {
 })
 
 proposals.patch('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, proposalId, payload }: fetchBody = req.body
+  const { boardName: name, topicId, proposalId, payload } = req.body
 
   if (typeof payload !== 'string') {
     res.status(422).send(`Error: Input data invalid.`)
@@ -80,7 +75,7 @@ proposals.patch('/', async (req: Request, res: Response) => {
 })
 
 proposals.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, proposalId }: fetchBody = req.body
+  const { boardName: name, topicId, proposalId } = req.body
 
   const boards = getBoards()
 
