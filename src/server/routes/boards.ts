@@ -3,19 +3,14 @@ import type { Response, Request } from 'express'
 import type { fetchBody } from '../../app/types/types'
 import { getBoards, getUsers } from '../../utils/db'
 import validateString from '../../utils/validateString'
+import { checkBoardAccess, checkLogin } from '../middleware/checkPermission'
 
 const boards = express.Router()
 
-boards.get('/', async (req: Request, res: Response) => {
-  const { boardName: name }: fetchBody = req.query
+boards.use(checkLogin)
 
-  const boards = await getBoards()
-  const board = await boards.findOne({ name })
-
-  if (!board) {
-    res.status(404).send(`Error: no board called ${name} found.`)
-    return
-  }
+boards.get('/', checkBoardAccess, async (req: Request, res: Response) => {
+  const { board } = req.body
 
   res.send(board)
 })
@@ -28,11 +23,6 @@ boards.post('/', async (req: Request, res: Response) => {
   const name = rawName.split(' ').join('-')
 
   const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorised Request')
-    return
-  }
 
   const boards = getBoards()
   const usersCollection = getUsers()
@@ -72,7 +62,7 @@ boards.post('/', async (req: Request, res: Response) => {
   res.send()
 })
 
-boards.patch('/', async (req: Request, res: Response) => {
+boards.patch('/', checkBoardAccess, async (req: Request, res: Response) => {
   const {
     payload: { oldName, newName: rawNewName, users },
   } = req.body
