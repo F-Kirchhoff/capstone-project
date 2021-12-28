@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody, Proposal, Topic } from '../../app/types/types'
+import type { Proposal, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 import { nanoid } from 'nanoid'
 
