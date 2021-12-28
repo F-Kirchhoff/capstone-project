@@ -3,16 +3,12 @@ import type { Response, Request } from 'express'
 import type { fetchBody } from '../../app/types/types'
 import { getUsers } from '../../utils/db'
 import validateString from '../../utils/validateString'
+import { checkLoginStatus } from '../middleware/checkLoginStatus'
 
 const users = express.Router()
 
-users.get('/', async (req: Request, res: Response) => {
-  if (!req.session || !req.session.user) {
-    res.status(400).send('Error: Not logged in.')
-    return
-  }
-
-  const username = req.session.user
+users.get('/', checkLoginStatus, async (req: Request, res: Response) => {
+  const { user: username } = req.body
 
   const users = await getUsers()
   const user = await users.findOne({ 'public.username': username })
@@ -25,12 +21,7 @@ users.get('/', async (req: Request, res: Response) => {
   res.send(user.public)
 })
 
-users.get('/search', async (req: Request, res: Response) => {
-  if (!req.session || !req.session.user) {
-    res.status(400).send('Error: Not logged in.')
-    return
-  }
-
+users.get('/search', checkLoginStatus, async (req: Request, res: Response) => {
   const { payload: query } = req.query
 
   const users = await getUsers()
@@ -81,7 +72,7 @@ users.post('/', async (req: Request, res: Response) => {
 
   users.insertOne(newUser)
 
-  res.send()
+  res.end()
 })
 
 export default users

@@ -1,21 +1,13 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody } from '../../app/types/types'
 import { getBoards, getUsers } from '../../utils/db'
 import validateString from '../../utils/validateString'
+import { checkBoardAccess } from '../middleware/checkBoardAccess'
 
 const boards = express.Router()
 
-boards.get('/', async (req: Request, res: Response) => {
-  const { boardName: name }: fetchBody = req.query
-
-  const boards = await getBoards()
-  const board = await boards.findOne({ name })
-
-  if (!board) {
-    res.status(404).send(`Error: no board called ${name} found.`)
-    return
-  }
+boards.get('/', checkBoardAccess, async (req: Request, res: Response) => {
+  const { board } = req.body
 
   res.send(board)
 })
@@ -23,16 +15,10 @@ boards.get('/', async (req: Request, res: Response) => {
 boards.post('/', async (req: Request, res: Response) => {
   const {
     payload: { name: rawName, users },
+    user,
   } = req.body
 
   const name = rawName.split(' ').join('-')
-
-  const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorised Request')
-    return
-  }
 
   const boards = getBoards()
   const usersCollection = getUsers()
@@ -40,7 +26,6 @@ boards.post('/', async (req: Request, res: Response) => {
   const validation = validateString(name)
 
   if (!validation.ok) {
-    console.log(validation.msg)
     res.status(422).send(validation.msg)
     return
   }
@@ -48,8 +33,6 @@ boards.post('/', async (req: Request, res: Response) => {
   const board = await boards.findOne({ name })
 
   if (board) {
-    console.log('Board already exists.')
-
     res.status(422).send('Board already exists.')
     return
   }
@@ -69,32 +52,19 @@ boards.post('/', async (req: Request, res: Response) => {
     { $push: { 'public.boards': name } }
   )
 
-  res.send()
+  res.end()
 })
 
-boards.patch('/', async (req: Request, res: Response) => {
+boards.patch('/', checkBoardAccess, async (req: Request, res: Response) => {
   const {
     payload: { oldName, newName: rawNewName, users },
+    board,
   } = req.body
 
   const newName = rawNewName.split(' ').join('-')
 
-  const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorised Request')
-    return
-  }
-
   const boards = getBoards()
   const usersCollection = getUsers()
-
-  const board = await boards.findOne({ name: oldName })
-
-  if (!board) {
-    res.status(422).send('Error: Board does not exist.')
-    return
-  }
 
   const validation = validateString(newName)
 
@@ -118,7 +88,6 @@ boards.patch('/', async (req: Request, res: Response) => {
   const addedUsers = users.filter((user: string) => !oldUsers.includes(user))
   const removedUsers = oldUsers.filter((user: string) => !users.includes(user))
   const remainingUsers = oldUsers.filter((user: string) => users.includes(user))
-  console.log({ addedUsers, removedUsers, remainingUsers })
 
   // add Board to new Users
   await usersCollection.updateMany(
@@ -149,7 +118,7 @@ boards.patch('/', async (req: Request, res: Response) => {
     )
   }
 
-  res.send()
+  res.end()
 })
 
 export default boards

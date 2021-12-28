@@ -9,15 +9,9 @@ import type { PullOperator, PushOperator } from 'mongodb'
 const topics = express.Router()
 
 topics.get('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId }: fetchBody = req.query
+  const { topicId }: fetchBody = req.query
 
-  const boards = await getBoards()
-  const board = await boards.findOne({ name })
-
-  if (!board) {
-    res.status(404).send(`Error: no board called ${name} found.`)
-    return
-  }
+  const { board } = req.body
 
   const topic = board.topics.find((topic: Topic) => topic.id === topicId)
 
@@ -33,7 +27,7 @@ topics.post('/', async (req: Request, res: Response) => {
   const {
     boardName: name,
     payload: { title, description },
-  }: fetchBody = req.body
+  } = req.body
 
   if (typeof title !== 'string' || typeof description !== 'string') {
     res.status(422).send(`Error: Input data invalid.`)
@@ -49,7 +43,7 @@ topics.post('/', async (req: Request, res: Response) => {
   }
 
   const boards = await getBoards()
-  const msg = await boards.findOneAndUpdate(
+  const msg = await boards.updateOne(
     { name },
     { $push: <PushOperator<Board>>{ topics: topic } }
   )
@@ -62,7 +56,7 @@ topics.patch('/', async (req: Request, res: Response) => {
     boardName: name,
     topicId,
     payload: { title, description },
-  }: fetchBody = req.body
+  } = req.body
 
   if (typeof title !== 'string' || typeof description !== 'string') {
     res.status(422).send(`Error: Input data invalid.`)
@@ -70,7 +64,7 @@ topics.patch('/', async (req: Request, res: Response) => {
   }
 
   const boards = await getBoards()
-  const msg = await boards.findOneAndUpdate(
+  const msg = await boards.updateOne(
     { name },
     {
       $set: {
@@ -85,10 +79,10 @@ topics.patch('/', async (req: Request, res: Response) => {
 })
 
 topics.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId }: fetchBody = req.body
+  const { boardName: name, topicId } = req.body
 
   const boards = await getBoards()
-  const msg = await boards.findOneAndUpdate(
+  const msg = await boards.updateOne(
     { name },
     { $pull: <PullOperator<Board>>{ topics: { id: topicId } } }
   )

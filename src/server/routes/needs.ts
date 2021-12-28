@@ -1,6 +1,6 @@
 import express from 'express'
 import type { Response, Request } from 'express'
-import type { fetchBody, Need, Topic } from '../../app/types/types'
+import type { Need, Topic } from '../../app/types/types'
 import { getBoards } from '../../utils/db'
 import { nanoid } from 'nanoid'
 
@@ -11,14 +11,8 @@ needs.post('/', async (req: Request, res: Response) => {
     boardName: name,
     topicId,
     payload: { text },
-  }: fetchBody = req.body
-
-  const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorized Request')
-    return
-  }
+    user,
+  } = req.body
 
   if (typeof text !== 'string' || text.length === 0) {
     res.status(422).send(`Error: Input data invalid.`)
@@ -45,24 +39,14 @@ needs.patch('/', async (req: Request, res: Response) => {
     needId,
     patchMsg,
     payload,
-  }: fetchBody = req.body
-
-  const user = req.session?.user
-
-  if (!user) {
-    res.status(401).send('Unauthorized Request')
-    return
-  }
+    user,
+    board,
+  } = req.body
 
   const boards = getBoards()
 
   switch (patchMsg) {
     case 'UPVOTES': {
-      const board = await boards.findOne({ name })
-      if (!board) {
-        res.status(400).send('Bad request')
-        return
-      }
       const topic = board.topics.find((topic: Topic) => topic.id === topicId)
       if (!topic) {
         res.status(400).send('Bad request')
@@ -110,7 +94,7 @@ needs.patch('/', async (req: Request, res: Response) => {
 })
 
 needs.delete('/', async (req: Request, res: Response) => {
-  const { boardName: name, topicId, needId }: fetchBody = req.body
+  const { boardName: name, topicId, needId } = req.body
 
   const boards = getBoards()
 
