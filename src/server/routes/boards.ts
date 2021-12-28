@@ -2,11 +2,9 @@ import express from 'express'
 import type { Response, Request } from 'express'
 import { getBoards, getUsers } from '../../utils/db'
 import validateString from '../../utils/validateString'
-import { checkBoardAccess, checkLogin } from '../middleware/checkPermission'
+import { checkBoardAccess } from '../middleware/checkBoardAccess'
 
 const boards = express.Router()
-
-boards.use(checkLogin)
 
 boards.get('/', checkBoardAccess, async (req: Request, res: Response) => {
   const { board } = req.body
@@ -17,11 +15,10 @@ boards.get('/', checkBoardAccess, async (req: Request, res: Response) => {
 boards.post('/', async (req: Request, res: Response) => {
   const {
     payload: { name: rawName, users },
+    user,
   } = req.body
 
   const name = rawName.split(' ').join('-')
-
-  const user = req.session?.user
 
   const boards = getBoards()
   const usersCollection = getUsers()
