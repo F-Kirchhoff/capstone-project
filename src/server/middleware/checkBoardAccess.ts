@@ -17,8 +17,6 @@ checkBoardAccess.all('*', async (req: Request, res: Response, next) => {
 
   const hasAccessRights = board.users.includes(user)
 
-  console.log('Check Board Access')
-
   if (!hasAccessRights) {
     res.status(401).send('Access Denied!')
     return

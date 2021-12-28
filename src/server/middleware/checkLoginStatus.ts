@@ -11,8 +11,6 @@ checkLoginStatus.all('*', (req: Request, res: Response, next) => {
     return
   }
 
-  console.log('check login')
-
   req.body.user = req.session?.user
 
   next()
