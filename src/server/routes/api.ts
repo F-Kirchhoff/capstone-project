@@ -14,10 +14,12 @@ const api = express.Router()
 api.use('/auth', auth)
 api.use('/users', users)
 
+// auth and users routes are not using checkLoginStatus middleware
 api.use(checkLoginStatus)
 
 api.use('/boards', boards)
 
+// boards use checkBoardAccess in their own file since the middleware must not be called if a new board is posted
 api.use(checkBoardAccess)
 
 api.use('/topics', topics)
