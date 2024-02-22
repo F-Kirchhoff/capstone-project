@@ -11,7 +11,7 @@ export async function connectToDB(url: string): Promise<void> {
 }
 
 const getCollection = (collection: collectionType) => (): Collection => {
-  return client.db('Dartagnan').collection(collection)
+  return client.db('capstone-project').collection(collection)
 }
 
 export const getUsers = getCollection('users')

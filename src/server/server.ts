@@ -31,7 +31,7 @@ app.get('*', (_req: Request, res: Response) => {
   res.sendFile('index.html', { root: 'dist/app' })
 })
 
-const url = process.env.MONGODB_API_KEY || ''
+const url = process.env.MONGODB_URI || ''
 connectToDB(url).then(() => {
   app.listen(port, () => {
     console.log(`Server listening on port ${port}!`)
